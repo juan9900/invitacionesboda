@@ -15,14 +15,17 @@ export default function Envelope({ children }: { children: React.ReactNode }) {
   const openingRef = useRef(false);
   const { start: startMusic } = useMusic();
 
-  // Block body scroll while the overlay is visible
+  // Block body scroll only while the envelope is still closed. Once the tap
+  // starts the opening animation the invitation is already visible and
+  // interactive underneath (the overlay turns pointer-events:none), so keeping
+  // the lock until the envelope finishes drifting away just froze the page.
   useEffect(() => {
-    if (hidden) return;
+    if (opening || hidden) return;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [hidden]);
+  }, [opening, hidden]);
 
   // Start fetching the invitation's JS chunk as soon as the envelope shows,
   // instead of waiting for the tap — otherwise the reveal is blocked on a
@@ -46,7 +49,6 @@ export default function Envelope({ children }: { children: React.ReactNode }) {
     if (reduced) {
       setOpened(true);
       setHidden(true);
-      document.body.style.overflow = "";
       return;
     }
 
@@ -58,7 +60,6 @@ export default function Envelope({ children }: { children: React.ReactNode }) {
 
     window.setTimeout(() => {
       setHidden(true);
-      document.body.style.overflow = "";
     }, CLOSE_DURATION_MS);
   }
 
@@ -168,7 +169,14 @@ export default function Envelope({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          <div className="pointer-events-none absolute bottom-[8%] left-0 right-0 text-center">
+          {/* Fades out with the tap: it used to sit over the revealed
+              invitation for the whole 3s the envelope takes to drift away. */}
+          <div
+            aria-hidden={opening}
+            className={`pointer-events-none absolute bottom-[8%] left-0 right-0 text-center transition-opacity duration-300 ease-out ${
+              opening ? "opacity-0" : "opacity-100"
+            }`}
+          >
             <p className="font-serif italic text-[16px] tracking-[0.35em] uppercase text-secondary opacity-70">
               · toca para abrir ·
             </p>
