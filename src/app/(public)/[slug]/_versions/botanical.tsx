@@ -262,114 +262,6 @@ function PetalSvg3() {
 const PETAL_SVGS = [PetalSvg1, PetalSvg2, PetalSvg3];
 const PETAL_COUNT = 36;
 
-/* ── Ramillete de esquina ─────────────────────────────────────────── */
-function CornerFloral({
-  rotate = 0,
-  size = 64,
-}: {
-  rotate?: number;
-  size?: number;
-}) {
-  return (
-    <svg
-      viewBox="0 0 80 80"
-      className="block"
-      style={{
-        width: size,
-        height: size,
-        transform: `rotate(${rotate}deg)`,
-      }}
-      fill="none"
-      aria-hidden
-    >
-      {/* Tallo diagonal principal */}
-      <path
-        d="M8 72 C22 52, 48 32, 72 8"
-        stroke={SAGE}
-        strokeWidth="1.3"
-        strokeLinecap="round"
-      />
-      {/* Ramas laterales */}
-      <path
-        d="M24 56 C20 66, 14 70, 11 65"
-        stroke={SAGE}
-        strokeWidth="0.9"
-        strokeLinecap="round"
-      />
-      <path
-        d="M40 40 C46 48, 44 55, 40 52"
-        stroke={SAGE}
-        strokeWidth="0.9"
-        strokeLinecap="round"
-      />
-      <path
-        d="M56 24 C62 30, 61 36, 57 33"
-        stroke={SAGE}
-        strokeWidth="0.8"
-        strokeLinecap="round"
-      />
-      {/* Hojas */}
-      <path
-        d="M24 56 C18 44, 10 43, 12 53 C14 62, 24 56 24 56Z"
-        fill={SAGE_SOFT}
-        opacity="0.75"
-      />
-      <path
-        d="M40 40 C30 31, 24 33, 28 41 C32 48, 40 40 40 40Z"
-        fill={SAGE}
-        opacity="0.6"
-      />
-      <path
-        d="M56 24 C47 15, 41 17, 45 25 C49 32, 56 24 56 24Z"
-        fill={SAGE_SOFT}
-        opacity="0.7"
-      />
-      <path
-        d="M66 14 C60 6, 54 8, 57 14 C60 20, 66 14 66 14Z"
-        fill={SAGE}
-        opacity="0.55"
-      />
-      {/* Bayas */}
-      <circle
-        cx="11"
-        cy="65"
-        r="3.2"
-        fill={BLUSH}
-        stroke={SAGE}
-        strokeWidth="0.6"
-        opacity="0.9"
-      />
-      <circle
-        cx="40"
-        cy="53"
-        r="2.6"
-        fill={BLUSH_SOFT}
-        stroke={SAGE}
-        strokeWidth="0.55"
-        opacity="0.85"
-      />
-      <circle
-        cx="57"
-        cy="33"
-        r="2.2"
-        fill={BLUSH}
-        stroke={SAGE}
-        strokeWidth="0.5"
-        opacity="0.8"
-      />
-      <circle
-        cx="19"
-        cy="69"
-        r="1.8"
-        fill={BLUSH_DEEP}
-        stroke={SAGE}
-        strokeWidth="0.4"
-        opacity="0.7"
-      />
-    </svg>
-  );
-}
-
 /* ── Enredadera vertical de borde ─────────────────────────────────── */
 function VineBorder({ side = "left" }: { side?: "left" | "right" }) {
   const flip = side === "right";
@@ -586,67 +478,6 @@ function Card({
   );
 }
 
-/* ── Foto enmarcada ───────────────────────────────────────────────── */
-function FramedPhoto({
-  src,
-  alt,
-  caption,
-  side = "left",
-}: {
-  src: string;
-  alt: string;
-  caption?: string;
-  side?: "left" | "right";
-}) {
-  const isRight = side === "right";
-  return (
-    <div
-      data-bot-anim
-      className={`relative mx-auto w-full max-w-[380px] md:flex md:max-w-[840px] md:items-center md:gap-10 lg:gap-16${isRight ? " md:flex-row-reverse" : " md:flex-row"}`}
-    >
-      {/* Marco de la foto */}
-      <div className="relative md:w-[360px] md:shrink-0 lg:w-[420px]">
-        <div
-          className="relative overflow-hidden rounded-2xl"
-          style={{
-            border: `1.5px solid ${GOLD_SOFT}`,
-            boxShadow: "0 18px 48px rgba(42,26,29,0.22), 0 3px 12px rgba(0,0,0,0.1)",
-          }}
-        >
-          <div className="relative aspect-[2/3] w-full">
-            <Image
-              src={src}
-              alt={alt}
-              fill
-              sizes="(max-width: 480px) 90vw, (max-width: 1024px) 360px, 420px"
-              className="object-cover"
-            />
-          </div>
-          {/* Filete interior */}
-          <div
-            className="pointer-events-none absolute inset-[9px] rounded-[10px] z-[1]"
-            style={{ border: "0.8px solid rgba(255,255,255,0.35)" }}
-          />
-        </div>
-        {/* Esquinas florales */}
-        <div className="absolute -top-4 -left-4 z-[2]" aria-hidden>
-          <CornerFloral rotate={0} size={56} />
-        </div>
-        <div className="absolute -bottom-4 -right-4 z-[2] rotate-180" aria-hidden>
-          <CornerFloral rotate={0} size={56} />
-        </div>
-      </div>
-      {caption && (
-        <p
-          className={`mt-5 text-center font-serif italic text-[clamp(1rem,3vw,1.3rem)] text-sage-deep opacity-80 md:mt-0 md:flex-1 md:text-[clamp(1.6rem,2.4vw,2.4rem)] md:leading-[1.4]${isRight ? " md:text-right" : " md:text-left"}`}
-        >
-          {caption}
-        </p>
-      )}
-    </div>
-  );
-}
-
 /* ══════════════════════════════════════════════════════════════════ */
 /*  COMPONENTE PRINCIPAL                                             */
 /* ══════════════════════════════════════════════════════════════════ */
@@ -844,7 +675,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           HERO
       ═══════════════════════════════════════════ */}
       <section
-        className="relative min-h-svh flex flex-col items-center justify-center text-center pt-[6rem] px-6 pb-[5rem] overflow-hidden bg-sage-deep md:justify-end md:pb-[8vh] lg:pb-[9vh]"
+        className="relative min-h-svh flex flex-col items-center justify-end text-center pt-[6rem] px-6 pb-[7.5rem] overflow-hidden bg-sage-deep [@media(max-height:720px)]:pb-[6rem] md:pb-[3vh] lg:pb-[4vh]"
       >
         {/* Foto de fondo */}
         <Image
@@ -861,7 +692,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           className="absolute inset-0 pointer-events-none z-[1]"
           style={{
             background:
-              "linear-gradient(180deg, rgba(42,26,29,0.55) 0%, rgba(42,26,29,0.28) 32%, rgba(42,26,29,0.4) 68%, rgba(42,26,29,0.7) 100%)",
+              "linear-gradient(180deg, rgba(42,26,29,0.30) 0%, rgba(42,26,29,0.18) 30%, rgba(42,26,29,0.48) 58%, rgba(42,26,29,0.80) 100%)",
           }}
         />
 
@@ -897,7 +728,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           className="relative z-[2] w-full max-w-[420px] md:max-w-[640px] mx-auto mb-[0.8rem]"
         >
           <span
-            className="block font-script text-[clamp(.5rem,20vw,8rem)] md:text-[5.5rem] lg:text-[6.5rem] text-white leading-none tracking-[-0.01em] whitespace-nowrap"
+            className="block font-script text-[clamp(.5rem,20vw,8rem)] [@media(max-height:720px)]:text-[3rem] md:text-[3.6rem] lg:text-[4.4rem] text-white leading-none tracking-[-0.01em] whitespace-nowrap"
             style={{ textShadow: "0 2px 32px rgba(0,0,0,0.4)" }}
           >
             J&amp;C
@@ -907,7 +738,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         {/* Invitación */}
         <h1
           data-bot-honor
-          className="font-serif italic font-light text-[clamp(1.35rem,4vw,2.1rem)] text-white opacity-90 max-w-[400px] md:max-w-[540px] leading-[1.35] mb-[1.8rem] relative z-[2]"
+          className="font-serif italic font-light text-[clamp(1.35rem,4vw,2.1rem)] [@media(max-height:720px)]:text-[1.15rem] md:text-[1.6rem] lg:text-[1.8rem] text-white opacity-90 max-w-[400px] md:max-w-[540px] leading-[1.35] mb-[1.8rem] [@media(max-height:720px)]:mb-[1.1rem] md:mb-[0.9rem] relative z-[2]"
           style={{ textShadow: "0 1px 12px rgba(0,0,0,0.35)" }}
         >
           Tenemos el honor de invitarles a la celebración de nuestro matrimonio
@@ -922,7 +753,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         </p>
         <p
           data-bot-guest
-          className="font-script text-[clamp(2.2rem,7.5vw,3.8rem)] md:text-[3.2rem] text-white leading-[1.1] mb-[0.4rem] relative z-[2]"
+          className="font-script text-[clamp(2.2rem,7.5vw,3.8rem)] [@media(max-height:720px)]:text-[1.8rem] md:text-[2.4rem] lg:text-[2.7rem] text-white leading-[1.1] mb-[0.4rem] relative z-[2]"
           style={{ textShadow: "0 1px 20px rgba(0,0,0,0.35)" }}
         >
           {data.nombres}
@@ -1179,32 +1010,36 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       </section>
 
       {/* ═══════════════════════════════════════════
-          FOTO — EL BESO
+          DRESS CODE — foto del beso a sangre
       ═══════════════════════════════════════════ */}
-      <section
-        className="relative py-16 px-6 overflow-hidden md:py-[7rem]"
-        style={{ background: CREAM }}
-      >
-        <FramedPhoto
+      <section className="relative min-h-[70svh] lg:min-h-[80svh] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden bg-sage-deep">
+        <Image
           src="/fotos/beso.jpg"
           alt="Juan y Cynthia besándose"
-          caption="El comienzo de nuestra historia"
-          side="left"
+          fill
+          sizes="100vw"
+          className="object-cover z-0 object-[center_58%] md:object-[center_62%]"
         />
-      </section>
-
-      {/* ═══════════════════════════════════════════
-          DRESS CODE
-      ═══════════════════════════════════════════ */}
-      <section
-        className="relative pt-[1.1rem] px-6 pb-[1.1rem] overflow-hidden bg-primary text-center md:pt-[4rem] md:pb-[4rem] lg:pt-[5rem] lg:pb-[5rem]"
-      >
-        <div data-bot-anim className="relative z-[1] max-w-[560px] mx-auto">
-          <h2 className="font-serif italic font-light text-[clamp(1.9rem,5.5vw,2.8rem)] text-white leading-[1.15] mb-[0.9rem]">
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none z-[1]"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(42,26,29,0.55) 0%, rgba(42,26,29,0.48) 45%, rgba(42,26,29,0.62) 100%)",
+          }}
+        />
+        <div data-bot-anim className="relative z-[2] max-w-[560px] mx-auto">
+          <h2
+            className="font-serif italic font-light text-[clamp(1.9rem,5.5vw,2.8rem)] text-white leading-[1.15] mb-[0.9rem]"
+            style={{ textShadow: "0 1px 14px rgba(0,0,0,0.35)" }}
+          >
             Dress code: <span className="not-italic">Formal</span>
           </h2>
           <div className="h-px w-[60px] mx-auto mb-[0.9rem] bg-white/25" />
-          <p className="text-[0.82rem] text-white/75 leading-[1.6] max-w-[360px] mx-auto">
+          <p
+            className="text-[0.82rem] text-white/75 leading-[1.6] max-w-[360px] mx-auto"
+            style={{ textShadow: "0 1px 14px rgba(0,0,0,0.35)" }}
+          >
             <span className="uppercase tracking-[0.15em] text-[0.62rem] text-white/75 mr-1">Nota —</span>
             Prescindir de blanco en todos sus tonos y cuello en V en mujeres.
           </p>
@@ -1274,16 +1109,15 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       </section>
 
       {/* ═══════════════════════════════════════════
-          FOTO — EL BALCÓN
+          FOTO — EL BALCÓN (a sangre, sin marco)
       ═══════════════════════════════════════════ */}
-      <section
-        className="relative py-16 px-6 overflow-hidden bg-sage-pale md:py-[7rem]"
-      >
-        <FramedPhoto
+      <section className="relative h-[85svh] w-full overflow-hidden bg-sage-deep">
+        <Image
           src="/fotos/balcon.jpg"
           alt="Juan y Cynthia riendo en el balcón"
-          caption="Riendo juntos, como siempre"
-          side="right"
+          fill
+          sizes="100vw"
+          className="object-cover"
         />
       </section>
 
