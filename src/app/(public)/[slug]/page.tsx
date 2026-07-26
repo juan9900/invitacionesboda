@@ -1,0 +1,90 @@
+import { notFound } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
+import { getEvent } from '@/lib/event'
+import Envelope from './envelope'
+import MusicProvider from './music-player'
+import BotanicalVersion from './_versions/botanical-client'
+import type { InviteData } from './_versions/shared'
+
+export const dynamic = 'force-dynamic'
+
+type Guest = {
+  id: string
+  slug: string
+  nombres: string
+  pases: number
+  incluye_fiesta: boolean
+  confirmado: boolean | null
+  pases_confirmados: number | null
+}
+
+export default async function InvitationPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const supabase = await createClient()
+  const { data: guest } = await supabase
+    .from('guests')
+    .select(
+      'id, slug, nombres, pases, incluye_fiesta, confirmado, pases_confirmados',
+    )
+    .eq('slug', slug)
+    .maybeSingle<Guest>()
+
+  if (!guest) notFound()
+
+  const event = await getEvent()
+  const deadlinePassed = new Date(event.rsvp_deadline) < new Date()
+  const fechaCeremonia = new Date(event.ceremonia_fecha)
+
+  const fmtFecha = (d: Date) =>
+    d.toLocaleDateString('es-ES', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+  const fmtHora = (d: Date) =>
+    d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
+      .replace(/\s?(AM|PM)$/i, (_, p) => ` ${p.toLowerCase()}`)
+
+  const dia     = fechaCeremonia.toLocaleDateString('es-ES', { day: '2-digit' })
+  const mes     = fechaCeremonia.toLocaleDateString('es-ES', { month: 'long' }).toUpperCase()
+  const anio    = String(fechaCeremonia.getFullYear()).slice(-2)
+  const weekday = fechaCeremonia.toLocaleDateString('es-ES', { weekday: 'long' })
+  const hora    = fmtHora(fechaCeremonia)
+
+  const data: InviteData = {
+    slug:                  guest.slug,
+    nombres:               guest.nombres,
+    pases:                 guest.pases,
+    incluye_fiesta:        guest.incluye_fiesta,
+    confirmado:            guest.confirmado,
+    pases_confirmados:     guest.pases_confirmados,
+
+    ceremonia_lugar:       event.ceremonia_lugar,
+    ceremonia_fecha_iso:   event.ceremonia_fecha,
+    ceremonia_direccion:   event.ceremonia_direccion ?? null,
+    ceremonia_mapa_url:    event.ceremonia_mapa_url ?? null,
+
+    dia,
+    mes,
+    anio,
+    weekday,
+    hora,
+    fecha_larga:           fmtFecha(fechaCeremonia),
+
+    deadline_passed:       deadlinePassed,
+    quote: 'Y así, después de tantos caminos, elegimos uno solo: el nuestro.',
+  }
+
+  return (
+    <MusicProvider>
+      <Envelope>
+        <BotanicalVersion data={data} />
+      </Envelope>
+    </MusicProvider>
+  )
+}
