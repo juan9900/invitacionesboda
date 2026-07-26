@@ -1094,8 +1094,9 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                 maxWidth: 290,
                 margin: "0 auto",
                 textAlign: "center",
-                background: "rgba(42,26,29,0.34)",
-                backdropFilter: "blur(4px)",
+                background: "rgba(42,26,29,0.38)",
+                backdropFilter: "none",
+                textShadow: "0 1px 10px rgba(0,0,0,0.55)",
                 border: `1.5px solid rgba(203,176,122,0.5)`,
                 boxShadow: `0 12px 56px rgba(0,0,0,0.28), 0 3px 12px rgba(0,0,0,0.15)`,
               }}
@@ -1112,7 +1113,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                   background: `linear-gradient(to right, transparent, ${GOLD_SOFT}, transparent)`,
                 }}
               />
-              <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/45 mb-[0.3rem] font-sans">
+              <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
                 Titular
               </p>
               <p className="font-serif italic text-[1.05rem] text-white">
@@ -1124,7 +1125,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                   background: `linear-gradient(to right, transparent, ${GOLD_SOFT}, transparent)`,
                 }}
               />
-              <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/45 mb-[0.5rem] font-sans">
+              <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.5rem] font-sans">
                 Referencia
               </p>
               <p className="font-mono text-[0.7rem] text-white/85 leading-[1.7]">
