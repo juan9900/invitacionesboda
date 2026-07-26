@@ -478,6 +478,34 @@ function Card({
   );
 }
 
+/* ── Foto enmarcada ───────────────────────────────────────────────── */
+function FramedPhoto({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div
+      className="relative overflow-hidden rounded-2xl"
+      style={{
+        border: `1.5px solid ${GOLD_SOFT}`,
+        boxShadow: "0 18px 48px rgba(42,26,29,0.22), 0 3px 12px rgba(0,0,0,0.1)",
+      }}
+    >
+      <div className="relative aspect-[2/3] w-full">
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(max-width: 480px) 90vw, 420px"
+          className="object-cover"
+        />
+      </div>
+      {/* Filete interior */}
+      <div
+        className="pointer-events-none absolute inset-[9px] rounded-[10px] z-[1]"
+        style={{ border: "0.8px solid rgba(255,255,255,0.35)" }}
+      />
+    </div>
+  );
+}
+
 /* ══════════════════════════════════════════════════════════════════ */
 /*  COMPONENTE PRINCIPAL                                             */
 /* ══════════════════════════════════════════════════════════════════ */
@@ -684,7 +712,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           fill
           priority
           sizes="100vw"
-          className="object-cover z-0 md:object-[center_28%] lg:object-[center_25%]"
+          className="object-cover z-0 origin-top scale-[1.15] object-[center_top] [@media(max-height:720px)]:scale-100 md:scale-100 md:object-[center_28%] lg:object-[center_25%]"
         />
         {/* Velo oscuro para legibilidad */}
         <div
@@ -1029,18 +1057,26 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           }}
         />
         <div data-bot-anim className="relative z-[2] max-w-[560px] mx-auto">
-          <h2
-            className="font-serif italic font-light text-[clamp(1.9rem,5.5vw,2.8rem)] text-white leading-[1.15] mb-[0.9rem]"
-            style={{ textShadow: "0 1px 14px rgba(0,0,0,0.35)" }}
-          >
-            Dress code: <span className="not-italic">Formal</span>
-          </h2>
-          <div className="h-px w-[60px] mx-auto mb-[0.9rem] bg-white/25" />
           <p
-            className="text-[0.82rem] text-white/75 leading-[1.6] max-w-[360px] mx-auto"
-            style={{ textShadow: "0 1px 14px rgba(0,0,0,0.35)" }}
+            className="text-[0.5rem] uppercase tracking-[0.42em] text-white/70 font-sans mb-[0.7rem]"
+            style={{ textShadow: "0 1px 10px rgba(0,0,0,0.4)" }}
           >
-            <span className="uppercase tracking-[0.15em] text-[0.62rem] text-white/75 mr-1">Nota —</span>
+            Código de vestimenta
+          </p>
+          <p
+            className="font-script text-[clamp(2.8rem,11vw,4.6rem)] lg:text-[5.5rem] text-white leading-none"
+            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}
+          >
+            Formal
+          </p>
+          <BranchDivider light />
+          <p
+            className="font-serif italic text-[0.95rem] md:text-[1.05rem] text-white/85 leading-[1.7] max-w-[380px] mx-auto"
+            style={{ textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
+          >
+            <span className="block not-italic uppercase tracking-[0.32em] text-[0.5rem] text-white/60 mb-[0.5rem] font-sans">
+              Nota
+            </span>
             Prescindir de blanco en todos sus tonos y cuello en V en mujeres.
           </p>
         </div>
@@ -1106,19 +1142,17 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             </Card>
           </div>
         </div>
-      </section>
 
-      {/* ═══════════════════════════════════════════
-          FOTO — EL BALCÓN (a sangre, sin marco)
-      ═══════════════════════════════════════════ */}
-      <section className="relative h-[85svh] w-full overflow-hidden bg-sage-deep">
-        <Image
-          src="/fotos/balcon.jpg"
-          alt="Juan y Cynthia riendo en el balcón"
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
+        {/* Foto — el balcón */}
+        <div
+          data-bot-anim
+          className="relative z-[1] mt-14 mx-auto w-full max-w-[380px] md:mt-[4rem] md:max-w-[420px]"
+        >
+          <FramedPhoto
+            src="/fotos/balcon.jpg"
+            alt="Juan y Cynthia riendo en el balcón"
+          />
+        </div>
       </section>
 
       {/* ═══════════════════════════════════════════
