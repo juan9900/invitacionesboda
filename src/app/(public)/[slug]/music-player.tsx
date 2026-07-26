@@ -96,7 +96,7 @@ function MusicToggleButton({
       type="button"
       onClick={onToggle}
       aria-label={playing ? "Silenciar música" : "Reproducir música"}
-      className="fixed bottom-6 right-6 z-[9998] flex h-12 w-12 items-center justify-center rounded-full bg-primary text-cream card-shadow transition-transform active:scale-95"
+      className="music-toggle fixed bottom-6 right-6 z-[9998] flex h-12 w-12 items-center justify-center rounded-full bg-primary text-cream card-shadow transition-transform active:scale-95"
     >
       {playing ? (
         <svg
@@ -117,13 +117,22 @@ function MusicToggleButton({
         >
           <path d="M3 9v6h4l5 4V5L7 9H3Z" />
           <line
-            x1="19"
-            y1="4"
-            x2="19"
-            y2="20"
+            x1="15"
+            y1="8"
+            x2="21"
+            y2="16"
             stroke="currentColor"
             strokeWidth="2"
-            transform="rotate(45 19 12)"
+            strokeLinecap="round"
+          />
+          <line
+            x1="21"
+            y1="8"
+            x2="15"
+            y2="16"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
           />
         </svg>
       )}

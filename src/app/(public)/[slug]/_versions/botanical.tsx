@@ -3,6 +3,7 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import Countdown from "./countdown";
 import RsvpForm from "../rsvp-form";
 import type { InviteData } from "./shared";
@@ -585,6 +586,56 @@ function Card({
   );
 }
 
+/* ── Foto enmarcada ───────────────────────────────────────────────── */
+function FramedPhoto({
+  src,
+  alt,
+  caption,
+}: {
+  src: string;
+  alt: string;
+  caption?: string;
+}) {
+  return (
+    <div data-bot-anim className="relative mx-auto w-full max-w-[380px]">
+      <div
+        className="relative overflow-hidden rounded-2xl"
+        style={{
+          border: `1.5px solid ${GOLD_SOFT}`,
+          boxShadow: "0 18px 48px rgba(42,26,29,0.22), 0 3px 12px rgba(0,0,0,0.1)",
+        }}
+      >
+        <div className="relative aspect-[2/3] w-full">
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes="(max-width: 480px) 90vw, 380px"
+            className="object-cover"
+          />
+        </div>
+        {/* Filete interior */}
+        <div
+          className="pointer-events-none absolute inset-[9px] rounded-[10px] z-[1]"
+          style={{ border: "0.8px solid rgba(255,255,255,0.35)" }}
+        />
+      </div>
+      {/* Esquinas florales */}
+      <div className="absolute -top-4 -left-4 z-[2]" aria-hidden>
+        <CornerFloral rotate={0} size={56} />
+      </div>
+      <div className="absolute -bottom-4 -right-4 z-[2] rotate-180" aria-hidden>
+        <CornerFloral rotate={0} size={56} />
+      </div>
+      {caption && (
+        <p className="mt-5 text-center font-serif italic text-[clamp(1rem,3vw,1.3rem)] text-sage-deep opacity-80">
+          {caption}
+        </p>
+      )}
+    </div>
+  );
+}
+
 /* ══════════════════════════════════════════════════════════════════ */
 /*  COMPONENTE PRINCIPAL                                             */
 /* ══════════════════════════════════════════════════════════════════ */
@@ -782,8 +833,27 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           HERO
       ═══════════════════════════════════════════ */}
       <section
-        className="relative min-h-svh flex flex-col items-center justify-center text-center pt-[6rem] px-6 pb-[5rem] overflow-hidden bg-sage-pale"
+        className="relative min-h-svh flex flex-col items-center justify-center text-center pt-[6rem] px-6 pb-[5rem] overflow-hidden bg-sage-deep"
       >
+        {/* Foto de fondo */}
+        <Image
+          src="/fotos/inicio.jpg"
+          alt="Juan y Cynthia"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover z-0"
+        />
+        {/* Velo oscuro para legibilidad */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none z-[1]"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(42,26,29,0.55) 0%, rgba(42,26,29,0.28) 32%, rgba(42,26,29,0.4) 68%, rgba(42,26,29,0.7) 100%)",
+          }}
+        />
+
         {/* Pétalos cayendo */}
         <div
           ref={petalsRef}
@@ -806,7 +876,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           className="absolute inset-0 pointer-events-none z-[1]"
           style={{
             background:
-              "radial-gradient(ellipse 90% 90% at 50% 50%, transparent 55%, rgba(61,74,56,0.18) 100%)",
+              "radial-gradient(ellipse 90% 90% at 50% 50%, transparent 55%, rgba(42,26,29,0.25) 100%)",
           }}
         />
 
@@ -816,8 +886,8 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           className="relative z-[2] w-full max-w-[420px] mx-auto mb-[0.8rem]"
         >
           <span
-            className="block font-script text-[clamp(.5rem,20vw,8rem)] text-wine-soft leading-none tracking-[-0.01em] whitespace-nowrap"
-            style={{ textShadow: "0 2px 32px rgba(138,51,64,0.18)" }}
+            className="block font-script text-[clamp(.5rem,20vw,8rem)] text-white leading-none tracking-[-0.01em] whitespace-nowrap"
+            style={{ textShadow: "0 2px 32px rgba(0,0,0,0.4)" }}
           >
             J&amp;C
           </span>
@@ -826,7 +896,8 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         {/* Invitación */}
         <h1
           data-bot-honor
-          className="font-serif italic font-light text-[clamp(1.35rem,4vw,2.1rem)] text-ink opacity-[0.72] max-w-[400px] leading-[1.35] mb-[1.8rem] relative z-[2]"
+          className="font-serif italic font-light text-[clamp(1.35rem,4vw,2.1rem)] text-white opacity-90 max-w-[400px] leading-[1.35] mb-[1.8rem] relative z-[2]"
+          style={{ textShadow: "0 1px 12px rgba(0,0,0,0.35)" }}
         >
           Tenemos el honor de invitarles a la celebración de nuestro matrimonio
         </h1>
@@ -834,20 +905,21 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         {/* Invitado */}
         <p
           data-bot-guest
-          className="text-[0.56rem] uppercase tracking-[0.32em] text-sage mb-2 font-sans relative z-[2]"
+          className="text-[0.56rem] uppercase tracking-[0.32em] text-white/80 mb-2 font-sans relative z-[2]"
         >
           Para
         </p>
         <p
           data-bot-guest
-          className="font-script text-[clamp(2.2rem,7.5vw,3.8rem)] text-sage-deep leading-[1.1] mb-[0.4rem] relative z-[2]"
-          style={{ textShadow: "0 1px 20px rgba(61,74,56,0.15)" }}
+          className="font-script text-[clamp(2.2rem,7.5vw,3.8rem)] text-white leading-[1.1] mb-[0.4rem] relative z-[2]"
+          style={{ textShadow: "0 1px 20px rgba(0,0,0,0.35)" }}
         >
           {data.nombres}
         </p>
         <p
           data-bot-guest
-          className="text-[0.72rem] uppercase tracking-[0.32em] text-primary opacity-80 font-sans relative z-[2]"
+          className="text-[0.72rem] uppercase tracking-[0.32em] text-white opacity-90 font-sans relative z-[2]"
+          style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
         >
           {data.pases} {data.pases === 1 ? "pase" : "pases"}
         </p>
@@ -929,7 +1001,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               opacity="0.5"
             />
           </svg>
-          <span className="text-[0.48rem] uppercase tracking-[0.42em] font-sans" style={{ color: SAGE }}>
+          <span className="text-[0.48rem] uppercase tracking-[0.42em] font-sans text-white/85">
             Desliza
           </span>
         </div>
@@ -1096,6 +1168,20 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       </section>
 
       {/* ═══════════════════════════════════════════
+          FOTO — EL BESO
+      ═══════════════════════════════════════════ */}
+      <section
+        className="relative py-16 px-6 overflow-hidden"
+        style={{ background: CREAM }}
+      >
+        <FramedPhoto
+          src="/fotos/beso.jpg"
+          alt="Juan y Cynthia besándose"
+          caption="El comienzo de nuestra historia"
+        />
+      </section>
+
+      {/* ═══════════════════════════════════════════
           DRESS CODE
       ═══════════════════════════════════════════ */}
       <section
@@ -1176,6 +1262,19 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       </section>
 
       {/* ═══════════════════════════════════════════
+          FOTO — EL BALCÓN
+      ═══════════════════════════════════════════ */}
+      <section
+        className="relative py-16 px-6 overflow-hidden bg-sage-pale"
+      >
+        <FramedPhoto
+          src="/fotos/balcon.jpg"
+          alt="Juan y Cynthia riendo en el balcón"
+          caption="Riendo juntos, como siempre"
+        />
+      </section>
+
+      {/* ═══════════════════════════════════════════
           RSVP
       ═══════════════════════════════════════════ */}
       <section
@@ -1210,8 +1309,33 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       </section>
 
       {/* ═══════════════════════════════════════════
-          FOOTER
+          CIERRE
       ═══════════════════════════════════════════ */}
+      <section className="relative min-h-[70svh] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden bg-sage-deep">
+        <Image
+          src="/fotos/cierre.jpg"
+          alt="Juan y Cynthia"
+          fill
+          sizes="100vw"
+          className="object-cover z-0"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none z-[1]"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(42,26,29,0.45) 0%, rgba(42,26,29,0.35) 50%, rgba(42,26,29,0.6) 100%)",
+          }}
+        />
+        <div data-bot-anim className="relative z-[2]">
+          <p className="font-script text-[clamp(2.6rem,10vw,5rem)] text-white leading-none mb-3" style={{ textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}>
+            ¡Nos vemos!
+          </p>
+          <p className="text-[0.62rem] uppercase tracking-[0.42em] text-white/80 font-sans">
+            J&amp;C · {data.fecha_larga}
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
