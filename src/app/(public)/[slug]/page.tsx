@@ -81,14 +81,10 @@ export default async function InvitationPage({
   }
 
   return (
-    <div className="invite-page-bg">
-      <div className="invite-shell">
-        <MusicProvider>
-          <Envelope>
-            <BotanicalVersion data={data} />
-          </Envelope>
-        </MusicProvider>
-      </div>
-    </div>
+    <MusicProvider>
+      <Envelope>
+        <BotanicalVersion data={data} />
+      </Envelope>
+    </MusicProvider>
   )
 }

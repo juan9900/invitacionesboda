@@ -591,44 +591,55 @@ function FramedPhoto({
   src,
   alt,
   caption,
+  side = "left",
 }: {
   src: string;
   alt: string;
   caption?: string;
+  side?: "left" | "right";
 }) {
+  const isRight = side === "right";
   return (
-    <div data-bot-anim className="relative mx-auto w-full max-w-[380px]">
-      <div
-        className="relative overflow-hidden rounded-2xl"
-        style={{
-          border: `1.5px solid ${GOLD_SOFT}`,
-          boxShadow: "0 18px 48px rgba(42,26,29,0.22), 0 3px 12px rgba(0,0,0,0.1)",
-        }}
-      >
-        <div className="relative aspect-[2/3] w-full">
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            sizes="(max-width: 480px) 90vw, 380px"
-            className="object-cover"
+    <div
+      data-bot-anim
+      className={`relative mx-auto w-full max-w-[380px] md:flex md:max-w-[840px] md:items-center md:gap-10 lg:gap-16${isRight ? " md:flex-row-reverse" : " md:flex-row"}`}
+    >
+      {/* Marco de la foto */}
+      <div className="relative md:w-[360px] md:shrink-0 lg:w-[420px]">
+        <div
+          className="relative overflow-hidden rounded-2xl"
+          style={{
+            border: `1.5px solid ${GOLD_SOFT}`,
+            boxShadow: "0 18px 48px rgba(42,26,29,0.22), 0 3px 12px rgba(0,0,0,0.1)",
+          }}
+        >
+          <div className="relative aspect-[2/3] w-full">
+            <Image
+              src={src}
+              alt={alt}
+              fill
+              sizes="(max-width: 480px) 90vw, (max-width: 1024px) 360px, 420px"
+              className="object-cover"
+            />
+          </div>
+          {/* Filete interior */}
+          <div
+            className="pointer-events-none absolute inset-[9px] rounded-[10px] z-[1]"
+            style={{ border: "0.8px solid rgba(255,255,255,0.35)" }}
           />
         </div>
-        {/* Filete interior */}
-        <div
-          className="pointer-events-none absolute inset-[9px] rounded-[10px] z-[1]"
-          style={{ border: "0.8px solid rgba(255,255,255,0.35)" }}
-        />
-      </div>
-      {/* Esquinas florales */}
-      <div className="absolute -top-4 -left-4 z-[2]" aria-hidden>
-        <CornerFloral rotate={0} size={56} />
-      </div>
-      <div className="absolute -bottom-4 -right-4 z-[2] rotate-180" aria-hidden>
-        <CornerFloral rotate={0} size={56} />
+        {/* Esquinas florales */}
+        <div className="absolute -top-4 -left-4 z-[2]" aria-hidden>
+          <CornerFloral rotate={0} size={56} />
+        </div>
+        <div className="absolute -bottom-4 -right-4 z-[2] rotate-180" aria-hidden>
+          <CornerFloral rotate={0} size={56} />
+        </div>
       </div>
       {caption && (
-        <p className="mt-5 text-center font-serif italic text-[clamp(1rem,3vw,1.3rem)] text-sage-deep opacity-80">
+        <p
+          className={`mt-5 text-center font-serif italic text-[clamp(1rem,3vw,1.3rem)] text-sage-deep opacity-80 md:mt-0 md:flex-1 md:text-[clamp(1.6rem,2.4vw,2.4rem)] md:leading-[1.4]${isRight ? " md:text-right" : " md:text-left"}`}
+        >
           {caption}
         </p>
       )}
@@ -833,7 +844,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           HERO
       ═══════════════════════════════════════════ */}
       <section
-        className="relative min-h-svh flex flex-col items-center justify-center text-center pt-[6rem] px-6 pb-[5rem] overflow-hidden bg-sage-deep"
+        className="relative min-h-svh flex flex-col items-center justify-center text-center pt-[6rem] px-6 pb-[5rem] overflow-hidden bg-sage-deep md:justify-end md:pb-[8vh] lg:pb-[9vh]"
       >
         {/* Foto de fondo */}
         <Image
@@ -842,7 +853,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           fill
           priority
           sizes="100vw"
-          className="object-cover z-0"
+          className="object-cover z-0 md:object-[center_28%] lg:object-[center_25%]"
         />
         {/* Velo oscuro para legibilidad */}
         <div
@@ -883,10 +894,10 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         {/* Nombres */}
         <div
           data-bot-names
-          className="relative z-[2] w-full max-w-[420px] mx-auto mb-[0.8rem]"
+          className="relative z-[2] w-full max-w-[420px] md:max-w-[640px] mx-auto mb-[0.8rem]"
         >
           <span
-            className="block font-script text-[clamp(.5rem,20vw,8rem)] text-white leading-none tracking-[-0.01em] whitespace-nowrap"
+            className="block font-script text-[clamp(.5rem,20vw,8rem)] md:text-[5.5rem] lg:text-[6.5rem] text-white leading-none tracking-[-0.01em] whitespace-nowrap"
             style={{ textShadow: "0 2px 32px rgba(0,0,0,0.4)" }}
           >
             J&amp;C
@@ -896,7 +907,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         {/* Invitación */}
         <h1
           data-bot-honor
-          className="font-serif italic font-light text-[clamp(1.35rem,4vw,2.1rem)] text-white opacity-90 max-w-[400px] leading-[1.35] mb-[1.8rem] relative z-[2]"
+          className="font-serif italic font-light text-[clamp(1.35rem,4vw,2.1rem)] text-white opacity-90 max-w-[400px] md:max-w-[540px] leading-[1.35] mb-[1.8rem] relative z-[2]"
           style={{ textShadow: "0 1px 12px rgba(0,0,0,0.35)" }}
         >
           Tenemos el honor de invitarles a la celebración de nuestro matrimonio
@@ -911,7 +922,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         </p>
         <p
           data-bot-guest
-          className="font-script text-[clamp(2.2rem,7.5vw,3.8rem)] text-white leading-[1.1] mb-[0.4rem] relative z-[2]"
+          className="font-script text-[clamp(2.2rem,7.5vw,3.8rem)] md:text-[3.2rem] text-white leading-[1.1] mb-[0.4rem] relative z-[2]"
           style={{ textShadow: "0 1px 20px rgba(0,0,0,0.35)" }}
         >
           {data.nombres}
@@ -1011,10 +1022,10 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           FECHA + COUNTDOWN
       ═══════════════════════════════════════════ */}
       <section
-        className="relative pt-[4rem] px-6 pb-[3.5rem] overflow-hidden bg-primary text-center"
+        className="relative pt-[4rem] px-6 pb-[3.5rem] overflow-hidden bg-primary text-center md:pt-[5.5rem] md:pb-[5rem] lg:pt-[6.5rem] lg:pb-[6rem]"
       >
         <div className="relative z-[1]">
-          <div className="max-w-[560px] mx-auto">
+          <div className="max-w-[560px] md:max-w-[620px] mx-auto">
             <div className="flex items-center justify-center gap-[clamp(1rem,4vw,2.5rem)]">
               {[
                 { label: "día", value: data.dia, large: true },
@@ -1087,7 +1098,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           CEREMONIA
       ═══════════════════════════════════════════ */}
       <section
-        className="relative pt-[4rem] px-6 pb-[4.5rem] overflow-hidden"
+        className="relative pt-[4rem] px-6 pb-[4.5rem] overflow-hidden md:pt-[6rem] md:pb-[6.5rem] lg:pt-[7rem] lg:pb-[7.5rem]"
         style={{ background: CREAM }}
       >
         <div data-bot-anim className="relative z-[1]">
@@ -1171,13 +1182,14 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           FOTO — EL BESO
       ═══════════════════════════════════════════ */}
       <section
-        className="relative py-16 px-6 overflow-hidden"
+        className="relative py-16 px-6 overflow-hidden md:py-[7rem]"
         style={{ background: CREAM }}
       >
         <FramedPhoto
           src="/fotos/beso.jpg"
           alt="Juan y Cynthia besándose"
           caption="El comienzo de nuestra historia"
+          side="left"
         />
       </section>
 
@@ -1185,7 +1197,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           DRESS CODE
       ═══════════════════════════════════════════ */}
       <section
-        className="relative pt-[1.1rem] px-6 pb-[1.1rem] overflow-hidden bg-primary text-center"
+        className="relative pt-[1.1rem] px-6 pb-[1.1rem] overflow-hidden bg-primary text-center md:pt-[4rem] md:pb-[4rem] lg:pt-[5rem] lg:pb-[5rem]"
       >
         <div data-bot-anim className="relative z-[1] max-w-[560px] mx-auto">
           <h2 className="font-serif italic font-light text-[clamp(1.9rem,5.5vw,2.8rem)] text-white leading-[1.15] mb-[0.9rem]">
@@ -1203,7 +1215,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           REGALOS
       ═══════════════════════════════════════════ */}
       <section
-        className="relative py-16 px-6 overflow-hidden"
+        className="relative py-16 px-6 overflow-hidden md:py-[6rem]"
         style={{ background: CREAM }}
       >
         <div data-bot-anim className="relative z-[1]">
@@ -1265,12 +1277,13 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           FOTO — EL BALCÓN
       ═══════════════════════════════════════════ */}
       <section
-        className="relative py-16 px-6 overflow-hidden bg-sage-pale"
+        className="relative py-16 px-6 overflow-hidden bg-sage-pale md:py-[7rem]"
       >
         <FramedPhoto
           src="/fotos/balcon.jpg"
           alt="Juan y Cynthia riendo en el balcón"
           caption="Riendo juntos, como siempre"
+          side="right"
         />
       </section>
 
@@ -1279,7 +1292,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       ═══════════════════════════════════════════ */}
       <section
         id="rsvp-botanical"
-        className="relative py-16 px-6 overflow-hidden bg-primary"
+        className="relative py-16 px-6 overflow-hidden bg-primary md:py-[6rem]"
       >
         <div data-bot-anim className="relative z-[1]">
           <Card style={{ maxWidth: 540, margin: "0 auto", background: CREAM }}>
@@ -1311,13 +1324,13 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       {/* ═══════════════════════════════════════════
           CIERRE
       ═══════════════════════════════════════════ */}
-      <section className="relative min-h-[70svh] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden bg-sage-deep">
+      <section className="relative min-h-[70svh] lg:min-h-[80svh] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden bg-sage-deep">
         <Image
           src="/fotos/cierre.jpg"
           alt="Juan y Cynthia"
           fill
           sizes="100vw"
-          className="object-cover z-0"
+          className="object-cover z-0 md:object-[center_30%] lg:object-[center_28%]"
         />
         <div
           aria-hidden
@@ -1328,7 +1341,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           }}
         />
         <div data-bot-anim className="relative z-[2]">
-          <p className="font-script text-[clamp(2.6rem,10vw,5rem)] text-white leading-none mb-3" style={{ textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}>
+          <p className="font-script text-[clamp(2.6rem,10vw,5rem)] lg:text-[6.5rem] text-white leading-none mb-3" style={{ textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}>
             ¡Nos vemos!
           </p>
           <p className="text-[0.62rem] uppercase tracking-[0.42em] text-white/80 font-sans">

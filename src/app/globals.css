@@ -43,9 +43,6 @@
   --sage-pale: #f2f5ee;
   --blush: #e8c4b4;
   --blush-soft: #f5e0d6;
-
-  /* ── Ancho de la columna "teléfono" en vista de escritorio ────── */
-  --shell-w: 460px;
 }
 
 @theme inline {
@@ -164,38 +161,6 @@ body {
   perspective: 3200px;
   transform-style: preserve-3d;
   background: transparent;
-}
-
-/* ── Vista de escritorio: la invitación (pensada para móvil) se
-   muestra como una columna centrada tipo teléfono, con el resto de
-   la pantalla en un color sólido de la paleta. ── */
-@media (min-width: 768px) {
-  .invite-page-bg {
-    background: #1a0509;
-  }
-
-  .invite-shell {
-    width: var(--shell-w);
-    margin-inline: auto;
-    min-height: 100svh;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.45);
-    overflow: hidden;
-  }
-
-  .env-root {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    width: var(--shell-w);
-  }
-
-  .env-envelope {
-    width: var(--shell-w);
-  }
-
-  .music-toggle {
-    right: calc(50vw - (var(--shell-w) / 2) + 1.5rem);
-  }
 }
 
 .env-body {
