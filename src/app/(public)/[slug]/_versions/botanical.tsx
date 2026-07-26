@@ -926,6 +926,51 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       </section>
 
       {/* ═══════════════════════════════════════════
+          DRESS CODE — foto del beso a sangre
+      ═══════════════════════════════════════════ */}
+      <section className="relative min-h-[70svh] lg:min-h-[80svh] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden bg-sage-deep">
+        <Image
+          src="/fotos/beso.jpg"
+          alt="Juan y Cynthia besándose"
+          fill
+          sizes="100vw"
+          className="object-cover z-0 object-[center_58%] md:object-[center_62%]"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none z-[1]"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(42,26,29,0.55) 0%, rgba(42,26,29,0.48) 45%, rgba(42,26,29,0.62) 100%)",
+          }}
+        />
+        <div data-bot-anim className="relative z-[2] max-w-[560px] mx-auto">
+          <p
+            className="text-[0.5rem] uppercase tracking-[0.42em] text-white/70 font-sans mb-[0.7rem]"
+            style={{ textShadow: "0 1px 10px rgba(0,0,0,0.4)" }}
+          >
+            Código de vestimenta
+          </p>
+          <p
+            className="font-script text-[clamp(2.8rem,11vw,4.6rem)] lg:text-[5.5rem] text-white leading-none"
+            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}
+          >
+            Formal
+          </p>
+          <BranchDivider light />
+          <p
+            className="font-serif italic text-[0.95rem] md:text-[1.05rem] text-white/85 leading-[1.7] max-w-[380px] mx-auto"
+            style={{ textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
+          >
+            <span className="block not-italic uppercase tracking-[0.32em] text-[0.5rem] text-white/60 mb-[0.5rem] font-sans">
+              Nota
+            </span>
+            Prescindir de blanco en todos sus tonos y cuello en V en mujeres.
+          </p>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
           CEREMONIA
       ═══════════════════════════════════════════ */}
       <section
@@ -1006,51 +1051,6 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               ceremonia.
             </p>
           )}
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════
-          DRESS CODE — foto del beso a sangre
-      ═══════════════════════════════════════════ */}
-      <section className="relative min-h-[70svh] lg:min-h-[80svh] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden bg-sage-deep">
-        <Image
-          src="/fotos/beso.jpg"
-          alt="Juan y Cynthia besándose"
-          fill
-          sizes="100vw"
-          className="object-cover z-0 object-[center_58%] md:object-[center_62%]"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 pointer-events-none z-[1]"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(42,26,29,0.55) 0%, rgba(42,26,29,0.48) 45%, rgba(42,26,29,0.62) 100%)",
-          }}
-        />
-        <div data-bot-anim className="relative z-[2] max-w-[560px] mx-auto">
-          <p
-            className="text-[0.5rem] uppercase tracking-[0.42em] text-white/70 font-sans mb-[0.7rem]"
-            style={{ textShadow: "0 1px 10px rgba(0,0,0,0.4)" }}
-          >
-            Código de vestimenta
-          </p>
-          <p
-            className="font-script text-[clamp(2.8rem,11vw,4.6rem)] lg:text-[5.5rem] text-white leading-none"
-            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}
-          >
-            Formal
-          </p>
-          <BranchDivider light />
-          <p
-            className="font-serif italic text-[0.95rem] md:text-[1.05rem] text-white/85 leading-[1.7] max-w-[380px] mx-auto"
-            style={{ textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
-          >
-            <span className="block not-italic uppercase tracking-[0.32em] text-[0.5rem] text-white/60 mb-[0.5rem] font-sans">
-              Nota
-            </span>
-            Prescindir de blanco en todos sus tonos y cuello en V en mujeres.
-          </p>
         </div>
       </section>
 
