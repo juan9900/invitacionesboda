@@ -478,34 +478,6 @@ function Card({
   );
 }
 
-/* ── Foto enmarcada ───────────────────────────────────────────────── */
-function FramedPhoto({ src, alt }: { src: string; alt: string }) {
-  return (
-    <div
-      className="relative overflow-hidden rounded-2xl"
-      style={{
-        border: `1.5px solid ${GOLD_SOFT}`,
-        boxShadow: "0 18px 48px rgba(42,26,29,0.22), 0 3px 12px rgba(0,0,0,0.1)",
-      }}
-    >
-      <div className="relative aspect-[2/3] w-full">
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes="(max-width: 480px) 90vw, 420px"
-          className="object-cover"
-        />
-      </div>
-      {/* Filete interior */}
-      <div
-        className="pointer-events-none absolute inset-[9px] rounded-[10px] z-[1]"
-        style={{ border: "0.8px solid rgba(255,255,255,0.35)" }}
-      />
-    </div>
-  );
-}
-
 /* ══════════════════════════════════════════════════════════════════ */
 /*  COMPONENTE PRINCIPAL                                             */
 /* ══════════════════════════════════════════════════════════════════ */
@@ -1085,16 +1057,34 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       {/* ═══════════════════════════════════════════
           REGALOS
       ═══════════════════════════════════════════ */}
-      <section
-        className="relative py-16 px-6 overflow-hidden md:py-[6rem]"
-        style={{ background: CREAM }}
-      >
-        <div data-bot-anim className="relative z-[1]">
+      <section className="relative min-h-[75svh] lg:min-h-[85svh] flex flex-col items-center justify-center py-20 px-6 overflow-hidden bg-sage-deep">
+        <Image
+          src="/fotos/balcon.jpg"
+          alt="Juan y Cynthia riendo en el balcón"
+          fill
+          sizes="100vw"
+          className="object-cover z-0 object-[center_45%] md:object-[center_56%]"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none z-[1]"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(42,26,29,0.62) 0%, rgba(42,26,29,0.5) 45%, rgba(42,26,29,0.66) 100%)",
+          }}
+        />
+        <div data-bot-anim className="relative z-[2]">
           <div className="max-w-[540px] mx-auto text-center">
-<h2 className="font-serif italic text-[clamp(1.9rem,5.5vw,2.8rem)] text-sage-deep mb-[0.7rem] leading-[1.05]">
+            <h2
+              className="font-serif italic text-[clamp(1.9rem,5.5vw,2.8rem)] text-white mb-[0.7rem] leading-[1.05]"
+              style={{ textShadow: "0 2px 20px rgba(0,0,0,0.4)" }}
+            >
               Tu presencia es nuestro mayor regalo
             </h2>
-            <p className="text-[1.05rem] text-ink opacity-[0.53] max-w-[360px] mx-auto mb-[1.6rem] leading-[1.75]">
+            <p
+              className="text-[1.05rem] text-white/75 max-w-[360px] mx-auto mb-[1.6rem] leading-[1.75]"
+              style={{ textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
+            >
               Si además quieres tener un detalle con nosotros, puedes hacerlo
               por Zelle:
             </p>
@@ -1104,9 +1094,10 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                 maxWidth: 290,
                 margin: "0 auto",
                 textAlign: "center",
-                background: "var(--primary)",
-                border: `1.5px solid rgba(203,176,122,0.45)`,
-                boxShadow: `0 12px 56px rgba(106,16,35,0.28), 0 3px 12px rgba(0,0,0,0.15)`,
+                background: "rgba(42,26,29,0.34)",
+                backdropFilter: "blur(4px)",
+                border: `1.5px solid rgba(203,176,122,0.5)`,
+                boxShadow: `0 12px 56px rgba(0,0,0,0.28), 0 3px 12px rgba(0,0,0,0.15)`,
               }}
             >
               <p className="text-[0.48rem] uppercase tracking-[0.42em] text-white/70 mb-[0.8rem] font-sans">
@@ -1141,17 +1132,6 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               </p>
             </Card>
           </div>
-        </div>
-
-        {/* Foto — el balcón */}
-        <div
-          data-bot-anim
-          className="relative z-[1] mt-14 mx-auto w-full max-w-[380px] md:mt-[4rem] md:max-w-[420px]"
-        >
-          <FramedPhoto
-            src="/fotos/balcon.jpg"
-            alt="Juan y Cynthia riendo en el balcón"
-          />
         </div>
       </section>
 
