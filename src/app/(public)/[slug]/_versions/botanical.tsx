@@ -1063,7 +1063,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           alt="Juan y Cynthia riendo en el balcón"
           fill
           sizes="100vw"
-          className="object-cover z-0 object-[center_45%] md:object-[center_56%]"
+          className="object-cover z-0 origin-bottom scale-[1.3] object-[center_45%] md:object-[center_54%]"
         />
         <div
           aria-hidden
