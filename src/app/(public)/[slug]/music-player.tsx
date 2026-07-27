@@ -51,6 +51,43 @@ export default function MusicProvider({
     };
   }, []);
 
+  // iOS keeps an <audio> element playing when Safari goes to the background
+  // and surfaces it in Control Center like a music track. Pause as soon as the
+  // page stops being visible, and resume on return — but only if it was
+  // actually playing, so a visitor who muted it doesn't get it back.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const wasPlaying = { current: false };
+
+    const pauseForBackground = () => {
+      if (audio.paused) return;
+      wasPlaying.current = true;
+      audio.pause();
+    };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        pauseForBackground();
+        return;
+      }
+      if (wasPlaying.current) {
+        wasPlaying.current = false;
+        audio.play().catch(() => {});
+      }
+    };
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    // Safari fires this when navigating away or entering the bfcache, where
+    // visibilitychange isn't guaranteed to arrive.
+    window.addEventListener("pagehide", pauseForBackground);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      window.removeEventListener("pagehide", pauseForBackground);
+    };
+  }, []);
+
   // Meant to be called synchronously from within a user gesture (the
   // envelope tap) so the browser's autoplay policy allows it.
   const start = useCallback(() => {

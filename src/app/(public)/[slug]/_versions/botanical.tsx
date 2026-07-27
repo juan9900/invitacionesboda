@@ -783,7 +783,8 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           data-bot-cue
           className="absolute bottom-[28px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-[6px] z-[2] opacity-75"
         >
-          {/* Rama de rosa con hoja triangular en la punta */}
+          {/* Rama de rosa con hoja triangular en la punta — en blanco,
+              a juego con el texto "Desliza" */}
           <svg
             viewBox="0 0 26 82"
             className="w-[20px] h-[66px]"
@@ -793,28 +794,28 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             {/* Hoja lanceolada en la punta — apunta hacia arriba */}
             <path
               d="M13 1 C10 6, 5 14, 6 20 C7 26, 11 29, 13 30 C15 29, 19 26, 20 20 C21 14, 16 6, 13 1 Z"
-              fill={SAGE_SOFT}
-              stroke={SAGE}
+              fill="rgba(255,255,255,0.45)"
+              stroke="rgba(255,255,255,0.9)"
               strokeWidth="0.75"
               opacity="0.95"
             />
             <path
               d="M13 3 C13 12, 13 22, 13 29"
-              stroke={SAGE_DEEP}
+              stroke="rgba(255,255,255,0.75)"
               strokeWidth="0.38"
               opacity="0.55"
               strokeLinecap="round"
             />
             <path
               d="M13 10 C10 12, 7 13, 6 16"
-              stroke={SAGE_DEEP}
+              stroke="rgba(255,255,255,0.75)"
               strokeWidth="0.28"
               opacity="0.35"
               strokeLinecap="round"
             />
             <path
               d="M13 10 C16 12, 19 13, 20 16"
-              stroke={SAGE_DEEP}
+              stroke="rgba(255,255,255,0.75)"
               strokeWidth="0.28"
               opacity="0.35"
               strokeLinecap="round"
@@ -822,35 +823,35 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             {/* Tallo */}
             <path
               d="M13 29 C12.4 44, 13.6 60, 13 80"
-              stroke={SAGE_MID}
+              stroke="rgba(255,255,255,0.85)"
               strokeWidth="1.3"
               strokeLinecap="round"
             />
             {/* Hoja izquierda */}
             <path
               d="M12.5 46 C5 40, 2 35, 4 39 C6 43, 12.5 46 12.5 46Z"
-              fill={SAGE_SOFT}
-              stroke={SAGE}
+              fill="rgba(255,255,255,0.45)"
+              stroke="rgba(255,255,255,0.9)"
               strokeWidth="0.65"
               opacity="0.9"
             />
             <path
               d="M12.5 46 C7.5 42.5, 4 39, 4 39"
-              stroke={SAGE_DEEP}
+              stroke="rgba(255,255,255,0.75)"
               strokeWidth="0.32"
               opacity="0.5"
             />
             {/* Hoja derecha */}
             <path
               d="M13.5 63 C21 57, 24 52, 22 56 C20 60, 13.5 63 13.5 63Z"
-              fill={SAGE_SOFT}
-              stroke={SAGE}
+              fill="rgba(255,255,255,0.45)"
+              stroke="rgba(255,255,255,0.9)"
               strokeWidth="0.65"
               opacity="0.9"
             />
             <path
               d="M13.5 63 C18.5 59.5, 22 56, 22 56"
-              stroke={SAGE_DEEP}
+              stroke="rgba(255,255,255,0.75)"
               strokeWidth="0.32"
               opacity="0.5"
             />
@@ -971,13 +972,14 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           </p>
           <BranchDivider light />
           <p
-            className="font-serif italic text-[0.95rem] md:text-[1.05rem] text-white/85 leading-[1.7] max-w-[380px] mx-auto"
+            className="font-serif italic text-[0.95rem] md:text-[1.05rem] text-white/85 leading-[1.4] max-w-[380px] mx-auto"
             style={{ textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
           >
             <span className="block not-italic uppercase tracking-[0.32em] text-[0.5rem] text-white/60 mb-[0.5rem] font-sans">
               Nota
             </span>
-            Prescindir de blanco en todos sus tonos y cuello en V en mujeres.
+            Prescindir de blanco en todos sus tonos y<br />
+            cuello en V en mujeres.
           </p>
         </div>
       </section>
@@ -1075,6 +1077,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           alt="Juan y Cynthia riendo en el balcón"
           fill
           sizes="100vw"
+          quality={95}
           className="object-cover z-0 origin-bottom scale-[1.3] object-[center_45%] md:object-[center_54%]"
         />
         <div
