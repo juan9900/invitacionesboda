@@ -504,8 +504,15 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
     }
 
     const ctx = gsap.context(() => {
-      /* ── Entrance del hero ── */
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      /* ── Entrance del hero ──
+         La foto se ve sola durante HERO_TEXT_DELAY antes de que entre el
+         texto. Los tweens `from` fijan su estado inicial al crearse, así que
+         los elementos siguen ocultos durante la espera. */
+      const HERO_TEXT_DELAY = 0.6;
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.out" },
+        delay: HERO_TEXT_DELAY,
+      });
       tl.from(
         "[data-bot-names]",
         { opacity: 0, y: 30, filter: "blur(12px)", duration: 1.2 },
@@ -529,7 +536,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         yoyo: true,
         duration: 1.4,
         ease: "sine.inOut",
-        delay: tl.duration(),
+        delay: HERO_TEXT_DELAY + tl.duration(),
       });
 
       /* ── Scroll reveals ── */
@@ -675,7 +682,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           HERO
       ═══════════════════════════════════════════ */}
       <section
-        className="relative min-h-svh flex flex-col items-center justify-end text-center pt-[6rem] px-6 pb-[7.5rem] overflow-hidden bg-sage-deep [@media(max-height:720px)]:pb-[6rem] md:pb-[3vh] lg:pb-[4vh]"
+        className="relative min-h-svh flex flex-col items-center justify-end text-center pt-[6rem] px-6 pb-[6rem] overflow-hidden bg-sage-deep md:pb-[3vh] lg:pb-[4vh]"
       >
         {/* Foto de fondo */}
         <Image
@@ -1092,7 +1099,8 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               noCorners
               style={{
                 maxWidth: 290,
-                margin: "0 auto",
+                // Baja el panel para no partir la cara de Cynthia por la mitad
+                margin: "5rem auto 0",
                 textAlign: "center",
                 background: "rgba(42,26,29,0.38)",
                 backdropFilter: "none",
