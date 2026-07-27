@@ -505,30 +505,35 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
 
     const ctx = gsap.context(() => {
       /* ── Entrance del hero ──
-         La foto se ve sola durante HERO_TEXT_DELAY antes de que entre el
-         texto. Los tweens `from` fijan su estado inicial al crearse, así que
-         los elementos siguen ocultos durante la espera. */
-      const HERO_TEXT_DELAY = 0.6;
+         El sobre monta la invitación al tocarlo, pero el flash blanco la tapa
+         hasta ~FLASH_CLEAR. A partir de ahí la foto se ve sola durante
+         HERO_IMAGE_HOLD y luego el texto entra en cascada, cada bloque con su
+         propio fade + subida. Los tweens `from` fijan su estado inicial al
+         crearse, así que todo sigue oculto durante la espera. */
+      const FLASH_CLEAR = 1.2;
+      const HERO_IMAGE_HOLD = 1.5;
+      const HERO_TEXT_DELAY = FLASH_CLEAR + HERO_IMAGE_HOLD;
       const tl = gsap.timeline({
         defaults: { ease: "power3.out" },
         delay: HERO_TEXT_DELAY,
       });
-      tl.from(
-        "[data-bot-names]",
-        { opacity: 0, y: 30, filter: "blur(12px)", duration: 1.2 },
-        0,
-      )
+      tl.from("[data-bot-names]", {
+        opacity: 0,
+        y: 34,
+        filter: "blur(10px)",
+        duration: 1,
+      })
         .from(
           "[data-bot-honor]",
-          { opacity: 0, y: 30, duration: 1.1 },
-          0,
+          { opacity: 0, y: 28, duration: 0.9 },
+          ">-0.4",
         )
         .from(
           "[data-bot-guest]",
-          { opacity: 0, y: 30, stagger: 0.08, duration: 1.1 },
-          0,
+          { opacity: 0, y: 24, stagger: 0.25, duration: 0.85 },
+          ">-0.35",
         )
-        .from("[data-bot-cue]", { opacity: 0, duration: 0.9 }, 0);
+        .from("[data-bot-cue]", { opacity: 0, duration: 0.7 }, ">-0.2");
 
       gsap.to("[data-bot-cue]", {
         y: 10,

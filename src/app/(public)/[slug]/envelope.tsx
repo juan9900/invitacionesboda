@@ -8,9 +8,18 @@ import { useMusic } from "./music-player";
 // globals.css `.env-root.opening .env-envelope`).
 const CLOSE_DURATION_MS = 3000;
 
+// Well inside the window where the white flash covers the whole screen (it
+// hits full opacity around 800ms — 0.4s delay plus 25% of its 1.1s keyframe,
+// measured from the re-render that adds `.opening` — and holds it until
+// ~1.1s). The invitation stays invisible until then, otherwise it peeks
+// through the unfolding panels: the reveal has to happen behind the white,
+// never in front of it.
+const FLASH_COVER_MS = 900;
+
 export default function Envelope({ children }: { children: React.ReactNode }) {
   const [opening, setOpening] = useState(false);
   const [opened, setOpened] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   const [hidden, setHidden] = useState(false);
   const openingRef = useRef(false);
   const { start: startMusic } = useMusic();
@@ -48,6 +57,7 @@ export default function Envelope({ children }: { children: React.ReactNode }) {
 
     if (reduced) {
       setOpened(true);
+      setRevealed(true);
       setHidden(true);
       return;
     }
@@ -59,15 +69,23 @@ export default function Envelope({ children }: { children: React.ReactNode }) {
     setOpened(true);
 
     window.setTimeout(() => {
+      setRevealed(true);
+    }, FLASH_COVER_MS);
+
+    window.setTimeout(() => {
       setHidden(true);
     }, CLOSE_DURATION_MS);
   }
 
   return (
     <>
-      {/* Invitation content — mounts as the envelope starts opening so its
-          own reveal animation runs while the panels unfold and drift away. */}
-      {opened && children}
+      {/* Invitation content — mounts as the envelope starts opening (so the
+          layout and GSAP measurements are ready) but stays invisible until the
+          flash covers the screen. Opacity doesn't affect layout, and the
+          switch happens behind the white so it can't be seen. */}
+      {opened && (
+        <div style={{ opacity: revealed ? 1 : 0 }}>{children}</div>
+      )}
 
       {!hidden && (
         <section
