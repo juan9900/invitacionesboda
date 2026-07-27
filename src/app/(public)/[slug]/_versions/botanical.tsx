@@ -511,7 +511,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
          propio fade + subida. Los tweens `from` fijan su estado inicial al
          crearse, así que todo sigue oculto durante la espera. */
       const FLASH_CLEAR = 1.2;
-      const HERO_IMAGE_HOLD = 1.5;
+      const HERO_IMAGE_HOLD = 1.0;
       const HERO_TEXT_DELAY = FLASH_CLEAR + HERO_IMAGE_HOLD;
       const tl = gsap.timeline({
         defaults: { ease: "power3.out" },
@@ -696,7 +696,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           fill
           priority
           sizes="100vw"
-          className="object-cover z-0 origin-top scale-[1.15] object-[center_top] [@media(max-height:720px)]:scale-100 md:scale-100 md:object-[center_28%] lg:object-[center_25%]"
+          className="object-cover z-0 origin-bottom scale-[1.12] object-[center_bottom] md:scale-100 md:object-[center_28%] lg:object-[center_25%]"
         />
         {/* Velo oscuro para legibilidad */}
         <div
