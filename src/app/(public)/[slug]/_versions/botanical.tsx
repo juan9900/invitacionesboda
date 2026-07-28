@@ -781,7 +781,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         {/* Flecha desliza */}
         <div
           data-bot-cue
-          className="absolute bottom-[28px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-[6px] z-[2] opacity-75"
+          className="absolute top-[28px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-[6px] z-[2] opacity-75"
         >
           {/* Rama de rosa con hoja triangular en la punta — en blanco,
               a juego con el texto "Desliza" */}
