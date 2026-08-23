@@ -978,8 +978,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             <span className="block not-italic uppercase tracking-[0.32em] text-[0.5rem] text-white/60 mb-[0.5rem] font-sans">
               Nota
             </span>
-            Prescindir de blanco en todos sus tonos y<br />
-            cuello en V en mujeres.
+            Prescindir de blanco en todos sus tonos.
           </p>
         </div>
       </section>
