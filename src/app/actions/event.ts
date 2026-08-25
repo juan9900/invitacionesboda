@@ -25,6 +25,17 @@ const EventInput = z.object({
   ceremonia_lugar: requiredText,
   ceremonia_direccion: optionalText,
   ceremonia_mapa_url: optionalText,
+
+  fiesta_titulo: optionalText,
+  fiesta_fecha: z
+    .string()
+    .trim()
+    .transform((v) => (v === '' ? null : new Date(v).toISOString()))
+    .nullable(),
+  fiesta_lugar: optionalText,
+  fiesta_direccion: optionalText,
+  fiesta_mapa_url: optionalText,
+
   rsvp_deadline: datetime,
   mensaje_whatsapp_tpl_individual: requiredText,
   mensaje_whatsapp_tpl_pareja: requiredText,
@@ -42,6 +53,13 @@ export async function updateEvent(formData: FormData) {
     ceremonia_lugar: ceremoniaLugar,
     ceremonia_direccion: formData.get('ceremonia_direccion') ?? '',
     ceremonia_mapa_url: formData.get('ceremonia_mapa_url') ?? '',
+
+    fiesta_titulo: formData.get('fiesta_titulo') ?? '',
+    fiesta_fecha: formData.get('fiesta_fecha') ?? '',
+    fiesta_lugar: formData.get('fiesta_lugar') ?? '',
+    fiesta_direccion: formData.get('fiesta_direccion') ?? '',
+    fiesta_mapa_url: formData.get('fiesta_mapa_url') ?? '',
+
     rsvp_deadline: formData.get('rsvp_deadline') ?? '',
     mensaje_whatsapp_tpl_individual:
       formData.get('mensaje_whatsapp_tpl_individual') ?? '',

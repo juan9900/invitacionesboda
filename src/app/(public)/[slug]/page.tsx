@@ -47,6 +47,8 @@ export default async function InvitationPage({
     d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
       .replace(/\s?(AM|PM)$/i, (_, p) => ` ${p.toLowerCase()}`)
 
+  const fechaFiesta = event.fiesta_fecha ? new Date(event.fiesta_fecha) : null
+
   const dia     = fechaCeremonia.toLocaleDateString('es-ES', { day: '2-digit' })
   const mes     = fechaCeremonia.toLocaleDateString('es-ES', { month: 'long' }).toUpperCase()
   const anio    = String(fechaCeremonia.getFullYear()).slice(-2)
@@ -64,6 +66,13 @@ export default async function InvitationPage({
     ceremonia_fecha_iso:   event.ceremonia_fecha,
     ceremonia_direccion:   event.ceremonia_direccion ?? null,
     ceremonia_mapa_url:    event.ceremonia_mapa_url ?? null,
+
+    fiesta_titulo:         event.fiesta_titulo ?? null,
+    fiesta_lugar:          event.fiesta_lugar ?? null,
+    fiesta_direccion:      event.fiesta_direccion ?? null,
+    fiesta_mapa_url:       event.fiesta_mapa_url ?? null,
+    fiesta_hora:           fechaFiesta ? fmtHora(fechaFiesta) : null,
+    fiesta_fecha_larga:    fechaFiesta ? fmtFecha(fechaFiesta) : null,
 
     dia,
     mes,

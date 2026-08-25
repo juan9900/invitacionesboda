@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -59,7 +59,9 @@ function BranchDivider({ flip, light }: { flip?: boolean; light?: boolean }) {
   );
 
   return (
-    <div className={`flex items-center justify-center gap-[10px] my-8${flip ? " -scale-x-100" : ""}`}>
+    <div
+      className={`flex items-center justify-center gap-[10px] my-8${flip ? " -scale-x-100" : ""}`}
+    >
       <Branch />
       <Branch mirror />
     </div>
@@ -485,6 +487,7 @@ function Card({
 export default function BotanicalVersion({ data }: { data: InviteData }) {
   const root = useRef<HTMLDivElement>(null);
   const petalsRef = useRef<HTMLDivElement>(null);
+  const [metodoPago, setMetodoPago] = useState<"zelle" | "pago-movil">("zelle");
 
   useLayoutEffect(() => {
     // Remove the pre-hide class so gsap.from() reads the natural final opacity
@@ -523,11 +526,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         filter: "blur(10px)",
         duration: 1,
       })
-        .from(
-          "[data-bot-honor]",
-          { opacity: 0, y: 28, duration: 0.9 },
-          ">-0.4",
-        )
+        .from("[data-bot-honor]", { opacity: 0, y: 28, duration: 0.9 }, ">-0.4")
         .from(
           "[data-bot-guest]",
           { opacity: 0, y: 24, stagger: 0.25, duration: 0.85 },
@@ -637,11 +636,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               },
               "<",
             )
-            .to(
-              petal,
-              { opacity: 0, duration: 3, ease: "power2.in" },
-              `-=3`,
-            )
+            .to(petal, { opacity: 0, duration: 3, ease: "power2.in" }, `-=3`)
             .set(petal, { x: Math.random() * window.innerWidth, y: -50 });
         });
       }
@@ -686,9 +681,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       {/* ═══════════════════════════════════════════
           HERO
       ═══════════════════════════════════════════ */}
-      <section
-        className="relative min-h-svh flex flex-col items-center justify-end text-center pt-[6rem] px-6 pb-[6rem] overflow-hidden bg-sage-deep md:pb-[3vh] lg:pb-[4vh]"
-      >
+      <section className="relative min-h-svh flex flex-col items-center justify-end text-center pt-[6rem] px-6 pb-[6rem] overflow-hidden bg-sage-deep md:pb-[3vh] lg:pb-[4vh]">
         {/* Foto de fondo */}
         <Image
           src="/fotos/inicio.jpg"
@@ -717,7 +710,11 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           {Array.from({ length: PETAL_COUNT }, (_, i) => {
             const Svg = PETAL_SVGS[i % PETAL_SVGS.length];
             return (
-              <div key={i} data-bot-petal className="absolute top-0 left-0 will-change-transform">
+              <div
+                key={i}
+                data-bot-petal
+                className="absolute top-0 left-0 will-change-transform"
+              >
                 <Svg />
               </div>
             );
@@ -865,9 +862,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       {/* ═══════════════════════════════════════════
           FECHA + COUNTDOWN
       ═══════════════════════════════════════════ */}
-      <section
-        className="relative pt-[4rem] px-6 pb-[3.5rem] overflow-hidden bg-primary text-center md:pt-[5.5rem] md:pb-[5rem] lg:pt-[6.5rem] lg:pb-[6rem]"
-      >
+      <section className="relative pt-[4rem] px-6 pb-[3.5rem] overflow-hidden bg-primary text-center md:pt-[5.5rem] md:pb-[5rem] lg:pt-[6.5rem] lg:pb-[6rem]">
         <div className="relative z-[1]">
           <div className="max-w-[560px] md:max-w-[620px] mx-auto">
             <div className="flex items-center justify-center gap-[clamp(1rem,4vw,2.5rem)]">
@@ -1019,10 +1014,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               </p>
             )}
             <div className="h-px w-[80px] mx-auto my-[0.8rem] bg-white/35" />
-            <p
-              data-bot-mask
-              className="text-[0.9rem] text-white/75 mb-2"
-            >
+            <p data-bot-mask className="text-[0.9rem] text-white/75 mb-2">
               {data.fecha_larga}
             </p>
             <p
@@ -1052,6 +1044,55 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               >
                 Ver en el mapa
               </a>
+            )}
+            {data.fiesta_lugar && (
+              <>
+                <div className="h-px w-[80px] mx-auto my-[1.6rem] bg-white/35" />
+                <p className="text-[0.56rem] uppercase tracking-[0.46em] text-white/75 mb-[0.9rem] font-sans">
+                  {data.fiesta_titulo || "Recepción"}
+                </p>
+                <h2
+                  data-bot-mask
+                  className="font-serif italic text-[clamp(2rem,6vw,3.2rem)] text-white leading-[1.15] mb-[0.7rem]"
+                >
+                  {data.fiesta_lugar}
+                </h2>
+                {data.fiesta_direccion && (
+                  <p className="text-[0.82rem] text-white/70 mb-[0.4rem] leading-[1.65]">
+                    {data.fiesta_direccion}
+                  </p>
+                )}
+                {data.fiesta_hora && (
+                  <p
+                    data-bot-mask
+                    className="font-serif italic text-[clamp(1.5rem,4.5vw,2.1rem)] text-white mb-[1.4rem]"
+                  >
+                    a las {data.fiesta_hora}
+                  </p>
+                )}
+                {data.fiesta_mapa_url && (
+                  <a
+                    href={data.fiesta_mapa_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block text-white py-[0.58rem] px-8 text-[0.56rem] uppercase tracking-[0.32em] rounded-full no-underline font-sans transition-all duration-[250ms]"
+                    style={{
+                      border: `1.5px solid rgba(255,255,255,0.5)`,
+                      background: `rgba(255,255,255,0.1)`,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(255,255,255,0.22)";
+                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.8)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
+                    }}
+                  >
+                    Ver en el mapa
+                  </a>
+                )}
+              </>
             )}
           </Card>
         </div>
@@ -1086,18 +1127,47 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               Tu presencia es nuestro mayor regalo
             </h2>
             <p
-              className="text-[1.05rem] text-white/75 max-w-[360px] mx-auto mb-[1.6rem] leading-[1.75]"
+              className="text-[1.05rem] text-white/75 max-w-[360px] mx-auto mb-[1.6rem] leading-[1.75] mt-[3.6rem]"
               style={{ textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
             >
               Si además quieres tener un detalle con nosotros, puedes hacerlo
-              por Zelle:
+              por Zelle o Pago Móvil:
             </p>
+            <div
+              className="flex items-center justify-center gap-3"
+              style={{ textShadow: "0 1px 10px rgba(0,0,0,0.55)" }}
+            >
+              {(
+                [
+                  { key: "zelle", label: "Zelle" },
+                  { key: "pago-movil", label: "Pago Móvil" },
+                ] as const
+              ).map(({ key, label }) => {
+                const active = metodoPago === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setMetodoPago(key)}
+                    className="py-[0.5rem] px-6 text-[0.56rem] uppercase tracking-[0.28em] rounded-full font-sans transition-all duration-[250ms]"
+                    style={{
+                      border: `1.5px solid rgba(255,255,255,${active ? 0.9 : 0.4})`,
+                      background: active
+                        ? "rgba(255,255,255,0.18)"
+                        : "rgba(255,255,255,0.05)",
+                      color: active ? "#fff" : "rgba(255,255,255,0.7)",
+                    }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
             <Card
               noCorners
               style={{
                 maxWidth: 290,
-                // Baja el panel para no partir la cara de Cynthia por la mitad
-                margin: "5rem auto 0",
+                margin: "1.4rem auto 0",
                 textAlign: "center",
                 background: "rgba(42,26,29,0.38)",
                 backdropFilter: "none",
@@ -1106,37 +1176,95 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                 boxShadow: `0 12px 56px rgba(0,0,0,0.28), 0 3px 12px rgba(0,0,0,0.15)`,
               }}
             >
-              <p className="text-[0.48rem] uppercase tracking-[0.42em] text-white/70 mb-[0.8rem] font-sans">
-                Zelle
-              </p>
-              <p className="font-mono text-[0.74rem] text-white mb-[0.8rem] opacity-90">
-                correo-o-telefono@ejemplo.com
-              </p>
-              <div
-                className="h-px my-[0.8rem] opacity-60"
-                style={{
-                  background: `linear-gradient(to right, transparent, ${GOLD_SOFT}, transparent)`,
-                }}
-              />
-              <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
-                Titular
-              </p>
-              <p className="font-serif italic text-[1.05rem] text-white">
-                Nombre Apellido
-              </p>
-              <div
-                className="h-px my-[0.8rem] opacity-60"
-                style={{
-                  background: `linear-gradient(to right, transparent, ${GOLD_SOFT}, transparent)`,
-                }}
-              />
-              <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.5rem] font-sans">
-                Referencia
-              </p>
-              <p className="font-mono text-[0.7rem] text-white/85 leading-[1.7]">
-                Para: C&amp;J<br />De: [tu nombre]
-              </p>
+              <div className="flex flex-col justify-center min-h-[18.5rem]">
+                <p className="text-[0.48rem] uppercase tracking-[0.42em] text-white/70 mb-[0.9rem] font-sans">
+                  {metodoPago === "zelle" ? "Zelle" : "Pago Móvil"}
+                </p>
+
+                {metodoPago === "zelle" ? (
+                  <>
+                    <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
+                      Correo o teléfono
+                    </p>
+                    <p className="font-mono text-[0.8rem] text-white mb-[0.8rem]">
+                      Yemilgonzalez@hotmail.com
+                    </p>
+                    <div
+                      className="h-px my-[0.8rem] opacity-60"
+                      style={{
+                        background: `linear-gradient(to right, transparent, ${GOLD_SOFT}, transparent)`,
+                      }}
+                    />
+                    <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
+                      Titular
+                    </p>
+                    <p className="font-serif italic text-[1.05rem] text-white mb-[0.8rem]">
+                      Yemil González
+                    </p>
+                    <div
+                      className="h-px my-[0.8rem] opacity-60"
+                      style={{
+                        background: `linear-gradient(to right, transparent, ${GOLD_SOFT}, transparent)`,
+                      }}
+                    />
+                    <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
+                      Referencia
+                    </p>
+                    <p className="font-mono text-[0.8rem] text-white leading-[1.7]">
+                      Para: C&amp;J
+                      <br />
+                      De: [tu nombre]
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
+                      Banco
+                    </p>
+                    <p className="font-mono text-[0.8rem] text-white mb-[0.8rem]">
+                      BNC
+                    </p>
+                    <div
+                      className="h-px my-[0.8rem] opacity-60"
+                      style={{
+                        background: `linear-gradient(to right, transparent, ${GOLD_SOFT}, transparent)`,
+                      }}
+                    />
+                    <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
+                      Cédula
+                    </p>
+                    <p className="font-mono text-[0.8rem] text-white mb-[0.8rem]">
+                      28137184
+                    </p>
+                    <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
+                      Teléfono
+                    </p>
+                    <p className="font-mono text-[0.8rem] text-white mb-[0.8rem]">
+                      0424-6023604
+                    </p>
+                    <div
+                      className="h-px my-[0.8rem] opacity-60"
+                      style={{
+                        background: `linear-gradient(to right, transparent, ${GOLD_SOFT}, transparent)`,
+                      }}
+                    />
+                    <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
+                      Titular
+                    </p>
+                    <p className="font-serif italic text-[1.05rem] text-white">
+                      Juan Lauretta
+                    </p>
+                  </>
+                )}
+              </div>
             </Card>
+            <p
+              className="text-[0.8rem] text-white/70 max-w-[320px] mx-auto mt-[1.6rem] leading-[1.7]"
+              style={{ textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
+            >
+              Si prefieres aportar en efectivo, el día de la boda podrás
+              hacerlo.
+            </p>
           </div>
         </div>
       </section>
@@ -1195,7 +1323,10 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           }}
         />
         <div data-bot-anim className="relative z-[2]">
-          <p className="font-script text-[clamp(2.6rem,10vw,5rem)] lg:text-[6.5rem] text-white leading-none mb-3" style={{ textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}>
+          <p
+            className="font-script text-[clamp(2.6rem,10vw,5rem)] lg:text-[6.5rem] text-white leading-none mb-3"
+            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}
+          >
             ¡Nos vemos!
           </p>
           <p className="text-[0.62rem] uppercase tracking-[0.42em] text-white/80 font-sans">

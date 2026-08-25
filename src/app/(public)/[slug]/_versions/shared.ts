@@ -10,6 +10,13 @@ export type InviteData = {
   ceremonia_direccion: string | null
   ceremonia_mapa_url: string | null
 
+  fiesta_titulo: string | null
+  fiesta_lugar: string | null
+  fiesta_direccion: string | null
+  fiesta_mapa_url: string | null
+  fiesta_hora: string | null
+  fiesta_fecha_larga: string | null
+
   dia: string        // "15"
   mes: string        // "OCTUBRE"
   anio: string       // "2026"

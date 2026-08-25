@@ -61,6 +61,47 @@ export default async function EventoPage() {
 
         <fieldset className="rounded-lg border bg-white p-5">
           <legend className="px-2 text-sm font-semibold uppercase tracking-wider text-gray-700">
+            Fiesta
+          </legend>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Field
+              label="Título"
+              name="fiesta_titulo"
+              defaultValue={event.fiesta_titulo ?? ''}
+              placeholder="Ej: Recepción"
+            />
+            <Field
+              label="Lugar"
+              name="fiesta_lugar"
+              defaultValue={event.fiesta_lugar ?? ''}
+              placeholder="Ej: Salón Los Jardines"
+            />
+            <Field
+              label="Fecha y hora"
+              name="fiesta_fecha"
+              type="datetime-local"
+              defaultValue={toLocalInput(event.fiesta_fecha)}
+            />
+            <Field
+              label="Dirección"
+              name="fiesta_direccion"
+              defaultValue={event.fiesta_direccion ?? ''}
+              placeholder="Calle, número, ciudad"
+              className="md:col-span-2"
+            />
+            <Field
+              label="URL del mapa"
+              name="fiesta_mapa_url"
+              type="url"
+              defaultValue={event.fiesta_mapa_url ?? ''}
+              placeholder="https://maps.google.com/..."
+              className="md:col-span-2"
+            />
+          </div>
+        </fieldset>
+
+        <fieldset className="rounded-lg border bg-white p-5">
+          <legend className="px-2 text-sm font-semibold uppercase tracking-wider text-gray-700">
             RSVP
           </legend>
           <div className="grid gap-4 md:grid-cols-2">
