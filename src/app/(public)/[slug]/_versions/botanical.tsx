@@ -1083,12 +1083,16 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                       background: `rgba(255,255,255,0.1)`,
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(255,255,255,0.22)";
-                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.8)";
+                      e.currentTarget.style.background =
+                        "rgba(255,255,255,0.22)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(255,255,255,0.8)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
+                      e.currentTarget.style.background =
+                        "rgba(255,255,255,0.1)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(255,255,255,0.5)";
                     }}
                   >
                     Ver en el mapa
@@ -1333,7 +1337,8 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             ¡Nos vemos!
           </p>
           <p className="text-[0.62rem] uppercase tracking-[0.42em] text-white/80 font-sans">
-            C&amp;J · {data.fecha_larga}
+            C&amp;J · <br />
+            {data.fecha_larga}
           </p>
         </div>
       </section>
