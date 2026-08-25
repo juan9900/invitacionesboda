@@ -1337,8 +1337,9 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             ¡Nos vemos!
           </p>
           <p className="text-[0.62rem] uppercase tracking-[0.42em] text-white/80 font-sans">
-            C&amp;J · <br />
-            {data.fecha_larga}
+            C&amp;J
+            <br />
+            {data.fecha_larga.replace(/^[^,]+,\s*/, "")}
           </p>
         </div>
       </section>
