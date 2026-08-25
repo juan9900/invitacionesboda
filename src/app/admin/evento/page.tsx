@@ -3,12 +3,14 @@ import { updateEvent } from '@/app/actions/event'
 
 export const dynamic = 'force-dynamic'
 
+// Las fechas se guardan como "hora de reloj" fija en UTC (ver actions/event.ts),
+// así que las leemos con los métodos getUTC* para mostrar la misma hora tipeada.
 function toLocalInput(value: string | null): string {
   if (!value) return ''
   const d = new Date(value)
   if (Number.isNaN(d.getTime())) return ''
   const pad = (n: number) => String(n).padStart(2, '0')
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`
+  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}T${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`
 }
 
 export default async function EventoPage() {

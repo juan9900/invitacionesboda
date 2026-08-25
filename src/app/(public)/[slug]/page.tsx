@@ -36,23 +36,28 @@ export default async function InvitationPage({
   const deadlinePassed = new Date(event.rsvp_deadline) < new Date()
   const fechaCeremonia = new Date(event.ceremonia_fecha)
 
+  // ceremonia_fecha / fiesta_fecha se guardan como "hora de reloj" fija en
+  // UTC (ver actions/event.ts), así que siempre formateamos con timeZone:
+  // 'UTC' para que la hora mostrada sea siempre la hora tipeada en el admin,
+  // sin importar el huso horario del servidor ni del dispositivo del invitado.
   const fmtFecha = (d: Date) =>
     d.toLocaleDateString('es-ES', {
       weekday: 'long',
       day: 'numeric',
       month: 'long',
       year: 'numeric',
+      timeZone: 'UTC',
     })
   const fmtHora = (d: Date) =>
-    d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
+    d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'UTC' })
       .replace(/\s?(AM|PM)$/i, (_, p) => ` ${p.toLowerCase()}`)
 
   const fechaFiesta = event.fiesta_fecha ? new Date(event.fiesta_fecha) : null
 
-  const dia     = fechaCeremonia.toLocaleDateString('es-ES', { day: '2-digit' })
-  const mes     = fechaCeremonia.toLocaleDateString('es-ES', { month: 'long' }).toUpperCase()
-  const anio    = String(fechaCeremonia.getFullYear()).slice(-2)
-  const weekday = fechaCeremonia.toLocaleDateString('es-ES', { weekday: 'long' })
+  const dia     = fechaCeremonia.toLocaleDateString('es-ES', { day: '2-digit', timeZone: 'UTC' })
+  const mes     = fechaCeremonia.toLocaleDateString('es-ES', { month: 'long', timeZone: 'UTC' }).toUpperCase()
+  const anio    = String(fechaCeremonia.getUTCFullYear()).slice(-2)
+  const weekday = fechaCeremonia.toLocaleDateString('es-ES', { weekday: 'long', timeZone: 'UTC' })
   const hora    = fmtHora(fechaCeremonia)
 
   const data: InviteData = {

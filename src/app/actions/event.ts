@@ -13,11 +13,22 @@ const optionalText = z
 
 const requiredText = z.string().trim().min(1, 'Requerido')
 
+// Los inputs datetime-local no llevan zona horaria (ej: "2026-10-15T18:00").
+// Los interpretamos como "hora de reloj" fija en UTC para que la hora
+// guardada sea siempre exactamente la hora tipeada, sin importar en qué
+// huso corra el servidor.
+function localInputToUtcIso(v: string): string {
+  const [datePart, timePart] = v.split('T')
+  const [year, month, day] = datePart.split('-').map(Number)
+  const [hour, minute] = timePart.split(':').map(Number)
+  return new Date(Date.UTC(year, month - 1, day, hour, minute)).toISOString()
+}
+
 const datetime = z
   .string()
   .trim()
   .min(1, 'Requerido')
-  .transform((v) => new Date(v).toISOString())
+  .transform(localInputToUtcIso)
 
 const EventInput = z.object({
   ceremonia_titulo: requiredText,
@@ -30,7 +41,7 @@ const EventInput = z.object({
   fiesta_fecha: z
     .string()
     .trim()
-    .transform((v) => (v === '' ? null : new Date(v).toISOString()))
+    .transform((v) => (v === '' ? null : localInputToUtcIso(v)))
     .nullable(),
   fiesta_lugar: optionalText,
   fiesta_direccion: optionalText,
