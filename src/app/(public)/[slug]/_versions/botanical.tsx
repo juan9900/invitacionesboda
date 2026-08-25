@@ -1176,6 +1176,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                 textShadow: "0 1px 10px rgba(0,0,0,0.55)",
                 border: `1.5px solid rgba(203,176,122,0.5)`,
                 boxShadow: `0 12px 56px rgba(0,0,0,0.28), 0 3px 12px rgba(0,0,0,0.15)`,
+                padding: "clamp(2rem,5vw,3rem) 1rem",
               }}
             >
               <div className="flex flex-col justify-center min-h-[18.5rem]">
@@ -1188,7 +1189,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                     <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
                       Correo o teléfono
                     </p>
-                    <p className="font-mono text-[0.8rem] text-white mb-[0.8rem] break-all px-[0.5rem]">
+                    <p className="font-mono text-[0.75rem] text-white mb-[0.8rem] whitespace-nowrap">
                       Yemilgonzalez@hotmail.com
                     </p>
                     <div
