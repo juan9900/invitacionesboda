@@ -750,7 +750,9 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           className="font-serif italic font-light text-[clamp(1.35rem,4vw,2.1rem)] [@media(max-height:720px)]:text-[1.15rem] md:text-[1.6rem] lg:text-[1.8rem] text-white opacity-90 max-w-[400px] md:max-w-[540px] leading-[1.35] mb-[1.8rem] [@media(max-height:720px)]:mb-[1.1rem] md:mb-[0.9rem] relative z-[2]"
           style={{ textShadow: "0 1px 12px rgba(0,0,0,0.35)" }}
         >
-          Tenemos el honor de invitarles a la celebración de nuestro matrimonio
+          Tenemos el honor de invitar
+          {data.pases === 1 ? "te" : "les"} a la celebración de nuestro
+          matrimonio
         </h1>
 
         {/* Invitado */}
@@ -1186,7 +1188,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                     <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
                       Correo o teléfono
                     </p>
-                    <p className="font-mono text-[0.8rem] text-white mb-[0.8rem]">
+                    <p className="font-mono text-[0.8rem] text-white mb-[0.8rem] break-all px-[0.5rem]">
                       Yemilgonzalez@hotmail.com
                     </p>
                     <div
