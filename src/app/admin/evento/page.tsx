@@ -61,41 +61,6 @@ export default async function EventoPage() {
 
         <fieldset className="rounded-lg border bg-white p-5">
           <legend className="px-2 text-sm font-semibold uppercase tracking-wider text-gray-700">
-            Celebración / Fiesta (opcional)
-          </legend>
-          <div className="grid gap-4 md:grid-cols-2">
-            <Field
-              label="Lugar"
-              name="fiesta_lugar"
-              defaultValue={event.fiesta_lugar ?? ''}
-              placeholder="Ej: Salón de eventos"
-            />
-            <Field
-              label="Fecha y hora"
-              name="fiesta_fecha"
-              type="datetime-local"
-              defaultValue={toLocalInput(event.fiesta_fecha)}
-            />
-            <Field
-              label="Dirección"
-              name="fiesta_direccion"
-              defaultValue={event.fiesta_direccion ?? ''}
-              placeholder="Calle, número, ciudad"
-              className="md:col-span-2"
-            />
-            <Field
-              label="URL del mapa"
-              name="fiesta_mapa_url"
-              type="url"
-              defaultValue={event.fiesta_mapa_url ?? ''}
-              placeholder="https://maps.google.com/..."
-              className="md:col-span-2"
-            />
-          </div>
-        </fieldset>
-
-        <fieldset className="rounded-lg border bg-white p-5">
-          <legend className="px-2 text-sm font-semibold uppercase tracking-wider text-gray-700">
             RSVP
           </legend>
           <div className="grid gap-4 md:grid-cols-2">
@@ -114,20 +79,27 @@ export default async function EventoPage() {
             Plantillas de WhatsApp
           </legend>
           <p className="mb-3 text-xs text-gray-600">
-            Usa <code>{'{nombres}'}</code> y <code>{'{url}'}</code> como
+            El mensaje se elige solo según los pases del invitado. Usa{' '}
+            <code>{'{nombres}'}</code> y <code>{'{url}'}</code> como
             marcadores.
           </p>
           <div className="flex flex-col gap-4">
             <TextArea
-              label="Solo ceremonia"
-              name="mensaje_whatsapp_tpl_ceremonia"
-              defaultValue={event.mensaje_whatsapp_tpl_ceremonia}
+              label="Invitado individual (1 pase)"
+              name="mensaje_whatsapp_tpl_individual"
+              defaultValue={event.mensaje_whatsapp_tpl_individual}
               required
             />
             <TextArea
-              label="Ceremonia + fiesta"
-              name="mensaje_whatsapp_tpl_completo"
-              defaultValue={event.mensaje_whatsapp_tpl_completo}
+              label="Pareja (2 pases)"
+              name="mensaje_whatsapp_tpl_pareja"
+              defaultValue={event.mensaje_whatsapp_tpl_pareja}
+              required
+            />
+            <TextArea
+              label="Familia (3 o más pases)"
+              name="mensaje_whatsapp_tpl_familia"
+              defaultValue={event.mensaje_whatsapp_tpl_familia}
               required
             />
           </div>

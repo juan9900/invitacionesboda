@@ -16,9 +16,9 @@ export default async function ExitoPage({
   const supabase = createAdminClient()
   const { data: guest } = await supabase
     .from('guests')
-    .select('nombres, pases, incluye_fiesta')
+    .select('nombres, pases')
     .eq('slug', slug)
-    .maybeSingle<{ nombres: string; pases: number; incluye_fiesta: boolean }>()
+    .maybeSingle<{ nombres: string; pases: number }>()
 
   if (!guest) notFound()
 
@@ -37,8 +37,7 @@ export default async function ExitoPage({
         </div>
         <p className="text-sm text-green-900">
           <strong>{guest.nombres}</strong> · {guest.pases}{' '}
-          {guest.pases === 1 ? 'pase' : 'pases'} ·{' '}
-          {guest.incluye_fiesta ? 'Iglesia + fiesta' : 'Solo iglesia'}
+          {guest.pases === 1 ? 'pase' : 'pases'}
         </p>
       </div>
 

@@ -32,14 +32,6 @@ export default function NuevoInvitado() {
           type="tel"
           placeholder="+34..."
         />
-        <label className="flex items-center gap-2 text-sm text-gray-800">
-          <input
-            type="checkbox"
-            name="incluye_fiesta"
-            className="h-4 w-4 accent-gray-900"
-          />
-          <span>Incluye fiesta (no solo ceremonia)</span>
-        </label>
         <button
           type="submit"
           className="rounded bg-gray-900 px-4 py-2 font-medium text-white transition hover:bg-black"

@@ -743,7 +743,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             className="block font-script text-[clamp(.5rem,20vw,8rem)] [@media(max-height:720px)]:text-[3rem] md:text-[3.6rem] lg:text-[4.4rem] text-white leading-none tracking-[-0.01em] whitespace-nowrap"
             style={{ textShadow: "0 2px 32px rgba(0,0,0,0.4)" }}
           >
-            J&amp;C
+            C&amp;J
           </span>
         </div>
 
@@ -1054,16 +1054,6 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               </a>
             )}
           </Card>
-
-          {!data.incluye_fiesta && (
-            <p
-              data-bot-anim
-              className="font-serif italic text-sage-deep text-[clamp(1.1rem,3.5vw,1.5rem)] leading-[1.55] font-normal text-center max-w-[480px] mx-auto mt-8 opacity-80"
-            >
-              La ubicación de la fiesta se dará a conocer <br></br>durante la
-              ceremonia.
-            </p>
-          )}
         </div>
       </section>
 
@@ -1144,7 +1134,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                 Referencia
               </p>
               <p className="font-mono text-[0.7rem] text-white/85 leading-[1.7]">
-                Para: J&amp;C<br />De: [tu nombre]
+                Para: C&amp;J<br />De: [tu nombre]
               </p>
             </Card>
           </div>
@@ -1209,7 +1199,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             ¡Nos vemos!
           </p>
           <p className="text-[0.62rem] uppercase tracking-[0.42em] text-white/80 font-sans">
-            J&amp;C · {data.fecha_larga}
+            C&amp;J · {data.fecha_larga}
           </p>
         </div>
       </section>

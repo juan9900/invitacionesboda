@@ -1,25 +1,31 @@
 type Guest = {
   nombres: string
   telefono: string | null
+  pases: number
   slug: string
-  incluye_fiesta: boolean
 }
 
-type Templates = {
-  ceremonia: string
-  completo: string
+export type WhatsAppTemplates = {
+  mensaje_whatsapp_tpl_individual: string
+  mensaje_whatsapp_tpl_pareja: string
+  mensaje_whatsapp_tpl_familia: string
+}
+
+function pickTemplate(guest: Guest, templates: WhatsAppTemplates): string {
+  if (guest.pases === 1) return templates.mensaje_whatsapp_tpl_individual
+  if (guest.pases === 2) return templates.mensaje_whatsapp_tpl_pareja
+  return templates.mensaje_whatsapp_tpl_familia
 }
 
 export function buildWhatsAppLink(
   guest: Guest,
-  templates: Templates,
+  templates: WhatsAppTemplates,
   siteUrl: string,
 ): string | null {
   if (!guest.telefono) return null
 
-  const tpl = guest.incluye_fiesta ? templates.completo : templates.ceremonia
   const url = `${siteUrl.replace(/\/$/, '')}/${guest.slug}`
-  const mensaje = tpl
+  const mensaje = pickTemplate(guest, templates)
     .replace(/\{nombres\}/g, guest.nombres)
     .replace(/\{url\}/g, url)
 

@@ -12,7 +12,6 @@ type Guest = {
   nombres: string
   pases: number
   telefono: string | null
-  incluye_fiesta: boolean
   confirmado: boolean | null
   pases_confirmados: number | null
   confirmado_at: string | null
@@ -73,14 +72,6 @@ export default async function EditarInvitado({
             defaultValue={data.telefono ?? ''}
             placeholder="+34..."
           />
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="incluye_fiesta"
-              defaultChecked={data.incluye_fiesta}
-            />
-            <span>Incluye fiesta</span>
-          </label>
           <button
             type="submit"
             className="rounded bg-black px-4 py-2 text-white"

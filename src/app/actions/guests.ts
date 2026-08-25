@@ -16,7 +16,6 @@ const GuestInput = z.object({
     .or(z.literal(''))
     .transform((v) => (v === '' ? null : v))
     .nullable(),
-  incluye_fiesta: z.coerce.boolean(),
 })
 
 async function assertAdmin() {
@@ -29,7 +28,6 @@ export async function createGuest(formData: FormData) {
     nombres: formData.get('nombres'),
     pases: formData.get('pases'),
     telefono: formData.get('telefono') ?? '',
-    incluye_fiesta: formData.get('incluye_fiesta') === 'on',
   })
 
   const supabase = createAdminClient()
@@ -54,7 +52,6 @@ export async function updateGuest(id: string, formData: FormData) {
     nombres: formData.get('nombres'),
     pases: formData.get('pases'),
     telefono: formData.get('telefono') ?? '',
-    incluye_fiesta: formData.get('incluye_fiesta') === 'on',
   })
 
   const supabase = createAdminClient()
@@ -62,6 +59,14 @@ export async function updateGuest(id: string, formData: FormData) {
   if (error) throw error
   revalidatePath('/admin')
   revalidatePath(`/admin/${id}`)
+}
+
+export async function setEnviado(id: string, enviado: boolean) {
+  await assertAdmin()
+  const supabase = createAdminClient()
+  const { error } = await supabase.from('guests').update({ enviado }).eq('id', id)
+  if (error) throw error
+  revalidatePath('/admin')
 }
 
 export async function deleteGuest(id: string) {

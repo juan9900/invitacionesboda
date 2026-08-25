@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getEvent } from '@/lib/event'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
+import { EnviadoCheckbox } from '@/app/admin/_components/enviado-checkbox'
 
 type GuestRow = {
   id: string
@@ -9,10 +10,10 @@ type GuestRow = {
   nombres: string
   pases: number
   telefono: string | null
-  incluye_fiesta: boolean
   confirmado: boolean | null
   pases_confirmados: number | null
   confirmado_at: string | null
+  enviado: boolean
 }
 
 export const dynamic = 'force-dynamic'
@@ -23,7 +24,7 @@ export default async function AdminHome() {
     supabase
       .from('guests')
       .select(
-        'id, slug, nombres, pases, telefono, incluye_fiesta, confirmado, pases_confirmados, confirmado_at',
+        'id, slug, nombres, pases, telefono, confirmado, pases_confirmados, confirmado_at, enviado',
       )
       .order('created_at', { ascending: false }),
     getEvent(),
@@ -36,6 +37,7 @@ export default async function AdminHome() {
   const confirmadosSi = rows.filter((r) => r.confirmado === true)
   const confirmadosNo = rows.filter((r) => r.confirmado === false).length
   const pendientes = rows.filter((r) => r.confirmado === null).length
+  const enviados = rows.filter((r) => r.enviado).length
   const pasesConfirmados = confirmadosSi.reduce(
     (s, r) => s + (r.pases_confirmados ?? 0),
     0,
@@ -46,12 +48,13 @@ export default async function AdminHome() {
 
   return (
     <div className="flex flex-col gap-8">
-      <section className="grid grid-cols-2 gap-3 md:grid-cols-5">
+      <section className="grid grid-cols-2 gap-3 md:grid-cols-6">
         <Stat label="Invitados" value={totalInvitados} />
         <Stat label="Pases totales" value={totalPases} />
         <Stat label="Confirmados" value={confirmadosSi.length} tone="green" />
         <Stat label="Rechazados" value={confirmadosNo} tone="red" />
         <Stat label="Pendientes" value={pendientes} tone="amber" />
+        <Stat label="Enviados" value={enviados} />
       </section>
 
       <p className="text-sm text-gray-700">
@@ -65,8 +68,8 @@ export default async function AdminHome() {
             <tr>
               <th className="px-3 py-2">Nombres</th>
               <th className="px-3 py-2">Pases</th>
-              <th className="px-3 py-2">Versión</th>
               <th className="px-3 py-2">Estado</th>
+              <th className="px-3 py-2">Enviado</th>
               <th className="px-3 py-2">Link</th>
               <th className="px-3 py-2">WhatsApp</th>
               <th className="px-3 py-2"></th>
@@ -77,8 +80,12 @@ export default async function AdminHome() {
               const wa = buildWhatsAppLink(
                 g,
                 {
-                  ceremonia: event.mensaje_whatsapp_tpl_ceremonia,
-                  completo: event.mensaje_whatsapp_tpl_completo,
+                  mensaje_whatsapp_tpl_individual:
+                    event.mensaje_whatsapp_tpl_individual,
+                  mensaje_whatsapp_tpl_pareja:
+                    event.mensaje_whatsapp_tpl_pareja,
+                  mensaje_whatsapp_tpl_familia:
+                    event.mensaje_whatsapp_tpl_familia,
                 },
                 siteUrl,
               )
@@ -89,10 +96,10 @@ export default async function AdminHome() {
                     {g.pases_confirmados ?? '—'} / {g.pases}
                   </td>
                   <td className="px-3 py-2">
-                    {g.incluye_fiesta ? 'Iglesia + fiesta' : 'Solo iglesia'}
+                    <Estado v={g.confirmado} />
                   </td>
                   <td className="px-3 py-2">
-                    <Estado v={g.confirmado} />
+                    <EnviadoCheckbox id={g.id} defaultChecked={g.enviado} />
                   </td>
                   <td className="px-3 py-2">
                     <a

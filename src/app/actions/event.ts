@@ -19,33 +19,22 @@ const datetime = z
   .min(1, 'Requerido')
   .transform((v) => new Date(v).toISOString())
 
-const optionalDatetime = z
-  .string()
-  .trim()
-  .transform((v) => (v === '' ? null : new Date(v).toISOString()))
-  .nullable()
-
 const EventInput = z.object({
   ceremonia_titulo: requiredText,
   ceremonia_fecha: datetime,
   ceremonia_lugar: requiredText,
   ceremonia_direccion: optionalText,
   ceremonia_mapa_url: optionalText,
-  fiesta_titulo: optionalText,
-  fiesta_fecha: optionalDatetime,
-  fiesta_lugar: optionalText,
-  fiesta_direccion: optionalText,
-  fiesta_mapa_url: optionalText,
   rsvp_deadline: datetime,
-  mensaje_whatsapp_tpl_ceremonia: requiredText,
-  mensaje_whatsapp_tpl_completo: requiredText,
+  mensaje_whatsapp_tpl_individual: requiredText,
+  mensaje_whatsapp_tpl_pareja: requiredText,
+  mensaje_whatsapp_tpl_familia: requiredText,
 })
 
 export async function updateEvent(formData: FormData) {
   if (!(await isAdmin())) throw new Error('Unauthorized')
 
   const ceremoniaLugar = String(formData.get('ceremonia_lugar') ?? '')
-  const fiestaLugar = String(formData.get('fiesta_lugar') ?? '')
 
   const parsed = EventInput.parse({
     ceremonia_titulo: ceremoniaLugar,
@@ -53,16 +42,13 @@ export async function updateEvent(formData: FormData) {
     ceremonia_lugar: ceremoniaLugar,
     ceremonia_direccion: formData.get('ceremonia_direccion') ?? '',
     ceremonia_mapa_url: formData.get('ceremonia_mapa_url') ?? '',
-    fiesta_titulo: fiestaLugar,
-    fiesta_fecha: formData.get('fiesta_fecha') ?? '',
-    fiesta_lugar: fiestaLugar,
-    fiesta_direccion: formData.get('fiesta_direccion') ?? '',
-    fiesta_mapa_url: formData.get('fiesta_mapa_url') ?? '',
     rsvp_deadline: formData.get('rsvp_deadline') ?? '',
-    mensaje_whatsapp_tpl_ceremonia:
-      formData.get('mensaje_whatsapp_tpl_ceremonia') ?? '',
-    mensaje_whatsapp_tpl_completo:
-      formData.get('mensaje_whatsapp_tpl_completo') ?? '',
+    mensaje_whatsapp_tpl_individual:
+      formData.get('mensaje_whatsapp_tpl_individual') ?? '',
+    mensaje_whatsapp_tpl_pareja:
+      formData.get('mensaje_whatsapp_tpl_pareja') ?? '',
+    mensaje_whatsapp_tpl_familia:
+      formData.get('mensaje_whatsapp_tpl_familia') ?? '',
   })
 
   const supabase = createAdminClient()

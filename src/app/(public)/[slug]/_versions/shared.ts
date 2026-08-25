@@ -2,7 +2,6 @@ export type InviteData = {
   slug: string
   nombres: string
   pases: number
-  incluye_fiesta: boolean
   confirmado: boolean | null
   pases_confirmados: number | null
 

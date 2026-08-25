@@ -13,7 +13,6 @@ type Guest = {
   slug: string
   nombres: string
   pases: number
-  incluye_fiesta: boolean
   confirmado: boolean | null
   pases_confirmados: number | null
 }
@@ -27,9 +26,7 @@ export default async function InvitationPage({
   const supabase = await createClient()
   const { data: guest } = await supabase
     .from('guests')
-    .select(
-      'id, slug, nombres, pases, incluye_fiesta, confirmado, pases_confirmados',
-    )
+    .select('id, slug, nombres, pases, confirmado, pases_confirmados')
     .eq('slug', slug)
     .maybeSingle<Guest>()
 
@@ -60,7 +57,6 @@ export default async function InvitationPage({
     slug:                  guest.slug,
     nombres:               guest.nombres,
     pases:                 guest.pases,
-    incluye_fiesta:        guest.incluye_fiesta,
     confirmado:            guest.confirmado,
     pases_confirmados:     guest.pases_confirmados,
 
