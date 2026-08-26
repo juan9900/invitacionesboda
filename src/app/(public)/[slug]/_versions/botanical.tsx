@@ -745,21 +745,30 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           </span>
         </div>
 
-        {/* Invitación */}
-        <h1
-          data-bot-honor
-          className="font-serif italic font-light text-[clamp(1.35rem,4vw,2.1rem)] [@media(max-height:720px)]:text-[1.15rem] md:text-[1.6rem] lg:text-[1.8rem] text-white opacity-90 max-w-[400px] md:max-w-[540px] leading-[1.35] mb-[1.8rem] [@media(max-height:720px)]:mb-[1.1rem] md:mb-[0.9rem] relative z-[2]"
-          style={{ textShadow: "0 1px 12px rgba(0,0,0,0.35)" }}
-        >
-          Tenemos el honor de invitar
-          {data.pases === 1 ? "te" : "les"} a la celebración de nuestro
-          matrimonio
-        </h1>
+        {/* Invitación + Bendición de los padres */}
+        <div data-bot-honor className="max-w-[320px] md:max-w-[460px] mb-[1.1rem] relative z-[2]">
+          <p
+            className="text-[0.5rem] md:text-[0.56rem] uppercase tracking-[0.22em] text-white/70 font-sans mb-[0.35rem]"
+            style={{ textShadow: "0 1px 10px rgba(0,0,0,0.35)" }}
+          >
+            Tenemos el honor de invitar
+            {data.pases === 1 ? "te" : "les"} a la celebración de nuestro
+            matrimonio, con la bendición de Dios y de nuestros padres
+          </p>
+          <p
+            className="text-[1.05rem] md:text-[1.2rem] normal-case tracking-normal text-white/95 font-serif italic leading-[1.15]"
+            style={{ textShadow: "0 1px 10px rgba(0,0,0,0.35)" }}
+          >
+            Juan Lauretta &amp; Carmen Machado
+            <br />
+            Williams Rupilio &amp; Cynthia Ramatta
+          </p>
+        </div>
 
         {/* Invitado */}
         <p
           data-bot-guest
-          className="text-[0.56rem] uppercase tracking-[0.32em] text-white/80 mb-2 font-sans relative z-[2]"
+          className="text-[0.56rem] uppercase tracking-[0.32em] text-white/80 mb-2 mt-[1.6rem] md:mt-[2rem] font-sans relative z-[2]"
         >
           Para
         </p>
@@ -783,82 +792,83 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         {/* Flecha desliza */}
         <div
           data-bot-cue
-          className="absolute top-[28px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-[6px] z-[2] opacity-75"
+          className="absolute top-[28px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-[5px] z-[2]"
         >
           {/* Rama de rosa con hoja triangular en la punta — en blanco,
-              a juego con el texto "Desliza" */}
+              a juego con el texto "Desliza". Más pequeña que antes pero
+              con mayor opacidad/contraste para que sea más visible. */}
           <svg
             viewBox="0 0 26 82"
-            className="w-[20px] h-[66px]"
+            className="w-[14px] h-[46px]"
             fill="none"
             aria-hidden
+            style={{ filter: "drop-shadow(0 1px 6px rgba(0,0,0,0.5))" }}
           >
             {/* Hoja lanceolada en la punta — apunta hacia arriba */}
             <path
               d="M13 1 C10 6, 5 14, 6 20 C7 26, 11 29, 13 30 C15 29, 19 26, 20 20 C21 14, 16 6, 13 1 Z"
-              fill="rgba(255,255,255,0.45)"
-              stroke="rgba(255,255,255,0.9)"
-              strokeWidth="0.75"
-              opacity="0.95"
+              fill="rgba(255,255,255,0.65)"
+              stroke="rgba(255,255,255,1)"
+              strokeWidth="0.9"
             />
             <path
               d="M13 3 C13 12, 13 22, 13 29"
-              stroke="rgba(255,255,255,0.75)"
-              strokeWidth="0.38"
-              opacity="0.55"
+              stroke="rgba(255,255,255,0.9)"
+              strokeWidth="0.45"
               strokeLinecap="round"
             />
             <path
               d="M13 10 C10 12, 7 13, 6 16"
-              stroke="rgba(255,255,255,0.75)"
-              strokeWidth="0.28"
-              opacity="0.35"
+              stroke="rgba(255,255,255,0.9)"
+              strokeWidth="0.32"
+              opacity="0.6"
               strokeLinecap="round"
             />
             <path
               d="M13 10 C16 12, 19 13, 20 16"
-              stroke="rgba(255,255,255,0.75)"
-              strokeWidth="0.28"
-              opacity="0.35"
+              stroke="rgba(255,255,255,0.9)"
+              strokeWidth="0.32"
+              opacity="0.6"
               strokeLinecap="round"
             />
             {/* Tallo */}
             <path
               d="M13 29 C12.4 44, 13.6 60, 13 80"
-              stroke="rgba(255,255,255,0.85)"
-              strokeWidth="1.3"
+              stroke="rgba(255,255,255,1)"
+              strokeWidth="1.5"
               strokeLinecap="round"
             />
             {/* Hoja izquierda */}
             <path
               d="M12.5 46 C5 40, 2 35, 4 39 C6 43, 12.5 46 12.5 46Z"
-              fill="rgba(255,255,255,0.45)"
-              stroke="rgba(255,255,255,0.9)"
-              strokeWidth="0.65"
-              opacity="0.9"
+              fill="rgba(255,255,255,0.65)"
+              stroke="rgba(255,255,255,1)"
+              strokeWidth="0.75"
             />
             <path
               d="M12.5 46 C7.5 42.5, 4 39, 4 39"
-              stroke="rgba(255,255,255,0.75)"
-              strokeWidth="0.32"
-              opacity="0.5"
+              stroke="rgba(255,255,255,0.9)"
+              strokeWidth="0.36"
+              opacity="0.7"
             />
             {/* Hoja derecha */}
             <path
               d="M13.5 63 C21 57, 24 52, 22 56 C20 60, 13.5 63 13.5 63Z"
-              fill="rgba(255,255,255,0.45)"
-              stroke="rgba(255,255,255,0.9)"
-              strokeWidth="0.65"
-              opacity="0.9"
+              fill="rgba(255,255,255,0.65)"
+              stroke="rgba(255,255,255,1)"
+              strokeWidth="0.75"
             />
             <path
               d="M13.5 63 C18.5 59.5, 22 56, 22 56"
-              stroke="rgba(255,255,255,0.75)"
-              strokeWidth="0.32"
-              opacity="0.5"
+              stroke="rgba(255,255,255,0.9)"
+              strokeWidth="0.36"
+              opacity="0.7"
             />
           </svg>
-          <span className="text-[0.48rem] uppercase tracking-[0.42em] font-sans text-white/85">
+          <span
+            className="text-[0.5rem] uppercase tracking-[0.38em] font-sans font-medium text-white"
+            style={{ textShadow: "0 1px 6px rgba(0,0,0,0.55)" }}
+          >
             Desliza
           </span>
         </div>

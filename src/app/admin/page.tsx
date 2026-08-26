@@ -55,6 +55,12 @@ export default async function AdminHome() {
   const novias = activos.filter((r) => r.lado === 'novia')
   const pasesNovio = novios.reduce((s, r) => s + r.pases, 0)
   const pasesNovia = novias.reduce((s, r) => s + r.pases, 0)
+  const pasesConfirmadosNovio = confirmadosSi
+    .filter((r) => r.lado === 'novio')
+    .reduce((s, r) => s + (r.pases_confirmados ?? 0), 0)
+  const pasesConfirmadosNovia = confirmadosSi
+    .filter((r) => r.lado === 'novia')
+    .reduce((s, r) => s + (r.pases_confirmados ?? 0), 0)
 
   return (
     <div className="flex flex-col gap-8">
@@ -72,8 +78,9 @@ export default async function AdminHome() {
 
       <p className="text-sm text-gray-700">
         Pases confirmados: <strong>{pasesConfirmados}</strong> /{' '}
-        {totalPases} · Del novio: <strong>{pasesNovio}</strong> pases
-        {' '}· De la novia: <strong>{pasesNovia}</strong> pases
+        {totalPases} total general · Del novio:{' '}
+        <strong>{pasesConfirmadosNovio}</strong> / {pasesNovio} · De la
+        novia: <strong>{pasesConfirmadosNovia}</strong> / {pasesNovia}
       </p>
 
       <GuestsTable rows={rows} />

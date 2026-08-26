@@ -26,12 +26,6 @@ export default function TransmisionEnVivo({
 
       <div className="mx-auto my-4 h-px w-24 bg-gradient-to-r from-transparent via-[#cbb07a] to-transparent" />
 
-      <p className="text-sm text-[var(--ink)]/80">
-        Para poder transmitir en vivo desde YouTube necesitamos llegar a{" "}
-        <strong className="text-[var(--wine-deep)]">50 suscriptores</strong> en
-        el canal. Por favor, suscríbete para ayudarnos a lograrlo.
-      </p>
-
       <a
         href={YOUTUBE_CANAL}
         target="_blank"
