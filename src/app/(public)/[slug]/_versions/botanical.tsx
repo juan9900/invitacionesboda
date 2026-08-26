@@ -682,7 +682,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       {/* ═══════════════════════════════════════════
           HERO
       ═══════════════════════════════════════════ */}
-      <section className="relative min-h-svh flex flex-col items-center justify-end text-center pt-[6rem] px-6 pb-[6rem] overflow-hidden bg-sage-deep md:pb-[3vh] lg:pb-[4vh]">
+      <section className="relative min-h-svh flex flex-col items-center justify-end text-center pt-[6rem] px-6 pb-[4rem] overflow-hidden bg-sage-deep md:pb-[1.5vh] lg:pb-[2vh]">
         {/* Foto de fondo */}
         <Image
           src="/fotos/inicio.jpg"
@@ -756,7 +756,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             matrimonio, con la bendición de Dios y de nuestros padres
           </p>
           <p
-            className="text-[0.75rem] md:text-[0.85rem] normal-case tracking-normal text-white/95 font-serif italic leading-[1.15]"
+            className="text-[0.95rem] md:text-[1.05rem] normal-case tracking-normal text-white/95 font-serif italic leading-[1.15]"
             style={{ textShadow: "0 1px 10px rgba(0,0,0,0.35)" }}
           >
             Juan F. Lauretta &amp; Carmen Elena Machado
@@ -774,7 +774,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         </p>
         <p
           data-bot-guest
-          className="font-script text-[clamp(2.2rem,7.5vw,3.8rem)] [@media(max-height:720px)]:text-[1.8rem] md:text-[2.4rem] lg:text-[2.7rem] text-white leading-[1.1] mb-[0.4rem] relative z-[2]"
+          className="font-script text-[clamp(2rem,7vw,3.5rem)] [@media(max-height:720px)]:text-[1.65rem] md:text-[2.2rem] lg:text-[2.5rem] text-white leading-[1.1] mb-[0.4rem] relative z-[2]"
           style={{ textShadow: "0 1px 20px rgba(0,0,0,0.35)" }}
         >
           {data.nombres}
