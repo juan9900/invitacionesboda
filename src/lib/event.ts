@@ -19,6 +19,7 @@ export type Event = {
   mensaje_whatsapp_tpl_individual: string
   mensaje_whatsapp_tpl_pareja: string
   mensaje_whatsapp_tpl_familia: string
+  mensaje_whatsapp_tpl_cortesia: string
 }
 
 export async function getEvent(): Promise<Event> {

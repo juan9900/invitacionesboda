@@ -33,10 +33,11 @@ export async function submitRsvp(
 
   const { data: guest, error: gErr } = await supabase
     .from('guests')
-    .select('id, pases')
+    .select('id, pases, cortesia')
     .eq('slug', parsed.slug)
     .single()
   if (gErr || !guest) return { ok: false, error: 'Invitación no encontrada.' }
+  if (guest.cortesia) return { ok: false, error: 'Esta invitación no requiere confirmación.' }
 
   const confirmado = parsed.confirmado === 'si'
   const pases_confirmados = confirmado

@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { submitRsvp, type RsvpResult } from "@/app/actions/rsvp";
+import TransmisionEnVivo from "./transmision-en-vivo";
 
 export default function RsvpForm({
   slug,
@@ -24,23 +25,49 @@ export default function RsvpForm({
     RsvpResult | null,
     FormData
   >(submitRsvp, null);
+  const [editando, setEditando] = useState(false);
 
-  if (state?.ok) {
+  useEffect(() => {
+    if (state?.ok) setEditando(false);
+  }, [state]);
+
+  if (state?.ok && !editando) {
+    if (confirmado === "no") {
+      return (
+        <div className="flex flex-col gap-4 text-center">
+          <p className="font-serif text-2xl italic text-[var(--wine-deep)]">
+            Gracias por avisarnos
+          </p>
+          <TransmisionEnVivo pases={pases} />
+          <button
+            type="button"
+            onClick={() => setEditando(true)}
+            className="text-xs uppercase tracking-[0.2em] text-[var(--wine)] underline-offset-4 hover:underline"
+          >
+            Modificar respuesta
+          </button>
+        </div>
+      );
+    }
+    const pasesSinUsar = pases - pasesCount;
     return (
-      <div className="rounded-lg border border-[var(--wine)]/30 bg-white/70 p-6 text-center">
-        <p className="font-serif text-2xl italic text-[var(--wine-deep)]">
-          ¡Gracias!
-        </p>
-        <p className="mt-2 text-sm text-[var(--ink)]/80">
-          Tu respuesta se ha guardado.
-        </p>
-        <button
-          type="button"
-          onClick={() => window.location.reload()}
-          className="mt-3 text-xs uppercase tracking-[0.2em] text-[var(--wine)] underline-offset-4 hover:underline"
-        >
-          Modificar respuesta
-        </button>
+      <div className="flex flex-col gap-4 text-center">
+        <div className="rounded-lg border border-[var(--wine)]/30 bg-white/70 p-6 text-center">
+          <p className="font-serif text-2xl italic text-[var(--wine-deep)]">
+            ¡Gracias!
+          </p>
+          <p className="mt-2 text-sm text-[var(--ink)]/80">
+            Tu respuesta se ha guardado.
+          </p>
+          <button
+            type="button"
+            onClick={() => setEditando(true)}
+            className="mt-3 text-xs uppercase tracking-[0.2em] text-[var(--wine)] underline-offset-4 hover:underline"
+          >
+            Modificar respuesta
+          </button>
+        </div>
+        {pasesSinUsar > 0 && <TransmisionEnVivo parcial pases={pases} />}
       </div>
     );
   }
@@ -65,7 +92,9 @@ export default function RsvpForm({
             onChange={() => setConfirmado("si")}
             className="sr-only"
           />
-          <span className="block font-serif text-xl">Sí, asistiré</span>
+          <span className="block font-serif text-xl">
+            {pases > 1 ? "Sí, asistiremos" : "Sí, asistiré"}
+          </span>
           <span className="mt-1 block text-[10px] uppercase tracking-[0.25em] opacity-70">
             Con mucho gusto
           </span>
@@ -85,9 +114,11 @@ export default function RsvpForm({
             onChange={() => setConfirmado("no")}
             className="sr-only"
           />
-          <span className="block font-serif text-xl">No podré ir</span>
+          <span className="block font-serif text-xl">
+            {pases > 1 ? "No podremos asistir" : "No podré ir"}
+          </span>
           <span className="mt-1 block text-[10px] uppercase tracking-[0.25em] opacity-70">
-            Estaré en espíritu
+            {pases > 1 ? "Estaremos de corazón" : "Estaré de corazón"}
           </span>
         </label>
       </div>

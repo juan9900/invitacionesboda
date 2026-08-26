@@ -5,6 +5,7 @@ import {
   setRsvpManual,
   updateGuest,
 } from '@/app/actions/guests'
+import { PasesCortesiaFields } from '@/app/admin/_components/pases-cortesia-fields'
 
 type Guest = {
   id: string
@@ -15,6 +16,8 @@ type Guest = {
   confirmado: boolean | null
   pases_confirmados: number | null
   confirmado_at: string | null
+  lado: 'novio' | 'novia' | null
+  cortesia: boolean
 }
 
 export default async function EditarInvitado({
@@ -57,13 +60,11 @@ export default async function EditarInvitado({
         </p>
         <form action={onUpdate} className="flex flex-col gap-3">
           <Field label="Nombres" name="nombres" defaultValue={data.nombres} required />
-          <Field
-            label="Pases"
-            name="pases"
-            type="number"
-            defaultValue={data.pases}
-            min={1}
-            required
+          <PasesCortesiaFields
+            defaultPases={data.pases}
+            defaultCortesia={data.cortesia}
+            labelClassName="flex flex-col gap-1 text-sm"
+            inputClassName="rounded border border-gray-300 px-3 py-2"
           />
           <Field
             label="Teléfono"
@@ -72,6 +73,11 @@ export default async function EditarInvitado({
             defaultValue={data.telefono ?? ''}
             placeholder="+34..."
           />
+          <SelectField label="Lado" name="lado" defaultValue={data.lado ?? ''}>
+            <option value="">— Sin asignar —</option>
+            <option value="novio">Del novio</option>
+            <option value="novia">De la novia</option>
+          </SelectField>
           <button
             type="submit"
             className="rounded bg-black px-4 py-2 text-white"
@@ -92,45 +98,54 @@ export default async function EditarInvitado({
 
       <section>
         <h2 className="mb-4 text-lg font-semibold">Confirmación manual</h2>
-        <p className="mb-3 text-sm text-gray-600">
-          Estado actual:{' '}
-          {data.confirmado === true
-            ? `Confirmado (${data.pases_confirmados ?? 0} pases)`
-            : data.confirmado === false
-              ? 'Rechazó'
-              : 'Pendiente'}
-        </p>
-        <form action={onRsvp} className="flex flex-col gap-2 rounded border bg-white p-4">
-          <label className="flex items-center gap-2">
-            <input type="radio" name="confirmado" value="si" defaultChecked />
-            Marcar como confirmado
-          </label>
-          <label className="flex flex-col gap-1 pl-6 text-sm">
-            Pases confirmados (máx {data.pases})
-            <input
-              type="number"
-              name="pases_confirmados"
-              min={0}
-              max={data.pases}
-              defaultValue={data.pases_confirmados ?? data.pases}
-              className="rounded border border-gray-300 px-2 py-1"
-            />
-          </label>
-          <label className="flex items-center gap-2">
-            <input type="radio" name="confirmado" value="no" />
-            Marcar como rechazado
-          </label>
-          <label className="flex items-center gap-2">
-            <input type="radio" name="confirmado" value="reset" />
-            Devolver a pendiente
-          </label>
-          <button
-            type="submit"
-            className="mt-2 rounded bg-black px-4 py-2 text-white"
-          >
-            Aplicar
-          </button>
-        </form>
+        {data.cortesia ? (
+          <p className="text-sm text-gray-600">
+            Este invitado es de cortesía: no confirma asistencia ni cuenta en
+            los totales de pases.
+          </p>
+        ) : (
+          <>
+            <p className="mb-3 text-sm text-gray-600">
+              Estado actual:{' '}
+              {data.confirmado === true
+                ? `Confirmado (${data.pases_confirmados ?? 0} pases)`
+                : data.confirmado === false
+                  ? 'Rechazó'
+                  : 'Pendiente'}
+            </p>
+            <form action={onRsvp} className="flex flex-col gap-2 rounded border bg-white p-4">
+              <label className="flex items-center gap-2">
+                <input type="radio" name="confirmado" value="si" defaultChecked />
+                Marcar como confirmado
+              </label>
+              <label className="flex flex-col gap-1 pl-6 text-sm">
+                Pases confirmados (máx {data.pases})
+                <input
+                  type="number"
+                  name="pases_confirmados"
+                  min={0}
+                  max={data.pases}
+                  defaultValue={data.pases_confirmados ?? data.pases}
+                  className="rounded border border-gray-300 px-2 py-1"
+                />
+              </label>
+              <label className="flex items-center gap-2">
+                <input type="radio" name="confirmado" value="no" />
+                Marcar como rechazado
+              </label>
+              <label className="flex items-center gap-2">
+                <input type="radio" name="confirmado" value="reset" />
+                Devolver a pendiente
+              </label>
+              <button
+                type="submit"
+                className="mt-2 rounded bg-black px-4 py-2 text-white"
+              >
+                Aplicar
+              </button>
+            </form>
+          </>
+        )}
       </section>
     </div>
   )
@@ -147,6 +162,21 @@ function Field({
         {...rest}
         className="rounded border border-gray-300 px-3 py-2"
       />
+    </label>
+  )
+}
+
+function SelectField({
+  label,
+  children,
+  ...rest
+}: { label: string } & React.SelectHTMLAttributes<HTMLSelectElement>) {
+  return (
+    <label className="flex flex-col gap-1 text-sm">
+      <span>{label}</span>
+      <select {...rest} className="rounded border border-gray-300 px-3 py-2">
+        {children}
+      </select>
     </label>
   )
 }

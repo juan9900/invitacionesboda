@@ -4,6 +4,7 @@ export type InviteData = {
   pases: number
   confirmado: boolean | null
   pases_confirmados: number | null
+  cortesia: boolean
 
   ceremonia_lugar: string
   ceremonia_fecha_iso: string   // ISO string completo para el countdown
@@ -25,5 +26,6 @@ export type InviteData = {
   fecha_larga: string // "sábado, 15 de octubre de 2026"
 
   deadline_passed: boolean
+  rsvp_deadline_fecha_larga: string // "31 de octubre de 2026"
   quote: string
 }

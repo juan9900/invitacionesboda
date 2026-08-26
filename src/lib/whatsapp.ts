@@ -3,15 +3,18 @@ type Guest = {
   telefono: string | null
   pases: number
   slug: string
+  cortesia: boolean
 }
 
 export type WhatsAppTemplates = {
   mensaje_whatsapp_tpl_individual: string
   mensaje_whatsapp_tpl_pareja: string
   mensaje_whatsapp_tpl_familia: string
+  mensaje_whatsapp_tpl_cortesia: string
 }
 
 function pickTemplate(guest: Guest, templates: WhatsAppTemplates): string {
+  if (guest.cortesia) return templates.mensaje_whatsapp_tpl_cortesia
   if (guest.pases === 1) return templates.mensaje_whatsapp_tpl_individual
   if (guest.pases === 2) return templates.mensaje_whatsapp_tpl_pareja
   return templates.mensaje_whatsapp_tpl_familia

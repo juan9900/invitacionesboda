@@ -15,6 +15,7 @@ type Guest = {
   pases: number
   confirmado: boolean | null
   pases_confirmados: number | null
+  cortesia: boolean
 }
 
 export default async function InvitationPage({
@@ -26,7 +27,7 @@ export default async function InvitationPage({
   const supabase = await createClient()
   const { data: guest } = await supabase
     .from('guests')
-    .select('id, slug, nombres, pases, confirmado, pases_confirmados')
+    .select('id, slug, nombres, pases, confirmado, pases_confirmados, cortesia')
     .eq('slug', slug)
     .maybeSingle<Guest>()
 
@@ -66,6 +67,7 @@ export default async function InvitationPage({
     pases:                 guest.pases,
     confirmado:            guest.confirmado,
     pases_confirmados:     guest.pases_confirmados,
+    cortesia:              guest.cortesia,
 
     ceremonia_lugar:       event.ceremonia_lugar,
     ceremonia_fecha_iso:   event.ceremonia_fecha,
@@ -87,6 +89,10 @@ export default async function InvitationPage({
     fecha_larga:           fmtFecha(fechaCeremonia),
 
     deadline_passed:       deadlinePassed,
+    rsvp_deadline_fecha_larga: new Date(event.rsvp_deadline).toLocaleDateString(
+      'es-ES',
+      { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' },
+    ),
     quote: 'Y así, después de tantos caminos, elegimos uno solo: el nuestro.',
   }
 

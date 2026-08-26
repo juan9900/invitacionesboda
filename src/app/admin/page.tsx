@@ -1,20 +1,9 @@
-import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getEvent } from '@/lib/event'
 import { buildWhatsAppLink } from '@/lib/whatsapp'
-import { EnviadoCheckbox } from '@/app/admin/_components/enviado-checkbox'
+import { GuestsTable, type GuestRow } from '@/app/admin/_components/guests-table'
 
-type GuestRow = {
-  id: string
-  slug: string
-  nombres: string
-  pases: number
-  telefono: string | null
-  confirmado: boolean | null
-  pases_confirmados: number | null
-  confirmado_at: string | null
-  enviado: boolean
-}
+type GuestFromDb = Omit<GuestRow, 'waLink'> & { telefono: string | null }
 
 export const dynamic = 'force-dynamic'
 
@@ -24,135 +13,70 @@ export default async function AdminHome() {
     supabase
       .from('guests')
       .select(
-        'id, slug, nombres, pases, telefono, confirmado, pases_confirmados, confirmado_at, enviado',
+        'id, slug, nombres, pases, telefono, lado, confirmado, pases_confirmados, confirmado_at, enviado, created_at, cortesia',
       )
       .order('created_at', { ascending: false }),
     getEvent(),
   ])
 
-  const rows = (guests ?? []) as GuestRow[]
+  const guestRows = (guests ?? []) as GuestFromDb[]
 
-  const totalInvitados = rows.length
-  const totalPases = rows.reduce((s, r) => s + r.pases, 0)
-  const confirmadosSi = rows.filter((r) => r.confirmado === true)
-  const confirmadosNo = rows.filter((r) => r.confirmado === false).length
-  const pendientes = rows.filter((r) => r.confirmado === null).length
-  const enviados = rows.filter((r) => r.enviado).length
+  const rows: GuestRow[] = guestRows.map(({ telefono, ...g }) => ({
+    ...g,
+    waLink: buildWhatsAppLink(
+      { nombres: g.nombres, telefono, pases: g.pases, slug: g.slug, cortesia: g.cortesia },
+      {
+        mensaje_whatsapp_tpl_individual: event.mensaje_whatsapp_tpl_individual,
+        mensaje_whatsapp_tpl_pareja: event.mensaje_whatsapp_tpl_pareja,
+        mensaje_whatsapp_tpl_familia: event.mensaje_whatsapp_tpl_familia,
+        mensaje_whatsapp_tpl_cortesia: event.mensaje_whatsapp_tpl_cortesia,
+      },
+      process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+    ),
+  }))
+
+  // Los invitados de cortesía no confirman asistencia y no deben mezclarse
+  // con los totales de pases del evento.
+  const cortesia = rows.filter((r) => r.cortesia)
+  const activos = rows.filter((r) => !r.cortesia)
+
+  const totalInvitados = activos.length
+  const totalPases = activos.reduce((s, r) => s + r.pases, 0)
+  const confirmadosSi = activos.filter((r) => r.confirmado === true)
+  const confirmadosNo = activos.filter((r) => r.confirmado === false).length
+  const pendientes = activos.filter((r) => r.confirmado === null).length
+  const enviados = activos.filter((r) => r.enviado).length
   const pasesConfirmados = confirmadosSi.reduce(
     (s, r) => s + (r.pases_confirmados ?? 0),
     0,
   )
 
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+  const novios = activos.filter((r) => r.lado === 'novio')
+  const novias = activos.filter((r) => r.lado === 'novia')
+  const pasesNovio = novios.reduce((s, r) => s + r.pases, 0)
+  const pasesNovia = novias.reduce((s, r) => s + r.pases, 0)
 
   return (
     <div className="flex flex-col gap-8">
-      <section className="grid grid-cols-2 gap-3 md:grid-cols-6">
+      <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Invitados" value={totalInvitados} />
         <Stat label="Pases totales" value={totalPases} />
         <Stat label="Confirmados" value={confirmadosSi.length} tone="green" />
         <Stat label="Rechazados" value={confirmadosNo} tone="red" />
         <Stat label="Pendientes" value={pendientes} tone="amber" />
         <Stat label="Enviados" value={enviados} />
+        <Stat label="Del novio" value={novios.length} tone="blue" />
+        <Stat label="De la novia" value={novias.length} tone="pink" />
+        <Stat label="Cortesía" value={cortesia.length} />
       </section>
 
       <p className="text-sm text-gray-700">
         Pases confirmados: <strong>{pasesConfirmados}</strong> /{' '}
-        {totalPases}
+        {totalPases} · Del novio: <strong>{pasesNovio}</strong> pases
+        {' '}· De la novia: <strong>{pasesNovia}</strong> pases
       </p>
 
-      <div className="overflow-x-auto rounded-lg border bg-white">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-100 text-left">
-            <tr>
-              <th className="px-3 py-2">Nombres</th>
-              <th className="px-3 py-2">Pases</th>
-              <th className="px-3 py-2">Estado</th>
-              <th className="px-3 py-2">Enviado</th>
-              <th className="px-3 py-2">Link</th>
-              <th className="px-3 py-2">WhatsApp</th>
-              <th className="px-3 py-2"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((g) => {
-              const wa = buildWhatsAppLink(
-                g,
-                {
-                  mensaje_whatsapp_tpl_individual:
-                    event.mensaje_whatsapp_tpl_individual,
-                  mensaje_whatsapp_tpl_pareja:
-                    event.mensaje_whatsapp_tpl_pareja,
-                  mensaje_whatsapp_tpl_familia:
-                    event.mensaje_whatsapp_tpl_familia,
-                },
-                siteUrl,
-              )
-              return (
-                <tr key={g.id} className="border-t">
-                  <td className="px-3 py-2 font-medium">{g.nombres}</td>
-                  <td className="px-3 py-2">
-                    {g.pases_confirmados ?? '—'} / {g.pases}
-                  </td>
-                  <td className="px-3 py-2">
-                    <Estado v={g.confirmado} />
-                  </td>
-                  <td className="px-3 py-2">
-                    <EnviadoCheckbox id={g.id} defaultChecked={g.enviado} />
-                  </td>
-                  <td className="px-3 py-2">
-                    <a
-                      href={`/${g.slug}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-blue-700 underline"
-                    >
-                      /{g.slug}
-                    </a>
-                  </td>
-                  <td className="px-3 py-2">
-                    {wa ? (
-                      <a
-                        href={wa}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-green-700 underline"
-                      >
-                        Enviar
-                      </a>
-                    ) : (
-                      <span className="text-gray-400">sin tel.</span>
-                    )}
-                  </td>
-                  <td className="px-3 py-2">
-                    <Link
-                      href={`/admin/${g.id}`}
-                      className="text-gray-700 underline"
-                    >
-                      Editar
-                    </Link>
-                  </td>
-                </tr>
-              )
-            })}
-            {rows.length === 0 && (
-              <tr>
-                <td
-                  colSpan={7}
-                  className="px-3 py-8 text-center text-gray-500"
-                >
-                  Aún no hay invitados.{' '}
-                  <Link href="/admin/nuevo" className="underline">
-                    Crear el primero
-                  </Link>
-                  .
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <GuestsTable rows={rows} />
     </div>
   )
 }
@@ -164,7 +88,7 @@ function Stat({
 }: {
   label: string
   value: number
-  tone?: 'green' | 'red' | 'amber'
+  tone?: 'green' | 'red' | 'amber' | 'blue' | 'pink'
 }) {
   const toneCls =
     tone === 'green'
@@ -173,19 +97,15 @@ function Stat({
         ? 'text-red-700'
         : tone === 'amber'
           ? 'text-amber-700'
-          : 'text-gray-900'
+          : tone === 'blue'
+            ? 'text-blue-700'
+            : tone === 'pink'
+              ? 'text-pink-700'
+              : 'text-gray-900'
   return (
     <div className="rounded-lg border bg-white p-3">
       <p className="text-xs uppercase text-gray-500">{label}</p>
       <p className={`text-2xl font-semibold ${toneCls}`}>{value}</p>
     </div>
   )
-}
-
-function Estado({ v }: { v: boolean | null }) {
-  if (v === true)
-    return <span className="text-green-700">✓ Confirmado</span>
-  if (v === false)
-    return <span className="text-red-700">✗ Rechazó</span>
-  return <span className="text-amber-700">Pendiente</span>
 }

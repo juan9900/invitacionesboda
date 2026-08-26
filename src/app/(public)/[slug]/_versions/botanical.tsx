@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Countdown from "./countdown";
 import RsvpForm from "../rsvp-form";
+import TransmisionEnVivo from "../transmision-en-vivo";
 import type { InviteData } from "./shared";
 
 if (typeof window !== "undefined") {
@@ -769,13 +770,15 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         >
           {data.nombres}
         </p>
-        <p
-          data-bot-guest
-          className="text-[0.72rem] uppercase tracking-[0.32em] text-white opacity-90 font-sans relative z-[2]"
-          style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
-        >
-          {data.pases} {data.pases === 1 ? "pase" : "pases"}
-        </p>
+        {!data.cortesia && (
+          <p
+            data-bot-guest
+            className="text-[0.72rem] uppercase tracking-[0.32em] text-white opacity-90 font-sans relative z-[2]"
+            style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
+          >
+            {data.pases} {data.pases === 1 ? "pase" : "pases"}
+          </p>
+        )}
 
         {/* Flecha desliza */}
         <div
@@ -1008,7 +1011,17 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               data-bot-mask
               className="font-serif italic text-[clamp(2rem,6vw,3.2rem)] text-white leading-[1.15] mb-[0.7rem]"
             >
-              {data.ceremonia_lugar}
+              {(() => {
+                const match = data.ceremonia_lugar.match(/^(Bas[íi]lica)\s+(.*)$/i);
+                if (!match) return data.ceremonia_lugar;
+                const [, basilica, resto] = match;
+                return (
+                  <>
+                    <span className="block text-[0.5em]">{basilica}</span>
+                    {resto}
+                  </>
+                );
+              })()}
             </h2>
             {data.ceremonia_direccion && (
               <p className="text-[0.82rem] text-white/70 mb-[1.3rem] leading-[1.65]">
@@ -1023,7 +1036,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               data-bot-mask
               className="font-serif italic text-[clamp(1.5rem,4.5vw,2.1rem)] text-white mb-[1.4rem]"
             >
-              a las {data.hora}
+              {data.hora}
             </p>
             {data.ceremonia_mapa_url && (
               <a
@@ -1069,7 +1082,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                     data-bot-mask
                     className="font-serif italic text-[clamp(1.5rem,4.5vw,2.1rem)] text-white mb-[1.4rem]"
                   >
-                    a las {data.fiesta_hora}
+                    {data.fiesta_hora}
                   </p>
                 )}
                 {data.fiesta_mapa_url && (
@@ -1286,7 +1299,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         <div data-bot-anim className="relative z-[1]">
           <Card style={{ maxWidth: 540, margin: "0 auto", background: CREAM }}>
             <h2 className="text-center font-serif italic text-[clamp(1.9rem,5.5vw,2.8rem)] text-sage-deep mb-[0.6rem]">
-              ¿Nos acompañarás?
+              {data.cortesia ? "Nos harán falta" : "¿Nos acompañarás?"}
             </h2>
             <div
               className="h-px mx-auto mb-[1.6rem] w-[55%] opacity-[0.55]"
@@ -1294,17 +1307,34 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                 background: `linear-gradient(to right, transparent, ${GOLD_SOFT}, transparent)`,
               }}
             />
-            {data.deadline_passed ? (
+            {data.cortesia ? (
+              <>
+                <p className="text-center text-[0.8rem] text-ink/70 mb-5">
+                  Sabemos que la distancia no te permite acompañarnos en
+                  persona, pero queríamos que fueras parte de este día igual.
+                </p>
+                <TransmisionEnVivo pases={data.pases} />
+              </>
+            ) : data.deadline_passed ? (
               <p className="text-center italic text-ink opacity-[0.58]">
                 El plazo de confirmación ha terminado.
               </p>
             ) : (
-              <RsvpForm
-                slug={data.slug}
-                pases={data.pases}
-                confirmadoActual={data.confirmado}
-                pasesConfirmadosActual={data.pases_confirmados}
-              />
+              <>
+                <p className="text-center text-[0.8rem] text-ink/70 mb-5">
+                  Por favor confirma tu asistencia antes del{" "}
+                  <strong className="text-sage-deep">
+                    {data.rsvp_deadline_fecha_larga}
+                  </strong>
+                  .
+                </p>
+                <RsvpForm
+                  slug={data.slug}
+                  pases={data.pases}
+                  confirmadoActual={data.confirmado}
+                  pasesConfirmadosActual={data.pases_confirmados}
+                />
+              </>
             )}
           </Card>
         </div>

@@ -16,7 +16,28 @@ const GuestInput = z.object({
     .or(z.literal(''))
     .transform((v) => (v === '' ? null : v))
     .nullable(),
+  lado: z
+    .enum(['novio', 'novia'])
+    .or(z.literal(''))
+    .transform((v) => (v === '' ? null : v))
+    .nullable(),
+  cortesia: z.coerce.boolean(),
 })
+
+// Un invitado de cortesía no confirma asistencia ni tiene pases que contar:
+// siempre 1 pase fijo, sin estado de RSVP.
+function withCortesiaDefaults<T extends { pases: number; cortesia: boolean }>(
+  parsed: T,
+) {
+  if (!parsed.cortesia) return parsed
+  return {
+    ...parsed,
+    pases: 1,
+    confirmado: null,
+    pases_confirmados: null,
+    confirmado_at: null,
+  }
+}
 
 async function assertAdmin() {
   if (!(await isAdmin())) throw new Error('Unauthorized')
@@ -24,11 +45,15 @@ async function assertAdmin() {
 
 export async function createGuest(formData: FormData) {
   await assertAdmin()
-  const parsed = GuestInput.parse({
-    nombres: formData.get('nombres'),
-    pases: formData.get('pases'),
-    telefono: formData.get('telefono') ?? '',
-  })
+  const parsed = withCortesiaDefaults(
+    GuestInput.parse({
+      nombres: formData.get('nombres'),
+      pases: formData.get('pases'),
+      telefono: formData.get('telefono') ?? '',
+      lado: formData.get('lado') ?? '',
+      cortesia: formData.get('cortesia') ?? '',
+    }),
+  )
 
   const supabase = createAdminClient()
 
@@ -48,11 +73,15 @@ export async function createGuest(formData: FormData) {
 
 export async function updateGuest(id: string, formData: FormData) {
   await assertAdmin()
-  const parsed = GuestInput.parse({
-    nombres: formData.get('nombres'),
-    pases: formData.get('pases'),
-    telefono: formData.get('telefono') ?? '',
-  })
+  const parsed = withCortesiaDefaults(
+    GuestInput.parse({
+      nombres: formData.get('nombres'),
+      pases: formData.get('pases'),
+      telefono: formData.get('telefono') ?? '',
+      lado: formData.get('lado') ?? '',
+      cortesia: formData.get('cortesia') ?? '',
+    }),
+  )
 
   const supabase = createAdminClient()
   const { error } = await supabase.from('guests').update(parsed).eq('id', id)
@@ -90,6 +119,15 @@ export async function setRsvpManual(id: string, formData: FormData) {
   })
 
   const supabase = createAdminClient()
+
+  const { data: guest, error: gErr } = await supabase
+    .from('guests')
+    .select('cortesia')
+    .eq('id', id)
+    .single()
+  if (gErr) throw gErr
+  if (guest.cortesia) throw new Error('Un invitado de cortesía no confirma asistencia')
+
   let update: Record<string, unknown>
   if (parsed.confirmado === 'reset') {
     update = {

@@ -389,6 +389,23 @@ body {
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[fade-in_0\.4s_ease-out\] {
+    animation: none;
+  }
+}
+
 /* Flash — full-screen white flash as the envelope unfolds. A solid
    viewport-covering overlay (not a scaling gradient) so there's no risk of
    it under-covering the screen on any device. Rendered as a fixed sibling
