@@ -759,7 +759,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             className="text-[0.95rem] md:text-[1.05rem] normal-case tracking-normal text-white/95 font-serif italic leading-[1.15]"
             style={{ textShadow: "0 1px 10px rgba(0,0,0,0.35)" }}
           >
-            Juan Lauretta &amp; Carmen Machado
+            Juan Lauretta &amp; Carmen Elena Machado
             <br />
             Williams González &amp; Cynthia Ramatta
           </p>
