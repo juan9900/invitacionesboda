@@ -1,6 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getEvent } from '@/lib/event'
-import { buildWhatsAppLink } from '@/lib/whatsapp'
+import { buildMessage, buildWhatsAppLink } from '@/lib/whatsapp'
 import { GuestsTable, type GuestRow } from '@/app/admin/_components/guests-table'
 
 type GuestFromDb = Omit<GuestRow, 'waLink'> & { telefono: string | null }
@@ -21,17 +21,25 @@ export default async function AdminHome() {
 
   const guestRows = (guests ?? []) as GuestFromDb[]
 
+  const templates = {
+    mensaje_whatsapp_tpl_individual: event.mensaje_whatsapp_tpl_individual,
+    mensaje_whatsapp_tpl_pareja: event.mensaje_whatsapp_tpl_pareja,
+    mensaje_whatsapp_tpl_familia: event.mensaje_whatsapp_tpl_familia,
+    mensaje_whatsapp_tpl_cortesia: event.mensaje_whatsapp_tpl_cortesia,
+  }
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+
   const rows: GuestRow[] = guestRows.map(({ telefono, ...g }) => ({
     ...g,
     waLink: buildWhatsAppLink(
       { nombres: g.nombres, telefono, pases: g.pases, slug: g.slug, cortesia: g.cortesia },
-      {
-        mensaje_whatsapp_tpl_individual: event.mensaje_whatsapp_tpl_individual,
-        mensaje_whatsapp_tpl_pareja: event.mensaje_whatsapp_tpl_pareja,
-        mensaje_whatsapp_tpl_familia: event.mensaje_whatsapp_tpl_familia,
-        mensaje_whatsapp_tpl_cortesia: event.mensaje_whatsapp_tpl_cortesia,
-      },
-      process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+      templates,
+      siteUrl,
+    ),
+    mensaje: buildMessage(
+      { nombres: g.nombres, pases: g.pases, slug: g.slug, cortesia: g.cortesia },
+      templates,
+      siteUrl,
     ),
   }))
 

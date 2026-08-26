@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { EnviadoCheckbox } from '@/app/admin/_components/enviado-checkbox'
+import { CopyMessageButton } from '@/app/admin/_components/copy-message-button'
 
 export type GuestRow = {
   id: string
@@ -16,6 +17,7 @@ export type GuestRow = {
   enviado: boolean
   created_at: string
   waLink: string | null
+  mensaje: string
   cortesia: boolean
 }
 
@@ -175,7 +177,7 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
                     Enviar
                   </a>
                 ) : (
-                  <span className="text-gray-400">sin tel.</span>
+                  <CopyMessageButton mensaje={g.mensaje} />
                 )}
               </td>
               <td className="px-3 py-2">
