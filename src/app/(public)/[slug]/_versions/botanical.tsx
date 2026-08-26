@@ -756,12 +756,12 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             matrimonio, con la bendición de Dios y de nuestros padres
           </p>
           <p
-            className="text-[0.95rem] md:text-[1.05rem] normal-case tracking-normal text-white/95 font-serif italic leading-[1.15]"
+            className="text-[0.94rem] md:text-[1.04rem] normal-case tracking-normal text-white/95 font-serif italic leading-[1.15]"
             style={{ textShadow: "0 1px 10px rgba(0,0,0,0.35)" }}
           >
             Juan Lauretta &amp; Carmen Elena Machado
             <br />
-            Williams González &amp; Cynthia Ramatta
+            Williams Rupilio González &amp; Cynthia Ramatta
           </p>
         </div>
 
