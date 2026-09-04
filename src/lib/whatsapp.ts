@@ -1,9 +1,12 @@
+import type { Lang } from '@/lib/i18n'
+
 type Guest = {
   nombres: string
   telefono: string | null
   pases: number
   slug: string
   cortesia: boolean
+  idioma: Lang
 }
 
 export type WhatsAppTemplates = {
@@ -11,13 +14,23 @@ export type WhatsAppTemplates = {
   mensaje_whatsapp_tpl_pareja: string
   mensaje_whatsapp_tpl_familia: string
   mensaje_whatsapp_tpl_cortesia: string
+  mensaje_whatsapp_tpl_individual_en: string
+  mensaje_whatsapp_tpl_pareja_en: string
+  mensaje_whatsapp_tpl_familia_en: string
+  mensaje_whatsapp_tpl_cortesia_en: string
 }
 
 function pickTemplate(guest: Omit<Guest, 'telefono'>, templates: WhatsAppTemplates): string {
-  if (guest.cortesia) return templates.mensaje_whatsapp_tpl_cortesia
-  if (guest.pases === 1) return templates.mensaje_whatsapp_tpl_individual
-  if (guest.pases === 2) return templates.mensaje_whatsapp_tpl_pareja
-  return templates.mensaje_whatsapp_tpl_familia
+  const kind = guest.cortesia
+    ? 'cortesia'
+    : guest.pases === 1
+      ? 'individual'
+      : guest.pases === 2
+        ? 'pareja'
+        : 'familia'
+  const suffix = guest.idioma === 'en' ? '_en' : ''
+  const key = `mensaje_whatsapp_tpl_${kind}${suffix}` as keyof WhatsAppTemplates
+  return templates[key]
 }
 
 export function buildMessage(

@@ -8,6 +8,7 @@ import Countdown from "./countdown";
 import RsvpForm from "../rsvp-form";
 import TransmisionEnVivo from "../transmision-en-vivo";
 import type { InviteData } from "./shared";
+import { COPY } from "@/lib/i18n";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -486,6 +487,7 @@ function Card({
 /* ══════════════════════════════════════════════════════════════════ */
 
 export default function BotanicalVersion({ data }: { data: InviteData }) {
+  const t = COPY[data.lang];
   const root = useRef<HTMLDivElement>(null);
   const petalsRef = useRef<HTMLDivElement>(null);
   const [metodoPago, setMetodoPago] = useState<"zelle" | "pago-movil">("zelle");
@@ -666,11 +668,10 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
     return () => ctx.revert();
   }, []);
 
-  const quoteWords = data.quote.split(" ");
-
   return (
     <div
       ref={root}
+      lang={data.lang}
       className="gsap-init relative overflow-x-hidden bg-sage-pale font-serif text-ink"
     >
       {/* Overlay de grano (papel impreso) */}
@@ -686,7 +687,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         {/* Foto de fondo */}
         <Image
           src="/fotos/inicio.jpg"
-          alt="Juan y Cynthia"
+          alt={t.heroAlt}
           fill
           priority
           sizes="100vw"
@@ -751,9 +752,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             className="text-[0.5rem] md:text-[0.56rem] uppercase tracking-[0.22em] text-white/70 font-sans mb-[0.35rem]"
             style={{ textShadow: "0 1px 10px rgba(0,0,0,0.35)" }}
           >
-            Tenemos el honor de invitar
-            {data.pases === 1 ? "te" : "les"} a la celebración de nuestro
-            matrimonio, con la bendición de Dios y de nuestros padres
+            {t.honor(data.pases)}
           </p>
           <p
             className="text-[0.94rem] md:text-[1.04rem] normal-case tracking-normal text-white/95 font-serif italic leading-[1.15]"
@@ -770,7 +769,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           data-bot-guest
           className="text-[0.56rem] uppercase tracking-[0.32em] text-white/80 mb-2 mt-[1.6rem] md:mt-[2rem] font-sans relative z-[2]"
         >
-          Para
+          {t.for}
         </p>
         <p
           data-bot-guest
@@ -785,7 +784,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             className="text-[0.72rem] uppercase tracking-[0.32em] text-white opacity-90 font-sans relative z-[2]"
             style={{ textShadow: "0 1px 8px rgba(0,0,0,0.35)" }}
           >
-            {data.pases} {data.pases === 1 ? "pase" : "pases"}
+            {t.pases(data.pases)}
           </p>
         )}
 
@@ -869,7 +868,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             className="text-[0.5rem] uppercase tracking-[0.38em] font-sans font-medium text-white"
             style={{ textShadow: "0 1px 6px rgba(0,0,0,0.55)" }}
           >
-            Desliza
+            {t.slide}
           </span>
         </div>
       </section>
@@ -882,9 +881,9 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
           <div className="max-w-[560px] md:max-w-[620px] mx-auto">
             <div className="flex items-center justify-center gap-[clamp(1rem,4vw,2.5rem)]">
               {[
-                { label: "día", value: data.dia, large: true },
-                { label: "mes", value: data.mes, large: false },
-                { label: "año", value: data.anio, large: true },
+                { label: t.dia, value: data.dia, large: true },
+                { label: t.mes, value: data.mes, large: false },
+                { label: t.anio, value: data.anio, large: true },
               ].map(({ label, value, large }, i) => (
                 <div
                   key={label}
@@ -941,9 +940,13 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             <div className="h-px w-[60px] mx-auto my-[1.2rem] bg-white/20" />
 
             <p className="text-[0.53rem] uppercase tracking-[0.42em] text-white/65 mb-[1.4rem] font-sans">
-              Faltan
+              {t.faltan}
             </p>
-            <Countdown targetIso={data.ceremonia_fecha_iso} variant="primary" />
+            <Countdown
+              targetIso={data.ceremonia_fecha_iso}
+              variant="primary"
+              lang={data.lang}
+            />
           </div>
         </div>
       </section>
@@ -954,7 +957,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       <section className="relative min-h-[70svh] lg:min-h-[80svh] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden bg-sage-deep">
         <Image
           src="/fotos/beso.jpg"
-          alt="Juan y Cynthia besándose"
+          alt={t.besoAlt}
           fill
           sizes="100vw"
           className="object-cover z-0 object-[center_58%] md:object-[center_62%]"
@@ -972,13 +975,13 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             className="text-[0.5rem] uppercase tracking-[0.42em] text-white/70 font-sans mb-[0.7rem]"
             style={{ textShadow: "0 1px 10px rgba(0,0,0,0.4)" }}
           >
-            Código de vestimenta
+            {t.dressCode}
           </p>
           <p
             className="font-script text-[clamp(2.8rem,11vw,4.6rem)] lg:text-[5.5rem] text-white leading-none"
             style={{ textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}
           >
-            Formal
+            {t.formal}
           </p>
           <BranchDivider light />
           <p
@@ -986,9 +989,9 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             style={{ textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
           >
             <span className="block not-italic uppercase tracking-[0.32em] text-[0.5rem] text-white/60 mb-[0.5rem] font-sans">
-              Nota
+              {t.nota}
             </span>
-            Prescindir de blanco en todos sus tonos.
+            {t.dressCodeNota}
           </p>
         </div>
       </section>
@@ -1015,7 +1018,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             }}
           >
             <p className="text-[0.56rem] uppercase tracking-[0.46em] text-white/75 mb-[0.9rem] font-sans">
-              Ceremonia
+              {t.ceremonia}
             </p>
             <h2
               data-bot-mask
@@ -1067,14 +1070,14 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                   e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)";
                 }}
               >
-                Ver en el mapa
+                {t.verEnElMapa}
               </a>
             )}
             {data.fiesta_lugar && (
               <>
                 <div className="h-px w-[80px] mx-auto my-[1.6rem] bg-white/35" />
                 <p className="text-[0.56rem] uppercase tracking-[0.46em] text-white/75 mb-[0.9rem] font-sans">
-                  {data.fiesta_titulo || "Recepción"}
+                  {data.fiesta_titulo || t.recepcionFallback}
                 </p>
                 <h2
                   data-bot-mask
@@ -1133,7 +1136,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       <section className="relative min-h-[75svh] lg:min-h-[85svh] flex flex-col items-center justify-center py-20 px-6 overflow-hidden bg-sage-deep">
         <Image
           src="/fotos/balcon.jpg"
-          alt="Juan y Cynthia riendo en el balcón"
+          alt={t.balconAlt}
           fill
           sizes="100vw"
           quality={95}
@@ -1153,14 +1156,13 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               className="font-serif italic text-[clamp(1.9rem,5.5vw,2.8rem)] text-white mb-[0.7rem] leading-[1.05]"
               style={{ textShadow: "0 2px 20px rgba(0,0,0,0.4)" }}
             >
-              Tu presencia es nuestro mayor regalo
+              {t.regalosTitulo}
             </h2>
             <p
               className="text-[1.05rem] text-white/75 max-w-[360px] mx-auto mb-[1.6rem] leading-[1.75] mt-[3.6rem]"
               style={{ textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
             >
-              Si además quieres tener un detalle con nosotros, puedes hacerlo
-              por Zelle o Pago Móvil:
+              {t.regalosIntro}
             </p>
             <div
               className="flex items-center justify-center gap-3"
@@ -1168,8 +1170,8 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             >
               {(
                 [
-                  { key: "zelle", label: "Zelle" },
-                  { key: "pago-movil", label: "Pago Móvil" },
+                  { key: "zelle", label: t.zelle },
+                  { key: "pago-movil", label: t.pagoMovil },
                 ] as const
               ).map(({ key, label }) => {
                 const active = metodoPago === key;
@@ -1208,13 +1210,13 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             >
               <div className="flex flex-col justify-center min-h-[18.5rem]">
                 <p className="text-[0.48rem] uppercase tracking-[0.42em] text-white/70 mb-[0.9rem] font-sans">
-                  {metodoPago === "zelle" ? "Zelle" : "Pago Móvil"}
+                  {metodoPago === "zelle" ? t.zelle : t.pagoMovil}
                 </p>
 
                 {metodoPago === "zelle" ? (
                   <>
                     <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
-                      Correo o teléfono
+                      {t.correoOTelefono}
                     </p>
                     <p className="font-mono text-[0.75rem] text-white mb-[0.8rem] whitespace-nowrap">
                       Yemilgonzalez@hotmail.com
@@ -1226,7 +1228,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                       }}
                     />
                     <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
-                      Titular
+                      {t.titular}
                     </p>
                     <p className="font-serif italic text-[1.05rem] text-white mb-[0.8rem]">
                       Yemil González
@@ -1238,18 +1240,18 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                       }}
                     />
                     <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
-                      Referencia
+                      {t.referencia}
                     </p>
                     <p className="font-mono text-[0.8rem] text-white leading-[1.7]">
-                      Para: C&amp;J
+                      {t.para}: C&amp;J
                       <br />
-                      De: [tu nombre]
+                      {t.de}: {t.deTuNombre}
                     </p>
                   </>
                 ) : (
                   <>
                     <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
-                      Banco
+                      {t.banco}
                     </p>
                     <p className="font-mono text-[0.8rem] text-white mb-[0.8rem]">
                       BNC
@@ -1261,13 +1263,13 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                       }}
                     />
                     <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
-                      Cédula
+                      {t.cedula}
                     </p>
                     <p className="font-mono text-[0.8rem] text-white mb-[0.8rem]">
                       28137184
                     </p>
                     <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
-                      Teléfono
+                      {t.telefono}
                     </p>
                     <p className="font-mono text-[0.8rem] text-white mb-[0.8rem]">
                       0424-6023604
@@ -1279,7 +1281,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                       }}
                     />
                     <p className="text-[0.48rem] uppercase tracking-[0.28em] text-white/70 mb-[0.3rem] font-sans">
-                      Titular
+                      {t.titular}
                     </p>
                     <p className="font-serif italic text-[1.05rem] text-white">
                       Juan Lauretta
@@ -1292,8 +1294,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
               className="text-[0.8rem] text-white/70 max-w-[320px] mx-auto mt-[1.6rem] leading-[1.7]"
               style={{ textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
             >
-              Si prefieres aportar en efectivo, el día de la boda podrás
-              hacerlo.
+              {t.regalosEfectivo}
             </p>
           </div>
         </div>
@@ -1309,7 +1310,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
         <div data-bot-anim className="relative z-[1]">
           <Card style={{ maxWidth: 540, margin: "0 auto", background: CREAM }}>
             <h2 className="text-center font-serif italic text-[clamp(1.9rem,5.5vw,2.8rem)] text-sage-deep mb-[0.6rem]">
-              {data.cortesia ? "Nos harán falta" : "¿Nos acompañarás?"}
+              {data.cortesia ? t.rsvpTituloCortesia : t.rsvpTitulo}
             </h2>
             <div
               className="h-px mx-auto mb-[1.6rem] w-[55%] opacity-[0.55]"
@@ -1320,19 +1321,18 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             {data.cortesia ? (
               <>
                 <p className="text-center text-[0.8rem] text-ink/70 mb-5">
-                  Sabemos que la distancia no te permite acompañarnos en
-                  persona, pero queríamos que fueras parte de este día igual.
+                  {t.rsvpCortesiaTexto}
                 </p>
-                <TransmisionEnVivo pases={data.pases} />
+                <TransmisionEnVivo pases={data.pases} lang={data.lang} />
               </>
             ) : data.deadline_passed ? (
               <p className="text-center italic text-ink opacity-[0.58]">
-                El plazo de confirmación ha terminado.
+                {t.rsvpDeadlinePassed}
               </p>
             ) : (
               <>
                 <p className="text-center text-[0.8rem] text-ink/70 mb-5">
-                  Por favor confirma tu asistencia antes del{" "}
+                  {t.rsvpConfirmaAntes}{" "}
                   <strong className="text-sage-deep">
                     {data.rsvp_deadline_fecha_larga}
                   </strong>
@@ -1343,6 +1343,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
                   pases={data.pases}
                   confirmadoActual={data.confirmado}
                   pasesConfirmadosActual={data.pases_confirmados}
+                  lang={data.lang}
                 />
               </>
             )}
@@ -1356,7 +1357,7 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
       <section className="relative min-h-[70svh] lg:min-h-[80svh] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden bg-sage-deep">
         <Image
           src="/fotos/cierre.jpg"
-          alt="Juan y Cynthia"
+          alt={t.cierreAlt}
           fill
           sizes="100vw"
           className="object-cover z-0 md:object-[center_30%] lg:object-[center_28%]"
@@ -1374,12 +1375,12 @@ export default function BotanicalVersion({ data }: { data: InviteData }) {
             className="font-script text-[clamp(2.6rem,10vw,5rem)] lg:text-[6.5rem] text-white leading-none mb-3"
             style={{ textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}
           >
-            ¡Nos vemos!
+            {t.nosVemos}
           </p>
           <p className="text-[0.62rem] uppercase tracking-[0.42em] text-white/80 font-sans">
-            C&amp;J &bull; {data.fecha_larga.split(",")[0]},
+            C&amp;J &bull; {data.cierre_weekday},
             <br />
-            {data.fecha_larga.split(",")[1]?.trim()}
+            {data.cierre_fecha}
           </p>
         </div>
       </section>

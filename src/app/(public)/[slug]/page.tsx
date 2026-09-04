@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getEvent } from '@/lib/event'
+import { LOCALE, type Lang } from '@/lib/i18n'
 import Envelope from './envelope'
 import MusicProvider from './music-player'
 import BotanicalVersion from './_versions/botanical-client'
@@ -16,6 +17,7 @@ type Guest = {
   confirmado: boolean | null
   pases_confirmados: number | null
   cortesia: boolean
+  idioma: Lang
 }
 
 export default async function InvitationPage({
@@ -27,7 +29,7 @@ export default async function InvitationPage({
   const supabase = await createClient()
   const { data: guest } = await supabase
     .from('guests')
-    .select('id, slug, nombres, pases, confirmado, pases_confirmados, cortesia')
+    .select('id, slug, nombres, pases, confirmado, pases_confirmados, cortesia, idioma')
     .eq('slug', slug)
     .maybeSingle<Guest>()
 
@@ -36,13 +38,14 @@ export default async function InvitationPage({
   const event = await getEvent()
   const deadlinePassed = new Date(event.rsvp_deadline) < new Date()
   const fechaCeremonia = new Date(event.ceremonia_fecha)
+  const locale = LOCALE[guest.idioma]
 
   // ceremonia_fecha / fiesta_fecha se guardan como "hora de reloj" fija en
   // UTC (ver actions/event.ts), así que siempre formateamos con timeZone:
   // 'UTC' para que la hora mostrada sea siempre la hora tipeada en el admin,
   // sin importar el huso horario del servidor ni del dispositivo del invitado.
   const fmtFecha = (d: Date) =>
-    d.toLocaleDateString('es-ES', {
+    d.toLocaleDateString(locale, {
       weekday: 'long',
       day: 'numeric',
       month: 'long',
@@ -55,10 +58,10 @@ export default async function InvitationPage({
 
   const fechaFiesta = event.fiesta_fecha ? new Date(event.fiesta_fecha) : null
 
-  const dia     = fechaCeremonia.toLocaleDateString('es-ES', { day: '2-digit', timeZone: 'UTC' })
-  const mes     = fechaCeremonia.toLocaleDateString('es-ES', { month: 'long', timeZone: 'UTC' }).toUpperCase()
+  const dia     = fechaCeremonia.toLocaleDateString(locale, { day: '2-digit', timeZone: 'UTC' })
+  const mes     = fechaCeremonia.toLocaleDateString(locale, { month: 'long', timeZone: 'UTC' }).toUpperCase()
   const anio    = String(fechaCeremonia.getUTCFullYear()).slice(-2)
-  const weekday = fechaCeremonia.toLocaleDateString('es-ES', { weekday: 'long', timeZone: 'UTC' })
+  const weekday = fechaCeremonia.toLocaleDateString(locale, { weekday: 'long', timeZone: 'UTC' })
   const hora    = fmtHora(fechaCeremonia)
 
   const data: InviteData = {
@@ -68,6 +71,7 @@ export default async function InvitationPage({
     confirmado:            guest.confirmado,
     pases_confirmados:     guest.pases_confirmados,
     cortesia:              guest.cortesia,
+    lang:                  guest.idioma,
 
     ceremonia_lugar:       event.ceremonia_lugar,
     ceremonia_fecha_iso:   event.ceremonia_fecha,
@@ -88,17 +92,24 @@ export default async function InvitationPage({
     hora,
     fecha_larga:           fmtFecha(fechaCeremonia),
 
+    cierre_weekday: fechaCeremonia.toLocaleDateString(locale, { weekday: 'long', timeZone: 'UTC' }),
+    cierre_fecha: fechaCeremonia.toLocaleDateString(locale, {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }),
+
     deadline_passed:       deadlinePassed,
     rsvp_deadline_fecha_larga: new Date(event.rsvp_deadline).toLocaleDateString(
-      'es-ES',
+      locale,
       { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' },
     ),
-    quote: 'Y así, después de tantos caminos, elegimos uno solo: el nuestro.',
   }
 
   return (
-    <MusicProvider>
-      <Envelope>
+    <MusicProvider lang={guest.idioma}>
+      <Envelope lang={guest.idioma}>
         <BotanicalVersion data={data} />
       </Envelope>
     </MusicProvider>

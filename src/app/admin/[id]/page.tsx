@@ -18,6 +18,7 @@ type Guest = {
   confirmado_at: string | null
   lado: 'novio' | 'novia' | null
   cortesia: boolean
+  idioma: 'es' | 'en'
 }
 
 export default async function EditarInvitado({
@@ -77,6 +78,10 @@ export default async function EditarInvitado({
             <option value="">— Sin asignar —</option>
             <option value="novio">Del novio</option>
             <option value="novia">De la novia</option>
+          </SelectField>
+          <SelectField label="Idioma" name="idioma" defaultValue={data.idioma}>
+            <option value="es">Español</option>
+            <option value="en">English</option>
           </SelectField>
           <button
             type="submit"

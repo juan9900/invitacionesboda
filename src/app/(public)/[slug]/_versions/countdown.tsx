@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { COPY, type Lang } from '@/lib/i18n'
 
 type Time = { days: number; hours: number; minutes: number; seconds: number }
 
@@ -19,10 +20,13 @@ const pad = (n: number) => String(n).padStart(2, '0')
 export default function Countdown({
   targetIso,
   variant = 'luxe',
+  lang = 'es',
 }: {
   targetIso: string
   variant?: 'luxe' | 'editorial' | 'botanical' | 'primary'
+  lang?: Lang
 }) {
+  const t = COPY[lang]
   const [time, setTime] = useState<Time | null>(null)
 
   useEffect(() => {
@@ -36,10 +40,10 @@ export default function Countdown({
   }
 
   const units = [
-    { value: time.days, label: 'días' },
-    { value: time.hours, label: 'horas' },
-    { value: time.minutes, label: 'min' },
-    { value: time.seconds, label: 'seg' },
+    { value: time.days, label: t.countdownDias },
+    { value: time.hours, label: t.countdownHoras },
+    { value: time.minutes, label: t.countdownMin },
+    { value: time.seconds, label: t.countdownSeg },
   ]
 
   /* ─── LUXE ─── */

@@ -1,3 +1,5 @@
+import type { Lang } from '@/lib/i18n'
+
 export type InviteData = {
   slug: string
   nombres: string
@@ -5,6 +7,7 @@ export type InviteData = {
   confirmado: boolean | null
   pases_confirmados: number | null
   cortesia: boolean
+  lang: Lang
 
   ceremonia_lugar: string
   ceremonia_fecha_iso: string   // ISO string completo para el countdown
@@ -25,7 +28,9 @@ export type InviteData = {
   hora: string       // "11:00"
   fecha_larga: string // "sábado, 15 de octubre de 2026"
 
+  cierre_weekday: string // "sábado" / "Saturday" — para la sección de cierre
+  cierre_fecha: string   // "15 de octubre de 2026" / "October 15, 2026"
+
   deadline_passed: boolean
   rsvp_deadline_fecha_larga: string // "31 de octubre de 2026"
-  quote: string
 }

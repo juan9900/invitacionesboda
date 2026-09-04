@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useMusic } from "./music-player";
+import { COPY, type Lang } from "@/lib/i18n";
 
 // Total time the closing animation takes before the envelope can be
 // unmounted from the DOM: 1.9s delay + 1.1s envelopeOut keyframe (see
@@ -16,7 +17,14 @@ const CLOSE_DURATION_MS = 3000;
 // never in front of it.
 const FLASH_COVER_MS = 900;
 
-export default function Envelope({ children }: { children: React.ReactNode }) {
+export default function Envelope({
+  children,
+  lang,
+}: {
+  children: React.ReactNode;
+  lang: Lang;
+}) {
+  const t = COPY[lang];
   const [opening, setOpening] = useState(false);
   const [opened, setOpened] = useState(false);
   const [revealed, setRevealed] = useState(false);
@@ -91,7 +99,7 @@ export default function Envelope({ children }: { children: React.ReactNode }) {
         <section
           onClick={handleOpen}
           role="button"
-          aria-label="Toca para abrir tu invitación"
+          aria-label={t.abrirInvitacion}
           className={`env-root ${opening ? "opening" : ""}`}
         >
           <div className="env-stage">
@@ -107,7 +115,7 @@ export default function Envelope({ children }: { children: React.ReactNode }) {
                 <button
                   type="button"
                   className="env-seal"
-                  aria-label="Abrir sobre"
+                  aria-label={t.abrirSobre}
                   tabIndex={-1}
                 >
                   <svg
@@ -196,7 +204,7 @@ export default function Envelope({ children }: { children: React.ReactNode }) {
             }`}
           >
             <p className="font-serif italic text-[16px] tracking-[0.35em] uppercase text-secondary opacity-70">
-              · toca para abrir ·
+              · {t.tocaParaAbrir} ·
             </p>
           </div>
         </section>

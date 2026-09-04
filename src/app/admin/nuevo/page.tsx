@@ -31,6 +31,10 @@ export default function NuevoInvitado() {
           <option value="novio">Del novio</option>
           <option value="novia">De la novia</option>
         </SelectField>
+        <SelectField label="Idioma" name="idioma" defaultValue="es">
+          <option value="es">Español</option>
+          <option value="en">English</option>
+        </SelectField>
         <button
           type="submit"
           className="rounded bg-gray-900 px-4 py-2 font-medium text-white transition hover:bg-black"

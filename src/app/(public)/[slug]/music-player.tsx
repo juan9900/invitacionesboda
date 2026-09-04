@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { COPY, type Lang } from "@/lib/i18n";
 
 const SONG_URL = "/audio/air-on-the-g-string.mp3";
 
@@ -30,8 +31,10 @@ export function useMusic() {
 
 export default function MusicProvider({
   children,
+  lang,
 }: {
   children: React.ReactNode;
+  lang: Lang;
 }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const startedRef = useRef(false);
@@ -116,7 +119,9 @@ export default function MusicProvider({
     <MusicContext.Provider value={{ playing, started, start, toggle }}>
       <audio ref={audioRef} src={SONG_URL} loop preload="auto" />
       {children}
-      {started && <MusicToggleButton playing={playing} onToggle={toggle} />}
+      {started && (
+        <MusicToggleButton playing={playing} onToggle={toggle} lang={lang} />
+      )}
     </MusicContext.Provider>
   );
 }
@@ -124,15 +129,18 @@ export default function MusicProvider({
 function MusicToggleButton({
   playing,
   onToggle,
+  lang,
 }: {
   playing: boolean;
   onToggle: () => void;
+  lang: Lang;
 }) {
+  const t = COPY[lang];
   return (
     <button
       type="button"
       onClick={onToggle}
-      aria-label={playing ? "Silenciar música" : "Reproducir música"}
+      aria-label={playing ? t.silenciarMusica : t.reproducirMusica}
       className="music-toggle fixed bottom-6 right-6 z-[9998] flex h-12 w-12 items-center justify-center rounded-full bg-primary text-cream card-shadow transition-transform active:scale-95"
     >
       {playing ? (

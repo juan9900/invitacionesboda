@@ -122,29 +122,73 @@ export default async function EventoPage() {
             Plantillas de WhatsApp
           </legend>
           <p className="mb-3 text-xs text-gray-600">
-            El mensaje se elige solo según los pases del invitado. Usa{' '}
+            El mensaje se elige según los pases del invitado y su idioma. Usa{' '}
             <code>{'{nombres}'}</code> y <code>{'{url}'}</code> como
             marcadores.
           </p>
-          <div className="flex flex-col gap-4">
-            <TextArea
-              label="Invitado individual (1 pase)"
-              name="mensaje_whatsapp_tpl_individual"
-              defaultValue={event.mensaje_whatsapp_tpl_individual}
-              required
-            />
-            <TextArea
-              label="Pareja (2 pases)"
-              name="mensaje_whatsapp_tpl_pareja"
-              defaultValue={event.mensaje_whatsapp_tpl_pareja}
-              required
-            />
-            <TextArea
-              label="Familia (3 o más pases)"
-              name="mensaje_whatsapp_tpl_familia"
-              defaultValue={event.mensaje_whatsapp_tpl_familia}
-              required
-            />
+          <div className="flex flex-col gap-6">
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Español
+              </p>
+              <div className="flex flex-col gap-4">
+                <TextArea
+                  label="Invitado individual (1 pase)"
+                  name="mensaje_whatsapp_tpl_individual"
+                  defaultValue={event.mensaje_whatsapp_tpl_individual}
+                  required
+                />
+                <TextArea
+                  label="Pareja (2 pases)"
+                  name="mensaje_whatsapp_tpl_pareja"
+                  defaultValue={event.mensaje_whatsapp_tpl_pareja}
+                  required
+                />
+                <TextArea
+                  label="Familia (3 o más pases)"
+                  name="mensaje_whatsapp_tpl_familia"
+                  defaultValue={event.mensaje_whatsapp_tpl_familia}
+                  required
+                />
+                <TextArea
+                  label="Cortesía"
+                  name="mensaje_whatsapp_tpl_cortesia"
+                  defaultValue={event.mensaje_whatsapp_tpl_cortesia}
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                English
+              </p>
+              <div className="flex flex-col gap-4">
+                <TextArea
+                  label="Individual guest (1 pass)"
+                  name="mensaje_whatsapp_tpl_individual_en"
+                  defaultValue={event.mensaje_whatsapp_tpl_individual_en}
+                  required
+                />
+                <TextArea
+                  label="Couple (2 passes)"
+                  name="mensaje_whatsapp_tpl_pareja_en"
+                  defaultValue={event.mensaje_whatsapp_tpl_pareja_en}
+                  required
+                />
+                <TextArea
+                  label="Family (3+ passes)"
+                  name="mensaje_whatsapp_tpl_familia_en"
+                  defaultValue={event.mensaje_whatsapp_tpl_familia_en}
+                  required
+                />
+                <TextArea
+                  label="Courtesy"
+                  name="mensaje_whatsapp_tpl_cortesia_en"
+                  defaultValue={event.mensaje_whatsapp_tpl_cortesia_en}
+                  required
+                />
+              </div>
+            </div>
           </div>
         </fieldset>
 

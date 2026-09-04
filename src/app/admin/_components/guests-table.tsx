@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { EnviadoCheckbox } from '@/app/admin/_components/enviado-checkbox'
 import { CopyMessageButton } from '@/app/admin/_components/copy-message-button'
+import { IdiomaSelect } from '@/app/admin/_components/idioma-select'
 
 export type GuestRow = {
   id: string
@@ -19,6 +20,7 @@ export type GuestRow = {
   waLink: string | null
   mensaje: string
   cortesia: boolean
+  idioma: 'es' | 'en'
 }
 
 type SortKey =
@@ -27,6 +29,7 @@ type SortKey =
   | 'lado'
   | 'confirmado'
   | 'enviado'
+  | 'idioma'
   | 'created_at'
 
 type Sort = { key: SortKey; dir: 'asc' | 'desc' }
@@ -55,6 +58,8 @@ function compare(a: GuestRow, b: GuestRow, key: SortKey): number {
       return confirmadoRank(a.confirmado) - confirmadoRank(b.confirmado)
     case 'enviado':
       return Number(a.enviado) - Number(b.enviado)
+    case 'idioma':
+      return a.idioma.localeCompare(b.idioma)
     case 'created_at':
       return a.created_at.localeCompare(b.created_at)
   }
@@ -117,6 +122,12 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
               onSort={toggleSort}
             />
             <SortableHeader
+              label="Idioma"
+              sortKey="idioma"
+              sort={sort}
+              onSort={toggleSort}
+            />
+            <SortableHeader
               label="Estado"
               sortKey="confirmado"
               sort={sort}
@@ -149,6 +160,9 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
               </td>
               <td className="px-3 py-2">
                 <Lado v={g.lado} />
+              </td>
+              <td className="px-3 py-2">
+                <IdiomaSelect id={g.id} defaultValue={g.idioma} />
               </td>
               <td className="px-3 py-2">
                 <Estado v={g.confirmado} />
@@ -192,7 +206,7 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
           ))}
           {sorted.length === 0 && (
             <tr>
-              <td colSpan={8} className="px-3 py-8 text-center text-gray-500">
+              <td colSpan={9} className="px-3 py-8 text-center text-gray-500">
                 Aún no hay invitados.{' '}
                 <Link href="/admin/nuevo" className="underline">
                   Crear el primero

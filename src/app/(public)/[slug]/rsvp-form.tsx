@@ -3,18 +3,22 @@
 import { useActionState, useEffect, useState } from "react";
 import { submitRsvp, type RsvpResult } from "@/app/actions/rsvp";
 import TransmisionEnVivo from "./transmision-en-vivo";
+import { COPY, type Lang } from "@/lib/i18n";
 
 export default function RsvpForm({
   slug,
   pases,
   confirmadoActual,
   pasesConfirmadosActual,
+  lang = "es",
 }: {
   slug: string;
   pases: number;
   confirmadoActual: boolean | null;
   pasesConfirmadosActual: number | null;
+  lang?: Lang;
 }) {
+  const t = COPY[lang];
   const [confirmado, setConfirmado] = useState<"si" | "no" | "">(
     confirmadoActual === true ? "si" : confirmadoActual === false ? "no" : "",
   );
@@ -36,15 +40,15 @@ export default function RsvpForm({
       return (
         <div className="flex flex-col gap-4 text-center">
           <p className="font-serif text-2xl italic text-[var(--wine-deep)]">
-            Gracias por avisarnos
+            {t.rsvpGraciasAvisar}
           </p>
-          <TransmisionEnVivo pases={pases} />
+          <TransmisionEnVivo pases={pases} lang={lang} />
           <button
             type="button"
             onClick={() => setEditando(true)}
             className="text-xs uppercase tracking-[0.2em] text-[var(--wine)] underline-offset-4 hover:underline"
           >
-            Modificar respuesta
+            {t.rsvpModificar}
           </button>
         </div>
       );
@@ -54,20 +58,22 @@ export default function RsvpForm({
       <div className="flex flex-col gap-4 text-center">
         <div className="rounded-lg border border-[var(--wine)]/30 bg-white/70 p-6 text-center">
           <p className="font-serif text-2xl italic text-[var(--wine-deep)]">
-            ¡Gracias!
+            {t.rsvpGracias}
           </p>
           <p className="mt-2 text-sm text-[var(--ink)]/80">
-            Tu respuesta se ha guardado.
+            {t.rsvpGuardado}
           </p>
           <button
             type="button"
             onClick={() => setEditando(true)}
             className="mt-3 text-xs uppercase tracking-[0.2em] text-[var(--wine)] underline-offset-4 hover:underline"
           >
-            Modificar respuesta
+            {t.rsvpModificar}
           </button>
         </div>
-        {pasesSinUsar > 0 && <TransmisionEnVivo parcial pases={pases} />}
+        {pasesSinUsar > 0 && (
+          <TransmisionEnVivo parcial pases={pases} lang={lang} />
+        )}
       </div>
     );
   }
@@ -93,10 +99,10 @@ export default function RsvpForm({
             className="sr-only"
           />
           <span className="block font-serif text-xl">
-            {pases > 1 ? "Sí, asistiremos" : "Sí, asistiré"}
+            {pases > 1 ? t.rsvpSiPlural : t.rsvpSiSingular}
           </span>
           <span className="mt-1 block text-[10px] uppercase tracking-[0.25em] opacity-70">
-            Con mucho gusto
+            {t.rsvpConGusto}
           </span>
         </label>
         <label
@@ -115,10 +121,10 @@ export default function RsvpForm({
             className="sr-only"
           />
           <span className="block font-serif text-xl">
-            {pases > 1 ? "No podremos asistir" : "No podré ir"}
+            {pases > 1 ? t.rsvpNoPlural : t.rsvpNoSingular}
           </span>
           <span className="mt-1 block text-[10px] uppercase tracking-[0.25em] opacity-70">
-            {pases > 1 ? "Estaremos de corazón" : "Estaré de corazón"}
+            {pases > 1 ? t.rsvpCorazonPlural : t.rsvpCorazonSingular}
           </span>
         </label>
       </div>
@@ -126,7 +132,7 @@ export default function RsvpForm({
       {confirmado === "si" && pases > 1 && (
         <label className="flex flex-col gap-2 text-sm text-[var(--ink)]">
           <span className="text-xs uppercase tracking-[0.25em] text-[var(--wine-deep)]">
-            ¿Cuántos pases serán usados? (máx {pases})
+            {t.rsvpCuantosPases(pases)}
           </span>
           <input
             type="number"
@@ -148,7 +154,7 @@ export default function RsvpForm({
         disabled={!confirmado || pending}
         className="rounded-full bg-[var(--wine)] px-6 py-3 text-sm uppercase tracking-[0.3em] text-white transition hover:bg-[var(--wine-deep)] disabled:opacity-40"
       >
-        {pending ? "Guardando…" : "Confirmar asistencia"}
+        {pending ? t.rsvpGuardando : t.rsvpConfirmar}
       </button>
 
       {state?.ok === false && (

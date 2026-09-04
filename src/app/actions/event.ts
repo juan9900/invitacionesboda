@@ -51,6 +51,11 @@ const EventInput = z.object({
   mensaje_whatsapp_tpl_individual: requiredText,
   mensaje_whatsapp_tpl_pareja: requiredText,
   mensaje_whatsapp_tpl_familia: requiredText,
+  mensaje_whatsapp_tpl_cortesia: requiredText,
+  mensaje_whatsapp_tpl_individual_en: requiredText,
+  mensaje_whatsapp_tpl_pareja_en: requiredText,
+  mensaje_whatsapp_tpl_familia_en: requiredText,
+  mensaje_whatsapp_tpl_cortesia_en: requiredText,
 })
 
 export async function updateEvent(formData: FormData) {
@@ -78,6 +83,16 @@ export async function updateEvent(formData: FormData) {
       formData.get('mensaje_whatsapp_tpl_pareja') ?? '',
     mensaje_whatsapp_tpl_familia:
       formData.get('mensaje_whatsapp_tpl_familia') ?? '',
+    mensaje_whatsapp_tpl_cortesia:
+      formData.get('mensaje_whatsapp_tpl_cortesia') ?? '',
+    mensaje_whatsapp_tpl_individual_en:
+      formData.get('mensaje_whatsapp_tpl_individual_en') ?? '',
+    mensaje_whatsapp_tpl_pareja_en:
+      formData.get('mensaje_whatsapp_tpl_pareja_en') ?? '',
+    mensaje_whatsapp_tpl_familia_en:
+      formData.get('mensaje_whatsapp_tpl_familia_en') ?? '',
+    mensaje_whatsapp_tpl_cortesia_en:
+      formData.get('mensaje_whatsapp_tpl_cortesia_en') ?? '',
   })
 
   const supabase = createAdminClient()

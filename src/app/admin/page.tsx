@@ -13,7 +13,7 @@ export default async function AdminHome() {
     supabase
       .from('guests')
       .select(
-        'id, slug, nombres, pases, telefono, lado, confirmado, pases_confirmados, confirmado_at, enviado, created_at, cortesia',
+        'id, slug, nombres, pases, telefono, lado, confirmado, pases_confirmados, confirmado_at, enviado, created_at, cortesia, idioma',
       )
       .order('created_at', { ascending: false }),
     getEvent(),
@@ -26,18 +26,22 @@ export default async function AdminHome() {
     mensaje_whatsapp_tpl_pareja: event.mensaje_whatsapp_tpl_pareja,
     mensaje_whatsapp_tpl_familia: event.mensaje_whatsapp_tpl_familia,
     mensaje_whatsapp_tpl_cortesia: event.mensaje_whatsapp_tpl_cortesia,
+    mensaje_whatsapp_tpl_individual_en: event.mensaje_whatsapp_tpl_individual_en,
+    mensaje_whatsapp_tpl_pareja_en: event.mensaje_whatsapp_tpl_pareja_en,
+    mensaje_whatsapp_tpl_familia_en: event.mensaje_whatsapp_tpl_familia_en,
+    mensaje_whatsapp_tpl_cortesia_en: event.mensaje_whatsapp_tpl_cortesia_en,
   }
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
   const rows: GuestRow[] = guestRows.map(({ telefono, ...g }) => ({
     ...g,
     waLink: buildWhatsAppLink(
-      { nombres: g.nombres, telefono, pases: g.pases, slug: g.slug, cortesia: g.cortesia },
+      { nombres: g.nombres, telefono, pases: g.pases, slug: g.slug, cortesia: g.cortesia, idioma: g.idioma },
       templates,
       siteUrl,
     ),
     mensaje: buildMessage(
-      { nombres: g.nombres, pases: g.pases, slug: g.slug, cortesia: g.cortesia },
+      { nombres: g.nombres, pases: g.pases, slug: g.slug, cortesia: g.cortesia, idioma: g.idioma },
       templates,
       siteUrl,
     ),
