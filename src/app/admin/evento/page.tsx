@@ -189,6 +189,37 @@ export default async function EventoPage() {
                 />
               </div>
             </div>
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Italiano
+              </p>
+              <div className="flex flex-col gap-4">
+                <TextArea
+                  label="Invitato singolo (1 posto)"
+                  name="mensaje_whatsapp_tpl_individual_it"
+                  defaultValue={event.mensaje_whatsapp_tpl_individual_it}
+                  required
+                />
+                <TextArea
+                  label="Coppia (2 posti)"
+                  name="mensaje_whatsapp_tpl_pareja_it"
+                  defaultValue={event.mensaje_whatsapp_tpl_pareja_it}
+                  required
+                />
+                <TextArea
+                  label="Famiglia (3+ posti)"
+                  name="mensaje_whatsapp_tpl_familia_it"
+                  defaultValue={event.mensaje_whatsapp_tpl_familia_it}
+                  required
+                />
+                <TextArea
+                  label="Cortesia"
+                  name="mensaje_whatsapp_tpl_cortesia_it"
+                  defaultValue={event.mensaje_whatsapp_tpl_cortesia_it}
+                  required
+                />
+              </div>
+            </div>
           </div>
         </fieldset>
 

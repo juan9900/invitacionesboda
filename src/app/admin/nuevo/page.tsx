@@ -34,6 +34,7 @@ export default function NuevoInvitado() {
         <SelectField label="Idioma" name="idioma" defaultValue="es">
           <option value="es">Español</option>
           <option value="en">English</option>
+          <option value="it">Italiano</option>
         </SelectField>
         <button
           type="submit"

@@ -22,7 +22,7 @@ const GuestInput = z.object({
     .transform((v) => (v === '' ? null : v))
     .nullable(),
   cortesia: z.coerce.boolean(),
-  idioma: z.enum(['es', 'en']),
+  idioma: z.enum(['es', 'en', 'it']),
 })
 
 // Un invitado de cortesía no confirma asistencia ni tiene pases que contar:
@@ -49,7 +49,7 @@ export async function createGuest(formData: FormData) {
   const parsed = withCortesiaDefaults(
     GuestInput.parse({
       nombres: formData.get('nombres'),
-      pases: formData.get('pases'),
+      pases: formData.get('pases') ?? '1',
       telefono: formData.get('telefono') ?? '',
       lado: formData.get('lado') ?? '',
       cortesia: formData.get('cortesia') ?? '',
@@ -78,7 +78,7 @@ export async function updateGuest(id: string, formData: FormData) {
   const parsed = withCortesiaDefaults(
     GuestInput.parse({
       nombres: formData.get('nombres'),
-      pases: formData.get('pases'),
+      pases: formData.get('pases') ?? '1',
       telefono: formData.get('telefono') ?? '',
       lado: formData.get('lado') ?? '',
       cortesia: formData.get('cortesia') ?? '',
@@ -101,7 +101,7 @@ export async function setEnviado(id: string, enviado: boolean) {
   revalidatePath('/admin')
 }
 
-export async function setIdioma(id: string, idioma: 'es' | 'en') {
+export async function setIdioma(id: string, idioma: 'es' | 'en' | 'it') {
   await assertAdmin()
   const supabase = createAdminClient()
   const { error } = await supabase.from('guests').update({ idioma }).eq('id', id)

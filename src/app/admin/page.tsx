@@ -30,6 +30,10 @@ export default async function AdminHome() {
     mensaje_whatsapp_tpl_pareja_en: event.mensaje_whatsapp_tpl_pareja_en,
     mensaje_whatsapp_tpl_familia_en: event.mensaje_whatsapp_tpl_familia_en,
     mensaje_whatsapp_tpl_cortesia_en: event.mensaje_whatsapp_tpl_cortesia_en,
+    mensaje_whatsapp_tpl_individual_it: event.mensaje_whatsapp_tpl_individual_it,
+    mensaje_whatsapp_tpl_pareja_it: event.mensaje_whatsapp_tpl_pareja_it,
+    mensaje_whatsapp_tpl_familia_it: event.mensaje_whatsapp_tpl_familia_it,
+    mensaje_whatsapp_tpl_cortesia_it: event.mensaje_whatsapp_tpl_cortesia_it,
   }
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 

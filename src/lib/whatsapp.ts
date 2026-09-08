@@ -18,6 +18,10 @@ export type WhatsAppTemplates = {
   mensaje_whatsapp_tpl_pareja_en: string
   mensaje_whatsapp_tpl_familia_en: string
   mensaje_whatsapp_tpl_cortesia_en: string
+  mensaje_whatsapp_tpl_individual_it: string
+  mensaje_whatsapp_tpl_pareja_it: string
+  mensaje_whatsapp_tpl_familia_it: string
+  mensaje_whatsapp_tpl_cortesia_it: string
 }
 
 function pickTemplate(guest: Omit<Guest, 'telefono'>, templates: WhatsAppTemplates): string {
@@ -28,7 +32,7 @@ function pickTemplate(guest: Omit<Guest, 'telefono'>, templates: WhatsAppTemplat
       : guest.pases === 2
         ? 'pareja'
         : 'familia'
-  const suffix = guest.idioma === 'en' ? '_en' : ''
+  const suffix = guest.idioma === 'es' ? '' : `_${guest.idioma}`
   const key = `mensaje_whatsapp_tpl_${kind}${suffix}` as keyof WhatsAppTemplates
   return templates[key]
 }

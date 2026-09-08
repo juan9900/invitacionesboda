@@ -8,7 +8,7 @@ export function IdiomaSelect({
   defaultValue,
 }: {
   id: string
-  defaultValue: 'es' | 'en'
+  defaultValue: 'es' | 'en' | 'it'
 }) {
   const [idioma, setIdiomaState] = useState(defaultValue)
   const [isPending, startTransition] = useTransition()
@@ -18,7 +18,7 @@ export function IdiomaSelect({
       value={idioma}
       disabled={isPending}
       onChange={(e) => {
-        const next = e.target.value as 'es' | 'en'
+        const next = e.target.value as 'es' | 'en' | 'it'
         const prev = idioma
         setIdiomaState(next)
         startTransition(async () => {
@@ -33,6 +33,7 @@ export function IdiomaSelect({
     >
       <option value="es">ES</option>
       <option value="en">EN</option>
+      <option value="it">IT</option>
     </select>
   )
 }

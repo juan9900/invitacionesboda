@@ -20,7 +20,7 @@ export type GuestRow = {
   waLink: string | null
   mensaje: string
   cortesia: boolean
-  idioma: 'es' | 'en'
+  idioma: 'es' | 'en' | 'it'
 }
 
 type SortKey =
@@ -165,7 +165,11 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
                 <IdiomaSelect id={g.id} defaultValue={g.idioma} />
               </td>
               <td className="px-3 py-2">
-                <Estado v={g.confirmado} />
+                {g.cortesia ? (
+                  <span className="text-gray-400">—</span>
+                ) : (
+                  <Estado v={g.confirmado} />
+                )}
               </td>
               <td className="px-3 py-2">
                 <EnviadoCheckbox id={g.id} defaultChecked={g.enviado} />

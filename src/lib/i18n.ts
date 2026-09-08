@@ -2,11 +2,12 @@
 // vienen de la tabla `event` (lugar, direcciones, títulos) NO viven acá:
 // se muestran igual en ambos idiomas.
 
-export type Lang = 'es' | 'en'
+export type Lang = 'es' | 'en' | 'it'
 
 export const LOCALE: Record<Lang, string> = {
   es: 'es-ES',
   en: 'en-US',
+  it: 'it-IT',
 }
 
 export const COPY = {
@@ -198,5 +199,100 @@ export const COPY = {
     invitacionNoEncontrada: 'Invitation not found',
     invitacionNoEncontradaTexto:
       'Please check the link or get in touch with the couple.',
+  },
+  it: {
+    slide: 'Scorri',
+    honor: (pases: number) =>
+      `Abbiamo l'onore di invitar${pases === 1 ? 'ti' : 'vi'} alla celebrazione del nostro matrimonio, con la benedizione di Dio e dei nostri genitori`,
+    for: 'Per',
+    pases: (n: number) => `${n} ${n === 1 ? 'invitato' : 'invitati'}`,
+
+    dia: 'giorno',
+    mes: 'mese',
+    anio: 'anno',
+    faltan: 'Mancano',
+    countdownDias: 'giorni',
+    countdownHoras: 'ore',
+    countdownMin: 'min',
+    countdownSeg: 'sec',
+
+    dressCode: 'Codice di abbigliamento',
+    formal: 'Formale',
+    nota: 'Nota',
+    dressCodeNota: 'Evitare il bianco in tutte le sue tonalità.',
+
+    ceremonia: 'Cerimonia',
+    verEnElMapa: 'Vedi sulla mappa',
+    recepcionFallback: 'Ricevimento',
+
+    regalosTitulo: 'La vostra presenza è il nostro regalo più grande',
+    regalosIntro:
+      'Se desiderate comunque farci un pensiero, potete farlo tramite Zelle o Pago Móvil:',
+    zelle: 'Zelle',
+    pagoMovil: 'Pago Móvil',
+    correoOTelefono: 'Email o telefono',
+    titular: 'Intestatario',
+    referencia: 'Riferimento',
+    para: 'A',
+    de: 'Da',
+    deTuNombre: '[il tuo nome]',
+    banco: 'Banca',
+    cedula: 'Documento',
+    telefono: 'Telefono',
+    regalosEfectivo:
+      'Se preferite contribuire in contanti, potrete farlo il giorno del matrimonio.',
+
+    rsvpTituloCortesia: 'Ci mancherete',
+    rsvpTitulo: 'Sarete con noi?',
+    rsvpCortesiaTexto:
+      'Sappiamo che la distanza non vi permette di accompagnarci di persona, ma volevamo che faceste comunque parte di questo giorno.',
+    rsvpDeadlinePassed: 'Il termine per confermare è scaduto.',
+    rsvpConfirmaAntes: 'Vi preghiamo di confermare la vostra presenza entro il',
+
+    nosVemos: 'Ci vediamo!',
+
+    heroAlt: 'Juan e Cynthia',
+    besoAlt: 'Juan e Cynthia che si baciano',
+    balconAlt: 'Juan e Cynthia che ridono sul balcone',
+    cierreAlt: 'Juan e Cynthia',
+
+    abrirInvitacion: 'Tocca per aprire il tuo invito',
+    abrirSobre: 'Apri la busta',
+    tocaParaAbrir: 'tocca per aprire',
+    silenciarMusica: 'Disattiva musica',
+    reproducirMusica: 'Riproduci musica',
+
+    rsvpGraciasAvisar: 'Grazie per averci avvisato',
+    rsvpModificar: 'Modifica risposta',
+    rsvpGracias: 'Grazie!',
+    rsvpGuardado: 'La tua risposta è stata salvata.',
+    rsvpSiPlural: 'Sì, ci saremo',
+    rsvpSiSingular: 'Sì, ci sarò',
+    rsvpConGusto: 'Con piacere',
+    rsvpNoPlural: 'Non potremo esserci',
+    rsvpNoSingular: 'Non potrò esserci',
+    rsvpCorazonPlural: 'Saremo con voi col cuore',
+    rsvpCorazonSingular: 'Sarò con voi col cuore',
+    rsvpCuantosPases: (max: number) =>
+      `Quanti invitati parteciperanno? (max ${max})`,
+    rsvpGuardando: 'Salvataggio…',
+    rsvpConfirmar: 'Conferma presenza',
+
+    transmisionLosEsperamos: 'Vi aspettiamo online',
+    transmisionTeEsperamos: 'Ti aspettiamo online',
+    transmisionNosHaranFalta: 'Ci mancherete',
+    transmisionParcial:
+      'Sappiamo che non tutti potranno accompagnarci di persona, ma vogliamo che facciate comunque parte di questo giorno.',
+    transmisionCompleta:
+      'Sappiamo che non potrete accompagnarci di persona, ma vogliamo che facciate comunque parte di questo giorno.',
+    transmisionYoutube:
+      'Trasmetteremo la cerimonia in diretta sul nostro canale YouTube.',
+    transmisionSuscribirme: 'Iscriviti al canale',
+    transmisionAviso:
+      'Vi invieremo il link della diretta qualche giorno prima del matrimonio.',
+
+    invitacionNoEncontrada: 'Invito non trovato',
+    invitacionNoEncontradaTexto:
+      'Controlla il link o contatta gli sposi.',
   },
 } satisfies Record<Lang, unknown>
