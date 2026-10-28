@@ -1,9 +1,14 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getEvent } from '@/lib/event'
-import { buildMessage, buildWhatsAppLink } from '@/lib/whatsapp'
+import {
+  buildAvisoFechaLink,
+  buildAvisoFechaMessage,
+  buildMessage,
+  buildWhatsAppLink,
+} from '@/lib/whatsapp'
 import { GuestsTable, type GuestRow } from '@/app/admin/_components/guests-table'
 
-type GuestFromDb = Omit<GuestRow, 'waLink'> & { telefono: string | null }
+type GuestFromDb = Omit<GuestRow, 'waLink' | 'avisoLink' | 'avisoMensaje'> & { telefono: string | null }
 
 export const dynamic = 'force-dynamic'
 
@@ -42,6 +47,14 @@ export default async function AdminHome() {
     waLink: buildWhatsAppLink(
       { nombres: g.nombres, telefono, pases: g.pases, slug: g.slug, cortesia: g.cortesia, idioma: g.idioma },
       templates,
+      siteUrl,
+    ),
+    avisoLink: buildAvisoFechaLink(
+      { nombres: g.nombres, telefono, slug: g.slug, idioma: g.idioma },
+      siteUrl,
+    ),
+    avisoMensaje: buildAvisoFechaMessage(
+      { nombres: g.nombres, slug: g.slug, idioma: g.idioma },
       siteUrl,
     ),
     mensaje: buildMessage(

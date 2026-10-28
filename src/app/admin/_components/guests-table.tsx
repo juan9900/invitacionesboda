@@ -19,6 +19,8 @@ export type GuestRow = {
   created_at: string
   waLink: string | null
   mensaje: string
+  avisoLink: string | null
+  avisoMensaje: string
   cortesia: boolean
   idioma: 'es' | 'en' | 'it'
 }
@@ -141,6 +143,7 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
             />
             <th className="px-3 py-2">Link</th>
             <th className="px-3 py-2">WhatsApp</th>
+            <th className="px-3 py-2">Aviso fecha</th>
             <th className="px-3 py-2"></th>
           </tr>
         </thead>
@@ -199,6 +202,20 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
                 )}
               </td>
               <td className="px-3 py-2">
+                {g.avisoLink ? (
+                  <a
+                    href={g.avisoLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-green-700 underline"
+                  >
+                    Avisar
+                  </a>
+                ) : (
+                  <CopyMessageButton mensaje={g.avisoMensaje} />
+                )}
+              </td>
+              <td className="px-3 py-2">
                 <Link
                   href={`/admin/${g.id}`}
                   className="text-gray-700 underline"
@@ -210,7 +227,7 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
           ))}
           {sorted.length === 0 && (
             <tr>
-              <td colSpan={9} className="px-3 py-8 text-center text-gray-500">
+              <td colSpan={10} className="px-3 py-8 text-center text-gray-500">
                 Aún no hay invitados.{' '}
                 <Link href="/admin/nuevo" className="underline">
                   Crear el primero
