@@ -57,7 +57,7 @@ export const COPY = {
     rsvpTitulo: '¿Nos acompañarás?',
     rsvpCortesiaTexto:
       'Sabemos que la distancia no te permite acompañarnos en persona, pero queríamos que fueras parte de este día igual.',
-    rsvpDeadlinePassed: 'Por el cambio de fecha, la confirmación ya no se hace por esta página. Por favor, confírmanos tu asistencia por WhatsApp.',
+    rsvpDeadlinePassed: 'El plazo de confirmación ha terminado.',
     rsvpConfirmaAntes: 'Por favor confirma tu asistencia antes del',
 
     nosVemos: '¡Nos vemos!',
@@ -152,7 +152,7 @@ export const COPY = {
     rsvpTitulo: 'Will you join us?',
     rsvpCortesiaTexto:
       "We know the distance won't let you join us in person, but we wanted you to be part of this day anyway.",
-    rsvpDeadlinePassed: 'Due to the change of date, RSVPs are no longer handled through this page. Please confirm your attendance with us via WhatsApp.',
+    rsvpDeadlinePassed: 'The RSVP deadline has passed.',
     rsvpConfirmaAntes: 'Please confirm your attendance before',
 
     nosVemos: 'See you there!',
@@ -246,7 +246,7 @@ export const COPY = {
     rsvpTitulo: 'Sarete con noi?',
     rsvpCortesiaTexto:
       'Sappiamo che la distanza non vi permette di accompagnarci di persona, ma volevamo che faceste comunque parte di questo giorno.',
-    rsvpDeadlinePassed: 'A causa del cambio di data, la conferma non avviene più tramite questa pagina. Ti preghiamo di confermare la tua presenza via WhatsApp.',
+    rsvpDeadlinePassed: 'Il termine per confermare è scaduto.',
     rsvpConfirmaAntes: 'Vi preghiamo di confermare la vostra presenza entro il',
 
     nosVemos: 'Ci vediamo!',
