@@ -50,11 +50,11 @@ export default async function AdminHome() {
       siteUrl,
     ),
     avisoLink: buildAvisoFechaLink(
-      { nombres: g.nombres, telefono, slug: g.slug, idioma: g.idioma },
+      { nombres: g.nombres, telefono, pases: g.pases, slug: g.slug, idioma: g.idioma },
       siteUrl,
     ),
     avisoMensaje: buildAvisoFechaMessage(
-      { nombres: g.nombres, slug: g.slug, idioma: g.idioma },
+      { nombres: g.nombres, pases: g.pases, slug: g.slug, idioma: g.idioma },
       siteUrl,
     ),
     mensaje: buildMessage(
