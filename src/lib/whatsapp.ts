@@ -65,7 +65,7 @@ export function buildWhatsAppLink(
 const AVISO_CAMBIO_FECHA: Record<Lang, string> = {
   es: `Hola {nombres}
 
-Queremos contarte que Juan Luis tuvo un accidente en el que se lastimó la rodilla y la próxima semana deberá someterse a una cirugía. Por los plazos de recuperación, nos vimos en la necesidad de mover la fecha de la boda al *sábado 23 de enero de 2027*.
+Queremos contarte que Juan Luis tuvo un accidente en el que se lastimó la rodilla y esta semana deberá someterse a una cirugía. Por los plazos de recuperación, nos vimos en la necesidad de mover la fecha de la boda al *sábado 23 de enero de 2027*.
 
 Lamentamos mucho este cambio y los inconvenientes que pueda causar. Por favor, confirma en la página tu asistencia a la nueva fecha. Ahí también puedes ver tu invitación con la fecha actualizada:
 {url}
@@ -73,7 +73,7 @@ Lamentamos mucho este cambio y los inconvenientes que pueda causar. Por favor, c
 ¡Gracias por tu comprensión y cariño!`,
   en: `Hi {nombres}
 
-We wanted to let you know that Juan Luis had an accident in which he hurt his knee, and next week he will need to have surgery. Because of the recovery time, we had to move the wedding date to *Saturday, January 23, 2027*.
+We wanted to let you know that Juan Luis had an accident in which he hurt his knee, and this week he will need to have surgery. Because of the recovery time, we had to move the wedding date to *Saturday, January 23, 2027*.
 
 We are very sorry for this change and for any inconvenience it may cause. Please confirm your attendance for the new date on the page. You can also see your invitation with the updated date there:
 {url}
@@ -81,7 +81,7 @@ We are very sorry for this change and for any inconvenience it may cause. Please
 Thank you for your understanding and affection!`,
   it: `Ciao {nombres}
 
-Vogliamo informarti che Juan Luis ha avuto un incidente in cui si è fatto male al ginocchio e la prossima settimana dovrà sottoporsi a un intervento chirurgico. A causa dei tempi di recupero, siamo stati costretti a spostare la data del matrimonio a *sabato 23 gennaio 2027*.
+Vogliamo informarti che Juan Luis ha avuto un incidente in cui si è fatto male al ginocchio e questa settimana dovrà sottoporsi a un intervento chirurgico. A causa dei tempi di recupero, siamo stati costretti a spostare la data del matrimonio a *sabato 23 gennaio 2027*.
 
 Ci dispiace molto per questo cambiamento e per gli eventuali disagi. Ti preghiamo di confermare sulla pagina la tua presenza per la nuova data. Lì puoi anche vedere il tuo invito con la data aggiornata:
 {url}
@@ -94,7 +94,7 @@ Grazie per la comprensione e l'affetto!`,
 const AVISO_CAMBIO_FECHA_PLURAL: Record<Lang, string> = {
   es: `Hola {nombres}
 
-Queremos contarles que Juan Luis tuvo un accidente en el que se lastimó la rodilla y la próxima semana deberá someterse a una cirugía. Por los plazos de recuperación, nos vimos en la necesidad de mover la fecha de la boda al *sábado 23 de enero de 2027*.
+Queremos contarles que Juan Luis tuvo un accidente en el que se lastimó la rodilla y esta semana deberá someterse a una cirugía. Por los plazos de recuperación, nos vimos en la necesidad de mover la fecha de la boda al *sábado 23 de enero de 2027*.
 
 Lamentamos mucho este cambio y los inconvenientes que pueda causarles. Por favor, confirmen en la página su asistencia a la nueva fecha. Ahí también pueden ver su invitación con la fecha actualizada:
 {url}
@@ -103,7 +103,7 @@ Lamentamos mucho este cambio y los inconvenientes que pueda causarles. Por favor
   en: AVISO_CAMBIO_FECHA.en,
   it: `Ciao {nombres}
 
-Vogliamo informarvi che Juan Luis ha avuto un incidente in cui si è fatto male al ginocchio e la prossima settimana dovrà sottoporsi a un intervento chirurgico. A causa dei tempi di recupero, siamo stati costretti a spostare la data del matrimonio a *sabato 23 gennaio 2027*.
+Vogliamo informarvi che Juan Luis ha avuto un incidente in cui si è fatto male al ginocchio e questa settimana dovrà sottoporsi a un intervento chirurgico. A causa dei tempi di recupero, siamo stati costretti a spostare la data del matrimonio a *sabato 23 gennaio 2027*.
 
 Ci dispiace molto per questo cambiamento e per gli eventuali disagi. Vi preghiamo di confermare sulla pagina la vostra presenza per la nuova data. Lì potete anche vedere il vostro invito con la data aggiornata:
 {url}
