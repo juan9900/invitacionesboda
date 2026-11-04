@@ -18,7 +18,7 @@ export default async function AdminHome() {
     supabase
       .from('guests')
       .select(
-        'id, slug, nombres, pases, telefono, lado, confirmado, pases_confirmados, confirmado_at, enviado, created_at, cortesia, idioma',
+        'id, slug, nombres, pases, telefono, lado, confirmado, pases_confirmados, confirmado_at, enviado, aviso_enviado, created_at, cortesia, idioma',
       )
       .order('created_at', { ascending: false }),
     getEvent(),

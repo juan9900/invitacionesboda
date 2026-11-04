@@ -6,9 +6,11 @@ import { setEnviado } from '@/app/actions/guests'
 export function EnviadoCheckbox({
   id,
   defaultChecked,
+  action = setEnviado,
 }: {
   id: string
   defaultChecked: boolean
+  action?: (id: string, value: boolean) => Promise<void>
 }) {
   const [checked, setChecked] = useState(defaultChecked)
   const [isPending, startTransition] = useTransition()
@@ -23,7 +25,7 @@ export function EnviadoCheckbox({
         setChecked(next)
         startTransition(async () => {
           try {
-            await setEnviado(id, next)
+            await action(id, next)
           } catch {
             setChecked(!next)
           }

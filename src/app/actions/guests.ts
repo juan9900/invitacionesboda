@@ -101,6 +101,17 @@ export async function setEnviado(id: string, enviado: boolean) {
   revalidatePath('/admin')
 }
 
+export async function setAvisoEnviado(id: string, avisoEnviado: boolean) {
+  await assertAdmin()
+  const supabase = createAdminClient()
+  const { error } = await supabase
+    .from('guests')
+    .update({ aviso_enviado: avisoEnviado })
+    .eq('id', id)
+  if (error) throw error
+  revalidatePath('/admin')
+}
+
 export async function setIdioma(id: string, idioma: 'es' | 'en' | 'it') {
   await assertAdmin()
   const supabase = createAdminClient()

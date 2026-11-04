@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { EnviadoCheckbox } from '@/app/admin/_components/enviado-checkbox'
+import { setAvisoEnviado } from '@/app/actions/guests'
 import { CopyMessageButton } from '@/app/admin/_components/copy-message-button'
 import { IdiomaSelect } from '@/app/admin/_components/idioma-select'
 
@@ -16,6 +17,7 @@ export type GuestRow = {
   pases_confirmados: number | null
   confirmado_at: string | null
   enviado: boolean
+  aviso_enviado: boolean
   created_at: string
   waLink: string | null
   mensaje: string
@@ -31,13 +33,14 @@ type SortKey =
   | 'lado'
   | 'confirmado'
   | 'enviado'
+  | 'aviso_enviado'
   | 'idioma'
   | 'created_at'
 
 type Sort = { key: SortKey; dir: 'asc' | 'desc' }
 
 // Para estas columnas tiene más sentido empezar mostrando lo "más" primero.
-const DEFAULT_DESC: SortKey[] = ['pases', 'confirmado', 'enviado', 'created_at']
+const DEFAULT_DESC: SortKey[] = ['pases', 'confirmado', 'enviado', 'aviso_enviado', 'created_at']
 
 const confirmadoRank = (v: boolean | null) =>
   v === true ? 2 : v === null ? 1 : 0
@@ -60,6 +63,8 @@ function compare(a: GuestRow, b: GuestRow, key: SortKey): number {
       return confirmadoRank(a.confirmado) - confirmadoRank(b.confirmado)
     case 'enviado':
       return Number(a.enviado) - Number(b.enviado)
+    case 'aviso_enviado':
+      return Number(a.aviso_enviado) - Number(b.aviso_enviado)
     case 'idioma':
       return a.idioma.localeCompare(b.idioma)
     case 'created_at':
@@ -144,6 +149,12 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
             <th className="px-3 py-2">Link</th>
             <th className="px-3 py-2">WhatsApp</th>
             <th className="px-3 py-2">Aviso fecha</th>
+            <SortableHeader
+              label="Avisado"
+              sortKey="aviso_enviado"
+              sort={sort}
+              onSort={toggleSort}
+            />
             <th className="px-3 py-2"></th>
           </tr>
         </thead>
@@ -216,6 +227,13 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
                 )}
               </td>
               <td className="px-3 py-2">
+                <EnviadoCheckbox
+                  id={g.id}
+                  defaultChecked={g.aviso_enviado}
+                  action={setAvisoEnviado}
+                />
+              </td>
+              <td className="px-3 py-2">
                 <Link
                   href={`/admin/${g.id}`}
                   className="text-gray-700 underline"
@@ -227,7 +245,7 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
           ))}
           {sorted.length === 0 && (
             <tr>
-              <td colSpan={10} className="px-3 py-8 text-center text-gray-500">
+              <td colSpan={11} className="px-3 py-8 text-center text-gray-500">
                 Aún no hay invitados.{' '}
                 <Link href="/admin/nuevo" className="underline">
                   Crear el primero
