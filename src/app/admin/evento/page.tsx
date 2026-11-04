@@ -1,5 +1,6 @@
 import { getEvent } from '@/lib/event'
 import { updateEvent } from '@/app/actions/event'
+import { SubmitButton } from '@/app/admin/_components/submit-button'
 
 export const dynamic = 'force-dynamic'
 
@@ -224,12 +225,9 @@ export default async function EventoPage() {
         </fieldset>
 
         <div>
-          <button
-            type="submit"
-            className="rounded bg-black px-5 py-2 text-white"
-          >
+          <SubmitButton className="rounded bg-black px-5 py-2 text-white">
             Guardar cambios
-          </button>
+          </SubmitButton>
         </div>
       </form>
     </div>

@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createGuest } from '@/app/actions/guests'
+import { SubmitButton } from '@/app/admin/_components/submit-button'
 import { PasesCortesiaFields } from '@/app/admin/_components/pases-cortesia-fields'
 
 export default function NuevoInvitado() {
@@ -36,12 +37,9 @@ export default function NuevoInvitado() {
           <option value="en">English</option>
           <option value="it">Italiano</option>
         </SelectField>
-        <button
-          type="submit"
-          className="rounded bg-gray-900 px-4 py-2 font-medium text-white transition hover:bg-black"
-        >
+        <SubmitButton className="rounded bg-gray-900 px-4 py-2 font-medium text-white transition hover:bg-black">
           Crear
-        </button>
+        </SubmitButton>
       </form>
     </div>
   )

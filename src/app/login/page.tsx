@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { Spinner } from '@/app/admin/_components/spinner'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -58,8 +59,9 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={pending}
-          className="rounded bg-black px-4 py-2 text-white disabled:opacity-50"
+          className="inline-flex items-center justify-center gap-2 rounded bg-black px-4 py-2 text-white disabled:opacity-50"
         >
+          {pending && <Spinner />}
           {pending ? 'Entrando…' : 'Entrar'}
         </button>
         {error && <p className="text-sm text-red-600">{error}</p>}

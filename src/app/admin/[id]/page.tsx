@@ -5,6 +5,7 @@ import {
   setRsvpManual,
   updateGuest,
 } from '@/app/actions/guests'
+import { SubmitButton } from '@/app/admin/_components/submit-button'
 import { PasesCortesiaFields } from '@/app/admin/_components/pases-cortesia-fields'
 
 type Guest = {
@@ -84,21 +85,15 @@ export default async function EditarInvitado({
             <option value="en">English</option>
             <option value="it">Italiano</option>
           </SelectField>
-          <button
-            type="submit"
-            className="rounded bg-black px-4 py-2 text-white"
-          >
+          <SubmitButton className="rounded bg-black px-4 py-2 text-white">
             Guardar
-          </button>
+          </SubmitButton>
         </form>
 
         <form action={onDelete} className="mt-6">
-          <button
-            type="submit"
-            className="text-sm text-red-700 underline"
-          >
+          <SubmitButton className="text-sm text-red-700 underline">
             Borrar invitado
-          </button>
+          </SubmitButton>
         </form>
       </section>
 
@@ -143,12 +138,9 @@ export default async function EditarInvitado({
                 <input type="radio" name="confirmado" value="reset" />
                 Devolver a pendiente
               </label>
-              <button
-                type="submit"
-                className="mt-2 rounded bg-black px-4 py-2 text-white"
-              >
+              <SubmitButton className="mt-2 rounded bg-black px-4 py-2 text-white">
                 Aplicar
-              </button>
+              </SubmitButton>
             </form>
           </>
         )}
