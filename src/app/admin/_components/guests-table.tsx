@@ -1,7 +1,8 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { EnviadoCheckbox } from '@/app/admin/_components/enviado-checkbox'
 import { setAvisoEnviado } from '@/app/actions/guests'
 import { CopyMessageButton } from '@/app/admin/_components/copy-message-button'
@@ -72,9 +73,60 @@ function compare(a: GuestRow, b: GuestRow, key: SortKey): number {
   }
 }
 
+const SORT_KEYS: SortKey[] = [
+  'nombres',
+  'pases',
+  'lado',
+  'confirmado',
+  'enviado',
+  'aviso_enviado',
+  'idioma',
+  'created_at',
+]
+
+const DEFAULT_SORT: Sort = { key: 'created_at', dir: 'desc' }
+
+// El orden y el filtro viven en la URL (?orden=&dir=&sin_cortesia=1) para que
+// al entrar a una invitación y volver se conserven.
 export function GuestsTable({ rows }: { rows: GuestRow[] }) {
-  const [sort, setSort] = useState<Sort>({ key: 'created_at', dir: 'desc' })
-  const [ocultarCortesia, setOcultarCortesia] = useState(false)
+  const searchParams = useSearchParams()
+
+  const ordenParam = searchParams.get('orden')
+  const dirParam = searchParams.get('dir')
+  const sort = useMemo<Sort>(
+    () =>
+      SORT_KEYS.includes(ordenParam as SortKey)
+        ? {
+            key: ordenParam as SortKey,
+            dir: dirParam === 'asc' || dirParam === 'desc' ? dirParam : 'desc',
+          }
+        : DEFAULT_SORT,
+    [ordenParam, dirParam],
+  )
+  const ocultarCortesia = searchParams.get('sin_cortesia') === '1'
+
+  function updateUrl(next: { sort?: Sort; ocultarCortesia?: boolean }) {
+    const params = new URLSearchParams()
+    const s = next.sort ?? sort
+    const oc = next.ocultarCortesia ?? ocultarCortesia
+    if (s.key !== DEFAULT_SORT.key || s.dir !== DEFAULT_SORT.dir) {
+      params.set('orden', s.key)
+      params.set('dir', s.dir)
+    }
+    if (oc) params.set('sin_cortesia', '1')
+    const qs = params.toString()
+    window.history.replaceState(
+      null,
+      '',
+      qs ? `${window.location.pathname}?${qs}` : window.location.pathname,
+    )
+  }
+
+  const volver = new URLSearchParams()
+  if (ordenParam) volver.set('orden', ordenParam)
+  if (dirParam) volver.set('dir', dirParam)
+  if (ocultarCortesia) volver.set('sin_cortesia', '1')
+  const volverQs = volver.toString()
 
   const visibles = ocultarCortesia ? rows.filter((r) => !r.cortesia) : rows
 
@@ -88,11 +140,11 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
   }, [visibles, sort])
 
   function toggleSort(key: SortKey) {
-    setSort((prev) => {
-      if (prev.key !== key) {
-        return { key, dir: DEFAULT_DESC.includes(key) ? 'desc' : 'asc' }
-      }
-      return { key, dir: prev.dir === 'asc' ? 'desc' : 'asc' }
+    updateUrl({
+      sort:
+        sort.key !== key
+          ? { key, dir: DEFAULT_DESC.includes(key) ? 'desc' : 'asc' }
+          : { key, dir: sort.dir === 'asc' ? 'desc' : 'asc' },
     })
   }
 
@@ -102,7 +154,7 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
         <input
           type="checkbox"
           checked={ocultarCortesia}
-          onChange={(e) => setOcultarCortesia(e.target.checked)}
+          onChange={(e) => updateUrl({ ocultarCortesia: e.target.checked })}
         />
         Ocultar cortesía
       </label>
@@ -235,7 +287,11 @@ export function GuestsTable({ rows }: { rows: GuestRow[] }) {
               </td>
               <td className="px-3 py-2">
                 <Link
-                  href={`/admin/${g.id}`}
+                  href={
+                    volverQs
+                      ? `/admin/${g.id}?volver=${encodeURIComponent(volverQs)}`
+                      : `/admin/${g.id}`
+                  }
                   className="text-gray-700 underline"
                 >
                   Editar

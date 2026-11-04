@@ -22,12 +22,30 @@ type Guest = {
   idioma: 'es' | 'en' | 'it'
 }
 
+const FILTER_KEYS = ['orden', 'dir', 'sin_cortesia']
+
+// Reconstruye la URL de la lista con el orden/filtro con que se entró aquí.
+function listaUrl(volver: string | undefined) {
+  const src = new URLSearchParams(volver ?? '')
+  const out = new URLSearchParams()
+  for (const k of FILTER_KEYS) {
+    const v = src.get(k)
+    if (v) out.set(k, v)
+  }
+  const qs = out.toString()
+  return qs ? `/admin?${qs}` : '/admin'
+}
+
 export default async function EditarInvitado({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ volver?: string }>
 }) {
   const { id } = await params
+  const { volver } = await searchParams
+  const destino = listaUrl(volver)
   const supabase = createAdminClient()
   const { data } = await supabase
     .from('guests')
@@ -39,13 +57,13 @@ export default async function EditarInvitado({
   const onUpdate = async (formData: FormData) => {
     'use server'
     await updateGuest(id, formData)
-    redirect('/admin')
+    redirect(destino)
   }
 
   const onDelete = async () => {
     'use server'
     await deleteGuest(id)
-    redirect('/admin')
+    redirect(destino)
   }
 
   const onRsvp = async (formData: FormData) => {
